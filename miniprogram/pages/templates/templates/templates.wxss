@@ -1,0 +1,101 @@
+/* pages/templates/templates/templates.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #F5F5F5;
+}
+
+.list-scroll {
+  flex: 1;
+  padding: 16px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.template-card .card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.template-info {
+  flex: 1;
+}
+
+.template-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  display: block;
+}
+
+.template-amount {
+  font-size: 18px;
+  font-weight: 600;
+  display: block;
+  margin-top: 6px;
+}
+
+.template-amount.expense {
+  color: #FA5151;
+}
+
+.template-amount.income {
+  color: #07C160;
+}
+
+.card-meta {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.meta-item {
+  font-size: 12px;
+  color: #999;
+  background: #F5F5F5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.next-date {
+  font-size: 13px;
+  color: #FF9800;
+}
+
+.delete-btn {
+  font-size: 13px;
+  color: #FA5151;
+  padding: 4px 8px;
+}
+
+.empty-tip {
+  text-align: center;
+  padding: 60px 0;
+  color: #999;
+  font-size: 15px;
+}
+
+.create-btn {
+  background: #07C160;
+  color: #fff;
+  text-align: center;
+  padding: 14px;
+  margin: 0 16px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+}

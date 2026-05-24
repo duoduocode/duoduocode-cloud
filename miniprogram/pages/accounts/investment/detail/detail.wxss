@@ -1,0 +1,116 @@
+/* pages/accounts/investment/detail.wxss - 投资账户详情页样式 */
+page {
+  background-color: #F5F5F5;
+}
+.container {
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+/* 账户头部 */
+.account-header {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.account-icon-large {
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+.account-name-large {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 10px;
+}
+.account-balance-large {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333333;
+}
+
+/* 指标区 */
+.metrics-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.metrics-row {
+  display: flex;
+  margin-bottom: 12px;
+}
+.metric-card {
+  flex: 1;
+  text-align: center;
+}
+.metric-label {
+  display: block;
+  font-size: 13px;
+  color: #999999;
+  margin-bottom: 6px;
+}
+.metric-value {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333333;
+}
+.profit-positive {
+  color: #07C160;
+}
+.profit-negative {
+  color: #FA5151;
+}
+
+.profit-rate-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid #F0F0F0;
+}
+.profit-rate-label {
+  font-size: 14px;
+  color: #999999;
+  margin-right: 10px;
+}
+.profit-rate-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333333;
+}
+
+/* 操作按钮区 */
+.action-row {
+  display: flex;
+  gap: 12px;
+}
+.action-btn {
+  flex: 1;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  border-radius: 12px;
+  font-size: 15px;
+  background: #ffffff;
+  color: #333333;
+  border: 1px solid #E5E5E5;
+}
+.action-btn.primary {
+  background: #07C160;
+  color: #ffffff;
+  border: none;
+}

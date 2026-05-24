@@ -1,0 +1,61 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/record/record",
+    "pages/record/expense",
+    "pages/record/income",
+    "pages/record/transfer",
+    "pages/record/repayment",
+    "pages/record/fullmode",
+    "pages/accounts/accounts/accounts",
+    "pages/accounts/detail/detail",
+    "pages/accounts/create/create",
+    "pages/accounts/edit/edit",
+    "pages/accounts/investment/detail/detail",
+    "pages/accounts/investment/value/value",
+    "pages/accounts/investment/income/income",
+    "pages/reports/reports/reports",
+    "pages/reports/balance-sheet/balance-sheet",
+    "pages/reports/income-statement/income-statement",
+    "pages/reports/trend/trend",
+    "pages/reports/comparison/comparison",
+    "pages/budget/budget/budget",
+    "pages/budget/daily/daily",
+    "pages/budget/special/list/list",
+    "pages/budget/special/create/create",
+    "pages/budget/special/detail/detail",
+    "pages/category/category/category",
+    "pages/category/edit/edit",
+    "pages/tags/tags/tags",
+    "pages/templates/templates/templates",
+    "pages/templates/create/create",
+    "pages/search/search/search",
+    "pages/transaction/detail/detail",
+    "pages/mine/mine/mine",
+    "pages/mine/settings/settings",
+    "pages/mine/about/about",
+    "pages/onboarding/welcome/welcome"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "借贷记",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F5F5F5"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#07C160",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "首页", "iconPath": "assets/icons/tab-home.png", "selectedIconPath": "assets/icons/tab-home-active.png" },
+      { "pagePath": "pages/record/record", "text": "记账", "iconPath": "assets/icons/tab-record.png", "selectedIconPath": "assets/icons/tab-record-active.png" },
+      { "pagePath": "pages/accounts/accounts/accounts", "text": "账户", "iconPath": "assets/icons/tab-account.png", "selectedIconPath": "assets/icons/tab-account-active.png" },
+      { "pagePath": "pages/reports/reports/reports", "text": "报表", "iconPath": "assets/icons/tab-report.png", "selectedIconPath": "assets/icons/tab-report-active.png" },
+      { "pagePath": "pages/mine/mine/mine", "text": "我的", "iconPath": "assets/icons/tab-mine.png", "selectedIconPath": "assets/icons/tab-mine-active.png" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

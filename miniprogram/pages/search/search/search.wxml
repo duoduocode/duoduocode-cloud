@@ -1,0 +1,104 @@
+<!-- pages/search/search/search.wxml -->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-header">
+    <view class="search-input-wrap">
+      <text class="search-icon">🔍</text>
+      <input class="search-input" placeholder="搜索金额/备注/分类..." value="{{keyword}}" bindinput="onKeywordInput" bindconfirm="doSearch" confirm-type="search"/>
+    </view>
+    <text class="filter-toggle" bindtap="toggleFilter">{{showFilter ? '收起' : '筛选'}}</text>
+  </view>
+
+  <!-- 筛选面板 -->
+  <view class="filter-panel" wx:if="{{showFilter}}">
+    <!-- 日期范围 -->
+    <view class="filter-row">
+      <text class="filter-label">日期</text>
+      <view class="filter-dates">
+        <picker mode="date" value="{{dateStart}}" bindchange="onDateStartChange">
+          <view class="date-picker">{{dateStart || '开始'}}</view>
+        </picker>
+        <text class="date-sep">~</text>
+        <picker mode="date" value="{{dateEnd}}" bindchange="onDateEndChange">
+          <view class="date-picker">{{dateEnd || '结束'}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 金额范围 -->
+    <view class="filter-row">
+      <text class="filter-label">金额</text>
+      <view class="filter-dates">
+        <input class="amount-picker" type="digit" placeholder="最低" value="{{minAmount}}" bindinput="onMinAmountInput"/>
+        <text class="date-sep">~</text>
+        <input class="amount-picker" type="digit" placeholder="最高" value="{{maxAmount}}" bindinput="onMaxAmountInput"/>
+      </view>
+    </view>
+
+    <!-- 分类选择 -->
+    <view class="filter-row">
+      <text class="filter-label">分类</text>
+      <picker mode="selector" range="{{categories}}" range-key="name" bindchange="onCategoryChange">
+        <view class="picker-val">{{selectedCategoryName || '全部'}}</view>
+      </picker>
+    </view>
+
+    <!-- 账户选择 -->
+    <view class="filter-row">
+      <text class="filter-label">账户</text>
+      <picker mode="selector" range="{{accounts}}" range-key="name" bindchange="onAccountChange">
+        <view class="picker-val">{{selectedAccountName || '全部'}}</view>
+      </picker>
+    </view>
+
+    <!-- 标签选择 -->
+    <view class="filter-row">
+      <text class="filter-label">标签</text>
+      <picker mode="selector" range="{{tags}}" range-key="name" bindchange="onTagChange">
+        <view class="picker-val">{{selectedTagName || '全部'}}</view>
+      </picker>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="filter-actions">
+      <view class="filter-reset" bindtap="resetFilter">重置</view>
+      <view class="filter-apply" bindtap="doSearch">应用筛选</view>
+    </view>
+  </view>
+
+  <!-- 排序 -->
+  <view class="sort-bar">
+    <view class="sort-item {{sortBy === 'date' ? 'active' : ''}}" bindtap="setSort" data-sort="date">
+      <text>日期</text>
+      <text class="sort-arrow">{{sortBy === 'date' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}}</text>
+    </view>
+    <view class="sort-item {{sortBy === 'amount' ? 'active' : ''}}" bindtap="setSort" data-sort="amount">
+      <text>金额</text>
+      <text class="sort-arrow">{{sortBy === 'amount' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}}</text>
+    </view>
+  </view>
+
+  <!-- 结果列表 -->
+  <scroll-view class="result-scroll" scroll-y="true" bindscrolltolower="loadMore" lower-threshold="100">
+    <block wx:if="{{transactions.length > 0}}">
+      <view class="tx-card card" wx:for="{{transactions}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+        <view class="tx-left">
+          <text class="tx-category">{{item.categoryName}}</text>
+          <text class="tx-desc">{{item.description}}</text>
+          <text class="tx-date">{{item.date}}</text>
+        </view>
+        <view class="tx-right">
+          <text class="tx-amount {{item.transactionType === 'expense' ? 'expense' : 'income'}}">
+            {{item.transactionType === 'expense' ? '-' : '+'}}￥{{item.amount}}
+          </text>
+          <text class="tx-account" wx:if="{{item.accountName}}">{{item.accountName}}</text>
+        </view>
+      </view>
+      <view class="loading-tip" wx:if="{{loading}}">加载中...</view>
+      <view class="loading-tip" wx:elif="{{!hasMore}}">没有更多了</view>
+    </block>
+    <block wx:elif="{{!loading}}">
+      <view class="empty-tip">暂无交易记录</view>
+    </block>
+  </scroll-view>
+</view>

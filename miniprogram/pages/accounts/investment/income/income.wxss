@@ -1,0 +1,189 @@
+/* pages/accounts/investment/income.wxss - 理财收益记录页样式 */
+page {
+  background-color: #F5F5F5;
+}
+.container {
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+/* 表单区域 */
+.form-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.form-label {
+  font-size: 14px;
+  color: #333333;
+  font-weight: 500;
+  margin-bottom: 10px;
+  display: block;
+}
+.required {
+  color: #FA5151;
+}
+.form-input {
+  width: 100%;
+  height: 44px;
+  line-height: 44px;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 14px;
+  color: #333333;
+  box-sizing: border-box;
+}
+.form-picker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 44px;
+  line-height: 44px;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 14px;
+  color: #333333;
+}
+.picker-arrow {
+  color: #C0C0C0;
+  font-size: 14px;
+}
+
+/* 类型选择 */
+.type-selector {
+  display: flex;
+  gap: 12px;
+}
+.type-option {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 0;
+  border-radius: 8px;
+  border: 2px solid #E5E5E5;
+  background: #FAFAFA;
+}
+.type-option.active {
+  border-color: #07C160;
+  background: #E8F8EF;
+}
+.type-icon {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+.type-text {
+  font-size: 13px;
+  color: #333333;
+}
+
+/* 开关行 */
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.setting-text {
+  font-size: 14px;
+  color: #333333;
+}
+
+/* 提交按钮 */
+.submit-section {
+  margin-bottom: 16px;
+}
+.submit-btn {
+  width: 100%;
+  height: 48px;
+  line-height: 48px;
+  background: #07C160;
+  color: #ffffff;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+}
+
+/* 历史记录 */
+.history-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 12px;
+}
+.total-income {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #F0F0F0;
+  margin-bottom: 8px;
+}
+.total-label {
+  font-size: 14px;
+  color: #999999;
+}
+.total-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #07C160;
+}
+.history-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #F0F0F0;
+}
+.history-item:last-child {
+  border-bottom: none;
+}
+.history-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background: #F5F5F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-right: 12px;
+}
+.history-info {
+  flex: 1;
+}
+.history-type {
+  font-size: 14px;
+  color: #333333;
+  margin-bottom: 2px;
+}
+.history-date {
+  font-size: 12px;
+  color: #999999;
+}
+.history-amount {
+  font-size: 15px;
+  font-weight: bold;
+  color: #07C160;
+}
+
+/* 空状态 */
+.empty-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+}
+.empty-list-text {
+  font-size: 14px;
+  color: #999999;
+}

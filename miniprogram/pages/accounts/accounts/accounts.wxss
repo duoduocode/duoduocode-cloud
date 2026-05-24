@@ -1,0 +1,172 @@
+/* pages/accounts/accounts.wxss - 账户列表页样式 */
+page {
+  background-color: #F5F5F5;
+}
+.container {
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+/* 净资产卡片 */
+.net-worth-card {
+  background: linear-gradient(135deg, #07C160, #06AD56);
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin-bottom: 16px;
+  color: #ffffff;
+}
+.net-worth-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.net-worth-label {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+.net-worth-value {
+  font-size: 32px;
+  font-weight: bold;
+}
+.net-worth-detail {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.net-worth-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.net-worth-item-label {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+.net-worth-item-value {
+  font-size: 16px;
+  font-weight: bold;
+}
+.asset-color {
+  color: #ffffff;
+}
+.liability-color {
+  color: #FFD0D0;
+}
+.net-worth-divider {
+  width: 1px;
+  height: 30px;
+  background-color: rgba(255,255,255,0.3);
+}
+
+/* 分组 */
+.section {
+  margin-bottom: 16px;
+}
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+}
+.section-total {
+  font-size: 14px;
+  color: #07C160;
+}
+.section-total.liability-color {
+  color: #FA5151;
+}
+
+/* 账户卡片 */
+.account-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.account-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  font-size: 20px;
+}
+.account-info {
+  flex: 1;
+}
+.account-name {
+  font-size: 15px;
+  color: #333333;
+  font-weight: 500;
+}
+.account-balance {
+  margin-right: 8px;
+}
+.balance-value {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+}
+.balance-value.liability-color {
+  color: #FA5151;
+}
+.account-arrow {
+  width: 20px;
+  text-align: center;
+}
+.arrow-icon {
+  font-size: 14px;
+  color: #C0C0C0;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+}
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+.empty-text {
+  font-size: 14px;
+  color: #999999;
+}
+
+/* 悬浮按钮 */
+.add-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 80px;
+  width: 52px;
+  height: 52px;
+  background: #07C160;
+  border-radius: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(7, 193, 96, 0.4);
+  z-index: 100;
+}
+.add-fab-icon {
+  font-size: 28px;
+  color: #ffffff;
+  font-weight: 300;
+  line-height: 1;
+}

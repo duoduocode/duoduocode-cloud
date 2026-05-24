@@ -1,0 +1,89 @@
+<!-- pages/budget/budget/budget.wxml -->
+<view class="container">
+  <!-- 月度预算环形图 -->
+  <view class="card budget-ring-card">
+    <view class="ring-wrapper">
+      <view class="ring-bg">
+        <canvas canvas-id="monthlyRing" class="ring-canvas"></canvas>
+        <view class="ring-center">
+          <view class="ring-percent">{{spentPercent}}%</view>
+          <view class="ring-label">已使用</view>
+        </view>
+      </view>
+    </view>
+    <view class="budget-info">
+      <view class="budget-row">
+        <text class="budget-label">月度预算</text>
+        <text class="budget-value">￥{{monthlyBudget}}</text>
+      </view>
+      <view class="budget-row">
+        <text class="budget-label">已支出</text>
+        <text class="budget-value expense">￥{{totalSpent}}</text>
+      </view>
+      <view class="budget-row">
+        <text class="budget-label">剩余</text>
+        <text class="budget-value remaining">￥{{monthlyRemaining}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 周度预算 -->
+  <view class="card weekly-card" wx:if="{{showWeekly}}">
+    <view class="card-header">
+      <text class="card-title">周度预算</text>
+      <text class="card-sub">￥{{weeklySpent}} / ￥{{weeklyBudget}}</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill {{weeklyPercent > 80 ? 'warn' : ''}}" style="width: {{weeklyPercent}}%"></view>
+    </view>
+  </view>
+
+  <!-- 结转入口 -->
+  <view class="card carryover-card" wx:if="{{carryoverAmount > 0}}" bindtap="goCarryover">
+    <view class="carryover-info">
+      <text class="carryover-label">可结转上月余额</text>
+      <text class="carryover-amount">￥{{carryoverAmount}}</text>
+      <text class="carryover-count">({{carryoverCount}}项)</text>
+    </view>
+    <text class="arrow">></text>
+  </view>
+
+  <!-- 操作入口 -->
+  <view class="action-row">
+    <view class="action-btn" bindtap="goDailyBudget">
+      <text class="action-icon">日</text>
+      <text class="action-text">日常预算</text>
+    </view>
+    <view class="action-btn" bindtap="goSpecialList">
+      <text class="action-icon">专</text>
+      <text class="action-text">专项预算</text>
+    </view>
+  </view>
+
+  <!-- 专项预算列表 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">进行中的专项预算</text>
+      <text class="section-more" bindtap="goSpecialList">查看全部 ></text>
+    </view>
+    <block wx:if="{{ongoingSpecials.length > 0}}">
+      <view class="special-item card" wx:for="{{ongoingSpecials}}" wx:key="id" bindtap="goSpecialDetail" data-id="{{item.id}}">
+        <view class="special-info">
+          <text class="special-name">{{item.name}}</text>
+          <text class="special-amount">￥{{item.spentAmount}} / ￥{{item.totalAmount}}</text>
+        </view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{item.spentAmount / item.totalAmount * 100}}%"></view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="empty-tip">暂无进行中的专项预算</view>
+    </block>
+  </view>
+
+  <!-- 创建按钮 -->
+  <view class="create-btn" bindtap="goCreateSpecial">
+    <text>+ 创建专项预算</text>
+  </view>
+</view>

@@ -1,0 +1,69 @@
+<!-- pages/category/category/category.wxml -->
+<wxs module="filter" src="./category.wxs"></wxs>
+
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrap" wx:if="{{showSearch}}">
+      <input class="search-input" placeholder="搜索分类..." value="{{searchKeyword}}" bindinput="onSearchInput" focus="{{true}}"/>
+    </view>
+    <view class="search-icon" bindtap="toggleSearch">
+      <text>{{showSearch ? '取消' : '搜索'}}</text>
+    </view>
+  </view>
+
+  <!-- Tab切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{currentTab === 'expense' ? 'active' : ''}}" bindtap="switchTab" data-tab="expense">支出分类</view>
+    <view class="tab-item {{currentTab === 'income' ? 'active' : ''}}" bindtap="switchTab" data-tab="income">收入分类</view>
+  </view>
+
+  <!-- 分类树形列表 -->
+  <scroll-view class="cat-scroll" scroll-y="true">
+    <block wx:for="{{categories}}" wx:key="id" wx:for-item="parent">
+      <!-- 父分类匹配时才显示 -->
+      <block wx:if="{{parent.type === currentTab || parent.children.length > 0}}">
+        <!-- 父分类行 -->
+        <view class="cat-row parent-row" bindtap="toggleExpand" data-id="{{parent.id}}">
+          <view class="cat-left">
+            <text class="expand-icon">{{parent.expanded ? '▼' : '▶'}}</text>
+            <text class="cat-icon">{{parent.icon || '📁'}}</text>
+            <text class="cat-name">{{parent.name}}</text>
+            <text class="cat-count" wx:if="{{parent.usageCount > 0}}">{{parent.usageCount}}次</text>
+          </view>
+          <view class="cat-right" catchtap="goEdit" data-id="{{parent.id}}" data-isparent="true">
+            <text class="edit-btn">编辑</text>
+          </view>
+        </view>
+
+        <!-- 子分类列表 -->
+        <view class="child-list" wx:if="{{parent.expanded}}">
+          <block wx:for="{{parent.children}}" wx:key="id" wx:for-item="child">
+            <block wx:if="{{!searchKeyword || child.name.indexOf(searchKeyword) > -1}}">
+              <view class="cat-row child-row" bindtap="goEdit" data-id="{{child.id}}">
+                <view class="cat-left">
+                  <text class="child-indent"></text>
+                  <text class="cat-icon">{{child.icon || '📋'}}</text>
+                  <text class="cat-name">{{child.name}}</text>
+                  <text class="cat-count" wx:if="{{child.usageCount > 0}}">{{child.usageCount}}次</text>
+                </view>
+                <view class="cat-right">
+                  <text class="edit-btn">编辑</text>
+                </view>
+              </view>
+            </block>
+          </block>
+        </view>
+      </block>
+    </block>
+
+    <block wx:if="{{categories.length === 0}}">
+      <view class="empty-tip">暂无分类数据</view>
+    </block>
+  </scroll-view>
+
+  <!-- 新建按钮 -->
+  <view class="create-fab" bindtap="goCreate">
+    <text>+</text>
+  </view>
+</view>

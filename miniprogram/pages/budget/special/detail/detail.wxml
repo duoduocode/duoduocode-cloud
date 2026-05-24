@@ -1,0 +1,85 @@
+<!-- pages/budget/special/detail/detail.wxml -->
+<view class="container" wx:if="{{!loading}}">
+  <!-- 进度环 -->
+  <view class="card progress-card">
+    <view class="progress-ring">
+      <canvas canvas-id="specialRing" class="ring-canvas"></canvas>
+      <view class="ring-center">
+        <text class="percent-num">{{percent}}%</text>
+        <text class="percent-label">已使用</text>
+      </view>
+    </view>
+    <view class="amount-info">
+      <view class="amount-row">
+        <text class="amount-label">预算总额</text>
+        <text class="amount-value">￥{{totalAmount}}</text>
+      </view>
+      <view class="amount-row">
+        <text class="amount-label">已支出</text>
+        <text class="amount-value expense">￥{{spentAmount}}</text>
+      </view>
+      <view class="amount-row">
+        <text class="amount-label">状态</text>
+        <text class="status-badge {{status === 'ongoing' ? 'ongoing' : 'completed'}}">
+          {{status === 'ongoing' ? '进行中' : '已完成'}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="card">
+    <view class="info-row">
+      <text class="info-label">名称</text>
+      <text class="info-value">{{name}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">日期</text>
+      <text class="info-value">{{startDate}} ~ {{endDate}}</text>
+    </view>
+    <view class="info-row" wx:if="{{remainDays > 0 && status === 'ongoing'}}">
+      <text class="info-label">剩余天数</text>
+      <text class="info-value warn">{{remainDays}}天</text>
+    </view>
+  </view>
+
+  <!-- 关联分类 -->
+  <view class="card" wx:if="{{categories.length > 0}}">
+    <view class="card-title">关联分类</view>
+    <view class="cat-list">
+      <view class="cat-item" wx:for="{{categories}}" wx:key="id">
+        <text class="cat-icon">{{item.icon || '📁'}}</text>
+        <view class="cat-info">
+          <text class="cat-name">{{item.name}}</text>
+          <text class="cat-amount">￥{{item.spentAmount || 0}} / ￥{{item.budgetAmount || 0}}</text>
+        </view>
+        <view class="progress-bar small">
+          <view class="progress-fill" style="width: {{item.budgetAmount > 0 ? (item.spentAmount || 0) / item.budgetAmount * 100 : 0}}%"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 交易列表 -->
+  <view class="card" wx:if="{{transactions.length > 0}}">
+    <view class="card-title">期间交易</view>
+    <view class="tx-item" wx:for="{{transactions}}" wx:key="id">
+      <view class="tx-left">
+        <text class="tx-category">{{item.categoryName}}</text>
+        <text class="tx-desc">{{item.description}}</text>
+        <text class="tx-date">{{item.date}}</text>
+      </view>
+      <text class="tx-amount expense">-￥{{item.amount}}</text>
+    </view>
+  </view>
+
+  <!-- 结束按钮 -->
+  <view class="end-btn" wx:if="{{status === 'ongoing'}}" bindtap="endBudget">
+    <text>结束此预算</text>
+  </view>
+</view>
+
+<!-- 加载中 -->
+<view class="loading-wrap" wx:if="{{loading}}">
+  <text class="loading-text">加载中...</text>
+</view>

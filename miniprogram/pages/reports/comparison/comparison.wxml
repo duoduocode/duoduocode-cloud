@@ -1,0 +1,109 @@
+<!-- pages/reports/comparison.wxml - 对比分析 -->
+<view class="container">
+  <!-- 时间段选择 -->
+  <view class="period-section">
+    <view class="period-block">
+      <text class="period-label">基准月份</text>
+      <picker mode="date" fields="month" value="{{month1}}" bindchange="onMonth1Change">
+        <view class="period-picker">
+          <text>{{month1 || '选择月份'}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+    <view class="vs-text">VS</view>
+    <view class="period-block">
+      <text class="period-label">对比月份</text>
+      <picker mode="date" fields="month" value="{{month2}}" bindchange="onMonth2Change">
+        <view class="period-picker">
+          <text>{{month2 || '选择月份'}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 对比数据展示 -->
+  <view class="comparison-section" wx:if="{{hasData}}">
+    <view class="comparison-table">
+      <view class="table-header">
+        <text class="table-col label-col">项目</text>
+        <text class="table-col value-col">基准月</text>
+        <text class="table-col value-col">对比月</text>
+        <text class="table-col change-col">变化</text>
+      </view>
+
+      <!-- 收入对比 -->
+      <view class="table-row">
+        <text class="table-col label-col">收入</text>
+        <text class="table-col value-col">{{month1IncomeText}}</text>
+        <text class="table-col value-col">{{month2IncomeText}}</text>
+        <text class="table-col change-col {{incomeChange >= 0 ? 'change-up' : 'change-down'}}">{{incomeChangeText}}</text>
+      </view>
+
+      <!-- 支出对比 -->
+      <view class="table-row">
+        <text class="table-col label-col">支出</text>
+        <text class="table-col value-col">{{month1ExpenseText}}</text>
+        <text class="table-col value-col">{{month2ExpenseText}}</text>
+        <text class="table-col change-col {{expenseChange >= 0 ? 'change-up' : 'change-down'}}">{{expenseChangeText}}</text>
+      </view>
+
+      <!-- 结余对比 -->
+      <view class="table-row total-row">
+        <text class="table-col label-col">结余</text>
+        <text class="table-col value-col">{{month1BalanceText}}</text>
+        <text class="table-col value-col">{{month2BalanceText}}</text>
+        <text class="table-col change-col {{balanceChange >= 0 ? 'change-up' : 'change-down'}}">{{balanceChangeText}}</text>
+      </view>
+    </view>
+
+    <!-- 收入对比条 -->
+    <view class="bar-section">
+      <text class="bar-title">收入对比</text>
+      <view class="bar-wrapper">
+        <view class="bar-item">
+          <text class="bar-month-label">{{month1 || '月1'}}</text>
+          <view class="bar-track">
+            <view class="bar-fill income-fill" style="width: {{income1Percent}}%"></view>
+          </view>
+          <text class="bar-value">{{month1IncomeText}}</text>
+        </view>
+        <view class="bar-item">
+          <text class="bar-month-label">{{month2 || '月2'}}</text>
+          <view class="bar-track">
+            <view class="bar-fill income-fill2" style="width: {{income2Percent}}%"></view>
+          </view>
+          <text class="bar-value">{{month2IncomeText}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 支出对比条 -->
+    <view class="bar-section">
+      <text class="bar-title">支出对比</text>
+      <view class="bar-wrapper">
+        <view class="bar-item">
+          <text class="bar-month-label">{{month1 || '月1'}}</text>
+          <view class="bar-track">
+            <view class="bar-fill expense-fill" style="width: {{expense1Percent}}%"></view>
+          </view>
+          <text class="bar-value">{{month1ExpenseText}}</text>
+        </view>
+        <view class="bar-item">
+          <text class="bar-month-label">{{month2 || '月2'}}</text>
+          <view class="bar-track">
+            <view class="bar-fill expense-fill2" style="width: {{expense2Percent}}%"></view>
+          </view>
+          <text class="bar-value">{{month2ExpenseText}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 未选择提示 -->
+  <view class="empty-state" wx:if="{{!hasData}}">
+    <text class="empty-icon">📊</text>
+    <text class="empty-text">请选择两个时间段进行对比</text>
+  </view>
+</view>

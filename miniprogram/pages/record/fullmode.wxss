@@ -1,0 +1,341 @@
+/* 完整复式记账页样式 */
+
+.fullmode-page {
+  height: 100vh;
+  background: #F5F5F5;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 交易类型切换 */
+.type-tabs {
+  display: flex;
+  background: #FFFFFF;
+  padding: 12px 16px;
+  gap: 8px;
+}
+
+.type-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #666666;
+  background: #F5F5F5;
+  transition: all 0.2s;
+}
+
+.type-tab-active {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.type-tab-active.expense-bg { background: #FA5151; }
+.type-tab-active.income-bg { background: #07C160; }
+.type-tab-active.transfer-bg { background: #4A90D9; }
+.type-tab-active.repay-bg { background: #FF9800; }
+
+/* 金额和日期输入 */
+.fullmode-header {
+  background: #FFFFFF;
+  padding: 20px 16px;
+  border-bottom: 1rpx solid #F0F0F0;
+}
+
+.fullmode-amount-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.fullmode-amount-label {
+  font-size: 16px;
+  color: #999999;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.fullmode-amount-input {
+  flex: 1;
+  font-size: 28px;
+  font-weight: 700;
+  color: #333333;
+  border-bottom: 2rpx solid #F0F0F0;
+  padding: 4px 0;
+}
+
+.fullmode-meta-row {
+  display: flex;
+  gap: 12px;
+}
+
+.fullmode-meta-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #F5F5F5;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.fullmode-meta-label {
+  font-size: 13px;
+  color: #999999;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.fullmode-meta-picker {
+  flex: 1;
+  font-size: 14px;
+  color: #333333;
+}
+
+.fullmode-meta-input {
+  flex: 1;
+  font-size: 14px;
+  color: #333333;
+  text-align: right;
+}
+
+/* 分录表格 */
+.entry-section {
+  flex: 1;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.entry-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  margin-bottom: 8px;
+}
+
+.entry-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333333;
+}
+
+.entry-add-btn {
+  font-size: 14px;
+  color: #07C160;
+  padding: 4px 12px;
+  background: #F0FFF5;
+  border-radius: 14px;
+}
+
+.entry-list {
+  background: #FFFFFF;
+  margin: 0 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.entry-table-header {
+  display: flex;
+  background: #FAFAFA;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #999999;
+}
+
+.entry-col-type { width: 40px; text-align: center; }
+.entry-col-target { flex: 1; }
+.entry-col-debit { width: 80px; text-align: right; }
+.entry-col-credit { width: 80px; text-align: right; }
+.entry-col-del { width: 40px; text-align: center; }
+
+.entry-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1rpx solid #FAFAFA;
+}
+
+.entry-type-select {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.entry-type-btn {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #999999;
+  background: #F5F5F5;
+  margin: 2px 0;
+}
+
+.entry-type-btn-active {
+  color: #FFFFFF;
+}
+
+.entry-type-btn-active.type-debit { background: #07C160; }
+.entry-type-btn-active.type-credit { background: #FA5151; }
+
+.entry-target-wrap {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  padding: 0 6px;
+}
+
+.entry-target-picker {
+  font-size: 14px;
+  color: #333333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.entry-target-placeholder {
+  font-size: 14px;
+  color: #BBBBBB;
+}
+
+.entry-input {
+  width: 70px;
+  font-size: 14px;
+  color: #333333;
+  text-align: right;
+  padding: 4px;
+  background: #F5F5F5;
+  border-radius: 4px;
+}
+
+.entry-del-btn {
+  color: #FA5151;
+  font-size: 16px;
+  padding: 4px;
+}
+
+/* 借贷平衡校验 */
+.balance-check {
+  background: #FFFFFF;
+  margin: 12px 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.balance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.balance-label {
+  font-size: 14px;
+  color: #333333;
+}
+
+.balance-value {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.balance-diff {
+  font-size: 13px;
+  text-align: center;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.balance-ok {
+  color: #07C160;
+  background: #F0FFF5;
+}
+
+.balance-error {
+  color: #FA5151;
+  background: #FFEBEE;
+}
+
+.balance-auto-btn {
+  text-align: right;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #07C160;
+}
+
+/* 备注 */
+.fullmode-notes {
+  background: #FFFFFF;
+  margin: 0 16px 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.notes-row {
+  display: flex;
+  align-items: center;
+}
+
+.notes-label {
+  font-size: 14px;
+  color: #999999;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.notes-input {
+  flex: 1;
+  font-size: 14px;
+  color: #333333;
+}
+
+/* 底部按钮 */
+.btn-bar {
+  padding: 12px 16px;
+  display: flex;
+  gap: 12px;
+}
+
+.btn-bar .btn-save {
+  flex: 1;
+  height: 48px;
+  line-height: 48px;
+  background: #07C160;
+  color: #FFFFFF;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+}
+
+.btn-bar .btn-save::after { border: none; }
+
+.btn-bar .btn-save.disabled {
+  background: #AEE8C8;
+}
+
+.btn-bar .btn-cancel {
+  flex: 1;
+  height: 48px;
+  line-height: 48px;
+  background: #F5F5F5;
+  color: #999999;
+  border-radius: 12px;
+  font-size: 16px;
+  text-align: center;
+  border: none;
+}
+
+.btn-bar .btn-cancel::after { border: none; }
+
+/* 选择弹窗复用 */

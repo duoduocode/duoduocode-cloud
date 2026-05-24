@@ -1,0 +1,2 @@
+/* pages/accounts/edit.wxss - 编辑账户页样式 */
+@import "../create/create.wxss";

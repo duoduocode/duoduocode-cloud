@@ -1,0 +1,81 @@
+<!-- pages/mine/mine/mine.wxml -->
+<view class="container">
+  <!-- 头像昵称区域 -->
+  <view class="header-card">
+    <view class="avatar-wrap">
+      <image class="avatar" src="{{avatarUrl || '/assets/default-avatar.png'}}" mode="aspectFill"/>
+    </view>
+    <view class="user-info">
+      <text class="nickname">{{nickname || '点击登录'}}</text>
+    </view>
+  </view>
+
+  <!-- 统计卡片 -->
+  <view class="stats-card card">
+    <view class="stat-item">
+      <text class="stat-num">{{totalDays}}</text>
+      <text class="stat-label">记账天数</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-num">{{totalCount}}</text>
+      <text class="stat-label">总笔数</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-num {{netAsset >= 0 ? 'positive' : 'negative'}}">￥{{netAsset}}</text>
+      <text class="stat-label">净资产</text>
+    </view>
+  </view>
+
+  <!-- 功能入口列表 -->
+  <view class="menu-section">
+    <view class="menu-title">功能服务</view>
+    <view class="menu-list card">
+      <view class="menu-item" bindtap="goBudget">
+        <text class="menu-icon">预</text>
+        <text class="menu-name">预算设置</text>
+        <text class="menu-arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="goTemplates">
+        <text class="menu-icon">周</text>
+        <text class="menu-name">周期交易</text>
+        <text class="menu-arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="goCategories">
+        <text class="menu-icon">分</text>
+        <text class="menu-name">分类管理</text>
+        <text class="menu-arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="goTags">
+        <text class="menu-icon">标</text>
+        <text class="menu-name">标签管理</text>
+        <text class="menu-arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="goSearch">
+        <text class="menu-icon">搜</text>
+        <text class="menu-name">交易搜索</text>
+        <text class="menu-arrow">></text>
+      </view>
+    </view>
+  </view>
+
+  <view class="menu-section">
+    <view class="menu-title">其他</view>
+    <view class="menu-list card">
+      <view class="menu-item" bindtap="goSettings">
+        <text class="menu-icon">设</text>
+        <text class="menu-name">设置</text>
+        <text class="menu-arrow">></text>
+      </view>
+      <view class="menu-item" bindtap="goAbout">
+        <text class="menu-icon">关</text>
+        <text class="menu-name">关于</text>
+        <text class="menu-arrow">></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部占位 -->
+  <view class="bottom-space"></view>
+</view>

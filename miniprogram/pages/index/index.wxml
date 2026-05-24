@@ -1,0 +1,110 @@
+<!-- 首页仪表盘 -->
+<scroll-view scroll-y="true" class="page-scroll" refresher-enabled="true" bindrefresherrefresh="onPullDownRefresh" refresher-triggered="{{loading}}">
+
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <view class="loading-text">加载中...</view>
+  </view>
+
+  <block wx:else>
+
+    <!-- 空状态 -->
+    <view wx:if="{{!hasTransactions}}" class="empty-state">
+      <view class="empty-icon">📒</view>
+      <view class="empty-text">还没有记账记录</view>
+      <view class="empty-text-sub">开始记录你的每一笔收支吧</view>
+      <view class="empty-btn" bindtap="goToRecord">开始记账</view>
+    </view>
+
+    <block wx:else>
+
+      <!-- 净资产卡片 -->
+      <view class="networth-card" bindtap="goToBalanceSheet">
+        <view class="networth-label">净资产</view>
+        <view class="networth-value">{{netWorth >= 0 ? '' : '-'}}¥{{formatAmount(netWorth)}}</view>
+        <view class="networth-detail">
+          <view class="networth-item">
+            <view class="networth-item-label">总资产</view>
+            <view class="networth-item-value amount-income">¥{{formatAmount(totalAssets)}}</view>
+          </view>
+          <view class="networth-divider"></view>
+          <view class="networth-item">
+            <view class="networth-item-label">总负债</view>
+            <view class="networth-item-value amount-expense">¥{{formatAmount(totalLiabilities)}}</view>
+          </view>
+        </view>
+        <view class="networth-arrow">查看详情 ></view>
+      </view>
+
+      <!-- 本月收支卡片 -->
+      <view class="card month-card">
+        <view class="month-title">本月收支</view>
+        <view class="month-items">
+          <view class="month-item">
+            <view class="month-item-label">收入</view>
+            <view class="month-item-value amount-income">+¥{{formatAmount(monthIncome)}}</view>
+          </view>
+          <view class="month-item">
+            <view class="month-item-label">支出</view>
+            <view class="month-item-value amount-expense">-¥{{formatAmount(monthExpense)}}</view>
+          </view>
+          <view class="month-item">
+            <view class="month-item-label">结余</view>
+            <view class="month-item-value {{monthBalance >= 0 ? 'amount-income' : 'amount-expense'}}">{{monthBalance >= 0 ? '+' : ''}}¥{{formatAmount(monthBalance)}}</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 预算使用卡片 -->
+      <view class="card budget-card" bindtap="goToBudget" wx:if="{{budgetUsage > 0}}">
+        <view class="budget-header">
+          <view class="budget-title">预算使用</view>
+          <view class="budget-percent {{budgetDanger ? 'text-danger' : (budgetWarning ? 'text-warning' : 'text-primary')}}">{{budgetPercent}}%</view>
+        </view>
+        <view class="progress-bar">
+          <view class="progress-fill {{budgetDanger ? 'progress-danger' : (budgetWarning ? 'progress-warning' : '')}}" style="width: {{budgetPercent}}%;"></view>
+        </view>
+        <view wx:if="{{budgetDanger}}" class="budget-alert budget-alert-danger">预算已超支，请注意控制支出</view>
+        <view wx:elif="{{budgetWarning}}" class="budget-alert budget-alert-warning">预算已使用 {{budgetPercent}}%，请留意剩余额度</view>
+      </view>
+
+      <!-- 最近交易 -->
+      <view class="card transaction-card">
+        <view class="section-title">最近交易</view>
+        <view wx:if="{{recentTransactions.length === 0}}" class="section-empty">暂无交易记录</view>
+        <block wx:for="{{recentTransactions}}" wx:key="id">
+          <view class="transaction-item" data-id="{{item.id}}" bindtap="goToTransaction">
+            <view class="transaction-left">
+              <view class="transaction-icon-wrap">
+                <text class="transaction-icon">{{item.categoryIcon || '📋'}}</text>
+              </view>
+              <view class="transaction-info">
+                <view class="transaction-name">{{item.categoryName || '未分类'}}</view>
+                <view class="transaction-meta">
+                  <text class="transaction-date">{{item.date}}</text>
+                  <text class="transaction-account">{{item.accountName || ''}}</text>
+                </view>
+              </view>
+            </view>
+            <view class="transaction-right">
+              <view class="transaction-desc">{{item.description || ''}}</view>
+              <view class="transaction-amount {{item.type === 'income' ? 'amount-income' : (item.type === 'expense' ? 'amount-expense' : 'amount-neutral')}}">
+                {{item.type === 'income' ? '+' : (item.type === 'expense' ? '-' : '')}}¥{{formatSignAmount(item.amount, item.type)}}
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+
+    </block>
+  </block>
+
+  <!-- 底部占位 -->
+  <view style="height: 120px;"></view>
+
+</scroll-view>
+
+<!-- FAB 悬浮按钮 -->
+<view class="fab" bindtap="goToRecord">
+  <text>+</text>
+</view>

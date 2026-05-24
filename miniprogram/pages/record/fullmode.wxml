@@ -1,0 +1,155 @@
+<!-- 完整复式记账页 -->
+<view class="fullmode-page">
+
+  <!-- 交易类型切换 -->
+  <view class="type-tabs">
+    <view class="type-tab {{transactionType === 'expense' ? 'type-tab-active expense-bg' : ''}}"
+      data-type="expense" bindtap="onTypeChange">支出</view>
+    <view class="type-tab {{transactionType === 'income' ? 'type-tab-active income-bg' : ''}}"
+      data-type="income" bindtap="onTypeChange">收入</view>
+    <view class="type-tab {{transactionType === 'transfer' ? 'type-tab-active transfer-bg' : ''}}"
+      data-type="transfer" bindtap="onTypeChange">转账</view>
+    <view class="type-tab {{transactionType === 'repayment' ? 'type-tab-active repay-bg' : ''}}"
+      data-type="repayment" bindtap="onTypeChange">还款</view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="fullmode-header">
+    <view class="fullmode-amount-row">
+      <text class="fullmode-amount-label">金额</text>
+      <input class="fullmode-amount-input" type="digit" placeholder="0.00"
+        value="{{amount}}" bindinput="onAmountInput" />
+    </view>
+    <view class="fullmode-meta-row">
+      <view class="fullmode-meta-item">
+        <text class="fullmode-meta-label">日期</text>
+        <picker class="fullmode-meta-picker" mode="date" value="{{date}}" bindchange="onDateChange">
+          <text>{{date}}</text>
+        </picker>
+      </view>
+      <view class="fullmode-meta-item">
+        <text class="fullmode-meta-label">时间</text>
+        <picker class="fullmode-meta-picker" mode="time" value="{{time}}" bindchange="onTimeChange">
+          <text>{{time}}</text>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分录表格 -->
+  <view class="entry-section">
+    <view class="entry-section-header">
+      <text class="entry-section-title">借贷分录</text>
+      <text class="entry-add-btn" bindtap="addEntry">+ 添加分录</text>
+    </view>
+
+    <view class="entry-list">
+      <view class="entry-table-header">
+        <text class="entry-col-type">方向</text>
+        <text class="entry-col-target">科目</text>
+        <text class="entry-col-debit">借方金额</text>
+        <text class="entry-col-credit">贷方金额</text>
+        <text class="entry-col-del"></text>
+      </view>
+
+      <block wx:for="{{entries}}" wx:key="id">
+        <view class="entry-row">
+          <!-- 借贷方向切换 -->
+          <view class="entry-col-type entry-type-select">
+            <view class="entry-type-btn {{item.type === 'debit' ? 'entry-type-btn-active type-debit' : ''}}"
+              data-id="{{item.id}}" data-newtype="debit" bindtap="toggleEntryType">借</view>
+            <view class="entry-type-btn {{item.type === 'credit' ? 'entry-type-btn-active type-credit' : ''}}"
+              data-id="{{item.id}}" data-newtype="credit" bindtap="toggleEntryType">贷</view>
+          </view>
+
+          <!-- 科目选择 -->
+          <view class="entry-col-target entry-target-wrap" data-id="{{item.id}}" bindtap="openTargetPicker">
+            <text wx:if="{{item.targetName}}" class="entry-target-picker">{{item.targetIcon || '📋'}} {{item.targetName}}</text>
+            <text wx:else class="entry-target-placeholder">选择科目</text>
+          </view>
+
+          <!-- 借方金额 -->
+          <view class="entry-col-debit">
+            <input wx:if="{{item.type === 'debit'}}" class="entry-input" type="digit"
+              placeholder="0.00" value="{{item.debitAmount}}"
+              data-id="{{item.id}}" bindinput="onDebitInput" />
+            <text wx:else class="entry-input" style="background:transparent;"></text>
+          </view>
+
+          <!-- 贷方金额 -->
+          <view class="entry-col-credit">
+            <input wx:if="{{item.type === 'credit'}}" class="entry-input" type="digit"
+              placeholder="0.00" value="{{item.creditAmount}}"
+              data-id="{{item.id}}" bindinput="onCreditInput" />
+            <text wx:else class="entry-input" style="background:transparent;"></text>
+          </view>
+
+          <!-- 删除 -->
+          <view class="entry-col-del">
+            <text class="entry-del-btn" data-id="{{item.id}}" bindtap="removeEntry">×</text>
+          </view>
+        </view>
+      </block>
+
+      <view wx:if="{{entries.length === 0}}" style="text-align:center;padding:30px;color:#999;font-size:14px;">
+        请添加分录行
+      </view>
+    </view>
+  </view>
+
+  <!-- 借贷平衡校验 -->
+  <view class="balance-check">
+    <view class="balance-row">
+      <text class="balance-label">借方合计</text>
+      <text class="balance-value amount-income">¥{{totalDebit}}</text>
+    </view>
+    <view class="balance-row">
+      <text class="balance-label">贷方合计</text>
+      <text class="balance-value amount-expense">¥{{totalCredit}}</text>
+    </view>
+    <view class="balance-diff {{isBalanced ? 'balance-ok' : 'balance-error'}}">
+      {{isBalanced ? '借贷平衡 ✓' : '不平衡，差额: ¥' + diffAmount}}
+    </view>
+    <view wx:if="{{!isBalanced && entries.length >= 2}}" class="balance-auto-btn" bindtap="onAutoBalance">
+      一键补齐差额 >
+    </view>
+  </view>
+
+  <!-- 备注 -->
+  <view class="fullmode-notes">
+    <view class="notes-row">
+      <text class="notes-label">备注</text>
+      <input class="notes-input" placeholder="添加备注..." value="{{description}}" bindinput="onDescInput" />
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="btn-bar">
+    <button class="btn-save {{isBalanced ? '' : 'disabled'}}" bindtap="onSave"
+      loading="{{saving}}" disabled="{{!isBalanced || saving}}">保存</button>
+    <button class="btn-cancel" bindtap="onCancel">取消</button>
+  </view>
+
+</view>
+
+<!-- ========== 科目选择弹窗 ========== -->
+<view wx:if="{{showPicker}}" class="modal-overlay" bindtap="closePicker">
+  <view class="bottom-sheet" catchtap="">
+    <view class="sheet-header">
+      <view class="sheet-title">选择科目</view>
+      <view class="sheet-close" bindtap="closePicker">关闭</view>
+    </view>
+    <scroll-view scroll-y="true" class="sheet-body">
+      <block wx:for="{{pickerItems}}" wx:key="id">
+        <view class="sheet-item" data-id="{{item.id}}" bindtap="onSelectTarget">
+          <text class="sheet-item-icon">{{item.icon || '📋'}}</text>
+          <view class="sheet-item-info">
+            <text class="sheet-item-name">{{item.name}}</text>
+            <text class="sheet-item-sub">{{item.type === 'category' ? '分类' : '账户'}}</text>
+          </view>
+        </view>
+      </block>
+      <view wx:if="{{pickerItems.length === 0}}" class="sheet-empty">暂无可用科目</view>
+    </scroll-view>
+  </view>
+</view>

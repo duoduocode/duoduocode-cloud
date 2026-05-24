@@ -1,0 +1,79 @@
+<!-- pages/accounts/investment/income.wxml - 理财收益记录页 -->
+<view class="container">
+  <!-- 收益录入表单 -->
+  <view class="form-section">
+    <text class="form-label">收益金额 <text class="required">*</text></text>
+    <input class="form-input" type="digit" placeholder="请输入收益金额" value="{{amount}}" bindinput="onAmountInput" />
+  </view>
+
+  <view class="form-section">
+    <text class="form-label">日期 <text class="required">*</text></text>
+    <picker mode="date" value="{{date}}" bindchange="onDateChange">
+      <view class="form-picker">
+        <text>{{date || '请选择日期'}}</text>
+        <text class="picker-arrow">></text>
+      </view>
+    </picker>
+  </view>
+
+  <view class="form-section">
+    <text class="form-label">收益类型</text>
+    <view class="type-selector">
+      <view class="type-option {{incomeType === 'dividend' ? 'active' : ''}}" bindtap="selectIncomeType" data-type="dividend">
+        <text class="type-icon">💵</text>
+        <text class="type-text">分红</text>
+      </view>
+      <view class="type-option {{incomeType === 'interest' ? 'active' : ''}}" bindtap="selectIncomeType" data-type="interest">
+        <text class="type-icon">📊</text>
+        <text class="type-text">利息</text>
+      </view>
+      <view class="type-option {{incomeType === 'other' ? 'active' : ''}}" bindtap="selectIncomeType" data-type="other">
+        <text class="type-icon">📋</text>
+        <text class="type-text">其他</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-section">
+    <text class="form-label">备注</text>
+    <input class="form-input" placeholder="备注信息（选填）" value="{{note}}" bindinput="onNoteInput" />
+  </view>
+
+  <view class="form-section">
+    <view class="setting-row">
+      <text class="setting-text">是否再投资</text>
+      <switch checked="{{isReinvested}}" bindchange="onReinvestedToggle" color="#07C160" />
+    </view>
+  </view>
+
+  <view class="submit-section">
+    <button class="submit-btn" bindtap="submitIncome">记录收益</button>
+  </view>
+
+  <!-- 历史收益记录 -->
+  <view class="history-section">
+    <text class="section-title">收益记录</text>
+    <view wx:if="{{totalIncome > 0}}" class="total-income">
+      <text class="total-label">累计收益:</text>
+      <text class="total-value">{{totalIncomeText}}</text>
+    </view>
+
+    <block wx:if="{{historyList.length > 0}}">
+      <view class="history-item" wx:for="{{historyList}}" wx:key="id">
+        <view class="history-icon">
+          <text>{{item.type === 'dividend' ? '💵' : item.type === 'interest' ? '📊' : '📋'}}</text>
+        </view>
+        <view class="history-info">
+          <text class="history-type">{{item.typeName}}</text>
+          <text class="history-date">{{item.dateText}}</text>
+        </view>
+        <text class="history-amount">{{item.amountText}}</text>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="empty-list">
+        <text class="empty-list-text">暂无收益记录</text>
+      </view>
+    </block>
+  </view>
+</view>

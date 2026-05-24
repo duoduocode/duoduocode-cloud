@@ -1,0 +1,23 @@
+/* 还款页样式 - 复用支出页 */
+@import './expense.wxss';
+
+.pay-all-btn {
+  display: inline-block;
+  background: #FF9800;
+  color: #FFFFFF;
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  margin-left: 12px;
+}
+
+.debt-info {
+  background: #FFF3E0;
+  padding: 10px 16px;
+  margin: 0 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #E65100;
+  display: flex;
+  justify-content: space-between;
+}

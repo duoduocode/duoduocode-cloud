@@ -1,0 +1,155 @@
+/* pages/budget/special/list/list.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #F5F5F5;
+}
+
+/* Tab栏 */
+.tab-bar {
+  display: flex;
+  background: #fff;
+  padding: 12px 16px;
+  gap: 12px;
+}
+
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #666;
+  background: #F5F5F5;
+}
+
+.tab-item.active {
+  background: #07C160;
+  color: #fff;
+}
+
+/* 列表 */
+.list-scroll {
+  flex: 1;
+  padding: 12px 16px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.budget-card .card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.card-left {
+  flex: 1;
+}
+
+.budget-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.budget-amount {
+  font-size: 14px;
+  color: #999;
+}
+
+.card-right {
+  flex-shrink: 0;
+}
+
+.budget-percent {
+  font-size: 20px;
+  font-weight: bold;
+  color: #07C160;
+}
+
+/* 进度条 */
+.progress-bar {
+  height: 8px;
+  background: #F0F0F0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #07C160;
+  border-radius: 4px;
+}
+
+.progress-fill.warn {
+  background: #FF9800;
+}
+
+/* 底部信息 */
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.budget-date {
+  font-size: 12px;
+  color: #999;
+}
+
+.budget-days {
+  font-size: 12px;
+  color: #FF9800;
+}
+
+.budget-status.completed {
+  font-size: 12px;
+  color: #07C160;
+}
+
+/* 加载/空状态 */
+.loading-tip {
+  text-align: center;
+  padding: 16px;
+  font-size: 13px;
+  color: #999;
+}
+
+.empty-tip {
+  text-align: center;
+  padding: 60px 0;
+  color: #999;
+  font-size: 15px;
+}
+
+/* FAB */
+.create-fab {
+  position: fixed;
+  right: 24px;
+  bottom: 32px;
+  width: 56px;
+  height: 56px;
+  background: #07C160;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(7, 193, 96, 0.4);
+}
+
+.create-fab text {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1;
+}

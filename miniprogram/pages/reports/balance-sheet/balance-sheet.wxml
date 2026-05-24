@@ -1,0 +1,85 @@
+<!-- pages/reports/balance-sheet.wxml - 资产负债表 -->
+<view class="container">
+  <!-- 净资产总览 -->
+  <view class="summary-card">
+    <text class="summary-label">净资产</text>
+    <text class="summary-value">{{netWorthText}}</text>
+    <view class="summary-row">
+      <view class="summary-item">
+        <text class="summary-item-label">总资产</text>
+        <text class="summary-item-value">{{totalAssetsText}}</text>
+      </view>
+      <view class="summary-divider"></view>
+      <view class="summary-item">
+        <text class="summary-item-label">总负债</text>
+        <text class="summary-item-value liability-color">{{totalLiabilitiesText}}</text>
+      </view>
+    </view>
+    <!-- 财务健康度 -->
+    <view class="health-bar">
+      <view class="health-info">
+        <text class="health-label">财务健康度</text>
+        <text class="health-score">{{healthScore}}</text>
+      </view>
+      <view class="health-progress">
+        <view class="health-fill" style="width: {{healthPercent}}%"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 资产明细 -->
+  <view class="list-section">
+    <view class="section-header">
+      <text class="section-title">资产明细</text>
+      <text class="section-total">{{totalAssetsText}}</text>
+    </view>
+    <view class="list-item" wx:for="{{assetAccounts}}" wx:key="id">
+      <view class="item-icon" style="background-color: {{item.color || '#07C160'}}">
+        <text>{{item.icon || '💰'}}</text>
+      </view>
+      <view class="item-info">
+        <text class="item-name">{{item.name}}</text>
+        <text class="item-type">资产账户</text>
+      </view>
+      <view class="item-right">
+        <text class="item-value">{{item.balanceText}}</text>
+        <text class="item-percent">{{item.percentText}}</text>
+      </view>
+    </view>
+    <!-- 投资账户也归入资产 -->
+    <view class="list-item" wx:for="{{investmentAccounts}}" wx:key="id">
+      <view class="item-icon" style="background-color: {{item.color || '#FF9800'}}">
+        <text>{{item.icon || '📈'}}</text>
+      </view>
+      <view class="item-info">
+        <text class="item-name">{{item.name}}</text>
+        <text class="item-type">投资账户</text>
+      </view>
+      <view class="item-right">
+        <text class="item-value">{{item.balanceText}}</text>
+        <text class="item-percent">{{item.percentText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 负债明细 -->
+  <view class="list-section" wx:if="{{liabilityAccounts.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">负债明细</text>
+      <text class="section-total liability-color">{{totalLiabilitiesText}}</text>
+    </view>
+    <view class="list-item" wx:for="{{liabilityAccounts}}" wx:key="id">
+      <view class="item-icon" style="background-color: {{item.color || '#FA5151'}}">
+        <text>{{item.icon || '💳'}}</text>
+      </view>
+      <view class="item-info">
+        <text class="item-name">{{item.name}}</text>
+        <text class="item-type">负债账户</text>
+      </view>
+      <view class="item-right">
+        <text class="item-value liability-color">{{item.balanceText}}</text>
+        <text class="item-percent">{{item.percentText}}</text>
+      </view>
+    </view>
+  </view>
+</view>

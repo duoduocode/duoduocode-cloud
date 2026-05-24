@@ -1,0 +1,147 @@
+/* pages/accounts/create.wxss - 创建账户页样式 */
+page {
+  background-color: #F5F5F5;
+}
+.container {
+  padding: 16px;
+  padding-bottom: 80px;
+}
+
+/* 表单区域 */
+.form-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.form-label {
+  font-size: 14px;
+  color: #333333;
+  font-weight: 500;
+  margin-bottom: 10px;
+  display: block;
+}
+.required {
+  color: #FA5151;
+}
+
+/* 类型选择 */
+.type-selector {
+  display: flex;
+  gap: 12px;
+}
+.type-option {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 0;
+  border-radius: 8px;
+  border: 2px solid #E5E5E5;
+  background: #FAFAFA;
+}
+.type-option.active {
+  border-color: #07C160;
+  background: #E8F8EF;
+}
+.type-icon {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+.type-text {
+  font-size: 13px;
+  color: #333333;
+}
+
+/* 输入框 */
+.form-input {
+  width: 100%;
+  height: 44px;
+  line-height: 44px;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 14px;
+  color: #333333;
+  box-sizing: border-box;
+}
+
+/* Emoji 图标网格 */
+.emoji-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.emoji-item {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #F5F5F5;
+  font-size: 22px;
+}
+.emoji-active {
+  background: #E8F8EF;
+  border: 2px solid #07C160;
+}
+
+/* 颜色网格 */
+.color-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.color-item {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.color-active {
+  box-shadow: 0 0 0 3px rgba(7,193,96,0.3);
+}
+.color-check {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* 高级设置 */
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #F0F0F0;
+}
+.setting-row:last-child {
+  border-bottom: none;
+}
+.setting-text {
+  font-size: 14px;
+  color: #333333;
+}
+
+/* 提交按钮 */
+.submit-section {
+  margin-top: 16px;
+}
+.submit-btn {
+  width: 100%;
+  height: 48px;
+  line-height: 48px;
+  background: #07C160;
+  color: #ffffff;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+}
+.submit-btn[disabled] {
+  background: #B7E5CC;
+}

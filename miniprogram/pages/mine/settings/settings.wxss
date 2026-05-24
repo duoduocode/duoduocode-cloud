@@ -1,0 +1,47 @@
+/* pages/mine/settings/settings.wxss */
+.container {
+  min-height: 100vh;
+  background: #F5F5F5;
+}
+
+.menu-section {
+  margin-bottom: 12px;
+}
+
+.menu-title {
+  font-size: 13px;
+  color: #999;
+  padding: 16px 16px 8px;
+}
+
+.menu-list {
+  background: #fff;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-name {
+  flex: 1;
+  font-size: 15px;
+  color: #333;
+}
+
+.menu-desc {
+  font-size: 13px;
+  color: #999;
+  margin-right: 8px;
+}
+
+.menu-arrow {
+  font-size: 14px;
+  color: #ccc;
+}

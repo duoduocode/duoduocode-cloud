@@ -1,0 +1,69 @@
+<!-- pages/budget/daily/daily.wxml -->
+<view class="container">
+  <view class="card">
+    <view class="card-title">预算月份</view>
+    <view class="month-display">{{month}}</view>
+  </view>
+
+  <!-- 月度总预算 -->
+  <view class="card">
+    <view class="form-row">
+      <text class="form-label">月度总预算</text>
+      <view class="form-input-wrap">
+        <text class="prefix">￥</text>
+        <input class="form-input" type="digit" value="{{monthlyBudget}}" bindinput="onMonthlyInput" placeholder="输入月度预算"/>
+      </view>
+    </view>
+  </view>
+
+  <!-- 周度预算 -->
+  <view class="card">
+    <view class="form-row">
+      <text class="form-label">启用周度预算</text>
+      <switch checked="{{weeklyEnabled}}" bindchange="onWeeklyToggle" color="#07C160"/>
+    </view>
+    <view class="form-row" wx:if="{{weeklyEnabled}}">
+      <text class="form-label">周度预算金额</text>
+      <view class="form-input-wrap">
+        <text class="prefix">￥</text>
+        <input class="form-input" type="digit" value="{{weeklyBudget}}" bindinput="onWeeklyInput" placeholder="输入周度预算"/>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分类预算明细 -->
+  <view class="card">
+    <view class="card-title">分类预算明细</view>
+    <block wx:if="{{categoryBudgets.length > 0}}">
+      <view class="category-item" wx:for="{{categoryBudgets}}" wx:key="categoryId">
+        <view class="cat-header">
+          <text class="cat-name">{{item.categoryName}}</text>
+        </view>
+        <view class="cat-form">
+          <view class="form-row sub">
+            <text class="form-label">月预算</text>
+            <view class="form-input-wrap">
+              <text class="prefix">￥</text>
+              <input class="form-input small" type="digit" value="{{item.monthlyBudget}}" bindinput="onCatMonthlyInput" data-index="{{index}}" placeholder="0"/>
+            </view>
+          </view>
+          <view class="form-row sub">
+            <text class="form-label">预警阈值(%)</text>
+            <view class="form-input-wrap">
+              <input class="form-input small" type="number" value="{{item.alertThreshold}}" bindinput="onCatThresholdInput" data-index="{{index}}" placeholder="80"/>
+              <text class="suffix">%</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="empty-tip">暂无分类数据</view>
+    </block>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-btn" bindtap="saveBudget">
+    <text>保 存</text>
+  </view>
+</view>

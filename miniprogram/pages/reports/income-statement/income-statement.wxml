@@ -1,0 +1,59 @@
+<!-- pages/reports/income-statement.wxml - 收支报表 -->
+<view class="container">
+  <!-- 月份选择器 -->
+  <view class="month-picker">
+    <picker mode="date" fields="month" value="{{selectedMonth}}" bindchange="onMonthChange">
+      <view class="picker-display">
+        <text class="picker-label">{{selectedMonth}}</text>
+        <text class="picker-arrow">▼</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 汇总 -->
+  <view class="summary-row">
+    <view class="summary-item income-bg">
+      <text class="summary-label">总收入</text>
+      <text class="summary-value">{{totalIncomeText}}</text>
+    </view>
+    <view class="summary-item expense-bg">
+      <text class="summary-label">总支出</text>
+      <text class="summary-value">{{totalExpenseText}}</text>
+    </view>
+  </view>
+
+  <!-- 分类列表 -->
+  <view class="list-section">
+    <view class="list-col">
+      <text class="col-title income-title">收入分类</text>
+      <view class="category-item" wx:for="{{incomeList}}" wx:key="categoryName">
+        <view class="category-header">
+          <text class="category-name">{{item.categoryName || '未分类'}}</text>
+          <text class="category-amount income-color">{{item.amountText}}</text>
+        </view>
+        <view class="category-bar">
+          <view class="bar-fill income-bar" style="width: {{item.barPercent}}%"></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="list-col">
+      <text class="col-title expense-title">支出分类</text>
+      <view class="category-item" wx:for="{{expenseList}}" wx:key="categoryName">
+        <view class="category-header">
+          <text class="category-name">{{item.categoryName || '未分类'}}</text>
+          <text class="category-amount expense-color">{{item.amountText}}</text>
+        </view>
+        <view class="category-bar">
+          <view class="bar-fill expense-bar" style="width: {{item.barPercent}}%"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Canvas柱状图 -->
+  <view class="chart-section" wx:if="{{canvasReady}}">
+    <text class="chart-title">分类柱状图</text>
+    <canvas canvas-id="barChart" class="bar-chart" style="width: 360px; height: 400px;"></canvas>
+  </view>
+</view>

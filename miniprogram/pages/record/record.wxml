@@ -1,0 +1,33 @@
+<!-- 记账类型选择页 -->
+<view class="record-page">
+  <view class="record-header">
+    <view class="record-title">选择记账类型</view>
+    <view class="record-subtitle">快速记录你的每一笔交易</view>
+  </view>
+
+  <view class="type-list">
+    <block wx:for="{{types}}" wx:key="id">
+      <view class="type-card" data-url="{{item.url}}" bindtap="goToRecord"
+        style="border-left-color: {{item.color}};">
+        <view class="type-icon-wrap" style="background-color: {{item.bgColor}};">
+          <text class="type-icon">{{item.icon}}</text>
+        </view>
+        <view class="type-info">
+          <view class="type-name" style="color: {{item.color}};">{{item.name}}</view>
+          <view class="type-desc">{{item.desc}}</view>
+        </view>
+        <view class="type-arrow">
+          <text>></text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 完整复式模式入口 -->
+  <view class="fullmode-entry" bindtap="goToFullMode">
+    <view class="fullmode-line"></view>
+    <view class="fullmode-text">完整复式记账模式</view>
+    <view class="fullmode-line"></view>
+  </view>
+  <view class="fullmode-desc">支持多借贷分录，适合专业财务记录</view>
+</view>

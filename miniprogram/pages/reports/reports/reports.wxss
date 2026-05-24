@@ -1,0 +1,96 @@
+/* pages/reports/reports.wxss - 报表首页样式 */
+page {
+  background-color: #F5F5F5;
+}
+.container {
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+/* 顶部概览 */
+.overview-card {
+  background: linear-gradient(135deg, #07C160, #06AD56);
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin-bottom: 16px;
+  color: #ffffff;
+}
+.overview-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.overview-label {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+.overview-balance {
+  font-size: 32px;
+  font-weight: bold;
+}
+.overview-row {
+  display: flex;
+  justify-content: space-around;
+}
+.overview-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.overview-item-label {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+.overview-item-value {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* 报表入口列表 */
+.report-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.report-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.report-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-right: 14px;
+}
+.report-info {
+  flex: 1;
+}
+.report-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 4px;
+}
+.report-desc {
+  font-size: 13px;
+  color: #999999;
+}
+.report-arrow {
+  width: 20px;
+  text-align: center;
+}
+.arrow-icon {
+  font-size: 14px;
+  color: #C0C0C0;
+}

@@ -1,0 +1,77 @@
+<!-- pages/accounts/create.wxml - 创建账户页 -->
+<view class="container">
+  <!-- 账户类型选择 -->
+  <view class="form-section">
+    <text class="form-label">账户类型</text>
+    <view class="type-selector">
+      <view class="type-option {{formData.type === 'asset' ? 'active' : ''}}" bindtap="selectType" data-type="asset">
+        <text class="type-icon">💰</text>
+        <text class="type-text">资产</text>
+      </view>
+      <view class="type-option {{formData.type === 'liability' ? 'active' : ''}}" bindtap="selectType" data-type="liability">
+        <text class="type-icon">💳</text>
+        <text class="type-text">负债</text>
+      </view>
+      <view class="type-option {{formData.type === 'investment' ? 'active' : ''}}" bindtap="selectType" data-type="investment">
+        <text class="type-icon">📈</text>
+        <text class="type-text">投资</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 名称 -->
+  <view class="form-section">
+    <text class="form-label">账户名称 <text class="required">*</text></text>
+    <input class="form-input" placeholder="请输入账户名称" value="{{formData.name}}" bindinput="onNameInput" />
+  </view>
+
+  <!-- 图标选择 -->
+  <view class="form-section">
+    <text class="form-label">选择图标</text>
+    <view class="emoji-grid">
+      <view class="emoji-item {{formData.icon === item ? 'emoji-active' : ''}}" wx:for="{{emojiList}}" wx:key="*this" bindtap="selectIcon" data-icon="{{item}}">
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 颜色选择 -->
+  <view class="form-section">
+    <text class="form-label">选择颜色</text>
+    <view class="color-grid">
+      <view class="color-item {{formData.color === item ? 'color-active' : ''}}" wx:for="{{colorList}}" wx:key="*this" bindtap="selectColor" data-color="{{item}}" style="background-color: {{item}}">
+        <text class="color-check" wx:if="{{formData.color === item}}">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 初始余额 -->
+  <view class="form-section">
+    <text class="form-label">初始余额</text>
+    <input class="form-input" type="digit" placeholder="0.00" value="{{formData.initialBalance}}" bindinput="onBalanceInput" />
+  </view>
+
+  <!-- 信用额度 (负债类显示) -->
+  <view class="form-section" wx:if="{{formData.type === 'liability'}}">
+    <text class="form-label">信用额度</text>
+    <input class="form-input" type="digit" placeholder="0.00" value="{{formData.creditLimit}}" bindinput="onCreditLimitInput" />
+  </view>
+
+  <!-- 高级设置 -->
+  <view class="form-section">
+    <text class="form-label">高级设置</text>
+    <view class="setting-row">
+      <text class="setting-text">计入净资产</text>
+      <switch checked="{{formData.includeInNetWorth}}" bindchange="onIncludeToggle" color="#07C160" />
+    </view>
+    <view class="setting-row">
+      <text class="setting-text">允许转账</text>
+      <switch checked="{{formData.allowTransfer}}" bindchange="onTransferToggle" color="#07C160" />
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="submit-section">
+    <button class="submit-btn" bindtap="submit">保存账户</button>
+  </view>
+</view>

@@ -1,0 +1,98 @@
+/* pages/onboarding/welcome/welcome.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #E8F8EF 0%, #FFFFFF 60%);
+  padding: 40px 32px;
+}
+
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 48px;
+}
+
+.logo-wrap {
+  width: 88px;
+  height: 88px;
+  background: linear-gradient(135deg, #07C160, #06AD56);
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px rgba(7, 193, 96, 0.3);
+}
+
+.logo-text {
+  font-size: 44px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.app-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.app-slogan {
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* 特色 */
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 48px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.feature-dot {
+  width: 8px;
+  height: 8px;
+  background: #07C160;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.feature-text {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 开始按钮 */
+.start-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #07C160, #06AD56);
+  border-radius: 28px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(7, 193, 96, 0.35);
+  letter-spacing: 2px;
+}
+
+.bottom-text {
+  font-size: 12px;
+  color: #ccc;
+  margin-top: 32px;
+}

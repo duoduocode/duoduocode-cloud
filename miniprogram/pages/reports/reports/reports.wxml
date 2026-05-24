@@ -1,0 +1,75 @@
+<!-- pages/reports/reports.wxml - 报表首页(Tab页) -->
+<view class="container">
+  <!-- 月度概览卡片 -->
+  <view class="overview-card">
+    <view class="overview-header">
+      <text class="overview-label">本月收支</text>
+      <text class="overview-balance">{{balanceText}}</text>
+    </view>
+    <view class="overview-row">
+      <view class="overview-item">
+        <text class="overview-item-label">收入</text>
+        <text class="overview-item-value">{{monthIncomeText}}</text>
+      </view>
+      <view class="overview-item">
+        <text class="overview-item-label">支出</text>
+        <text class="overview-item-value">{{monthExpenseText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 报表入口列表 -->
+  <view class="report-grid">
+    <view class="report-card" bindtap="goBalanceSheet">
+      <view class="report-icon" style="background-color: #E8F8EF">
+        <text>📊</text>
+      </view>
+      <view class="report-info">
+        <text class="report-title">资产负债表</text>
+        <text class="report-desc">资产、负债与净资产分析</text>
+      </view>
+      <view class="report-arrow">
+        <text class="arrow-icon">></text>
+      </view>
+    </view>
+
+    <view class="report-card" bindtap="goIncomeStatement">
+      <view class="report-icon" style="background-color: #FFF3E0">
+        <text>📋</text>
+      </view>
+      <view class="report-info">
+        <text class="report-title">收支报表</text>
+        <text class="report-desc">收入与支出分类统计</text>
+      </view>
+      <view class="report-arrow">
+        <text class="arrow-icon">></text>
+      </view>
+    </view>
+
+    <view class="report-card" bindtap="goTrend">
+      <view class="report-icon" style="background-color: #E3F2FD">
+        <text>📈</text>
+      </view>
+      <view class="report-info">
+        <text class="report-title">趋势图表</text>
+        <text class="report-desc">资产与净资产变化趋势</text>
+      </view>
+      <view class="report-arrow">
+        <text class="arrow-icon">></text>
+      </view>
+    </view>
+
+    <view class="report-card" bindtap="goComparison">
+      <view class="report-icon" style="background-color: #F3E5F5">
+        <text>⚖️</text>
+      </view>
+      <view class="report-info">
+        <text class="report-title">对比分析</text>
+        <text class="report-desc">不同时间段收支对比</text>
+      </view>
+      <view class="report-arrow">
+        <text class="arrow-icon">></text>
+      </view>
+    </view>
+  </view>
+</view>

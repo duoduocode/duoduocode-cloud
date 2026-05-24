@@ -1,0 +1,244 @@
+/* pages/transaction/detail/detail.wxss */
+.container {
+  padding: 0 16px 32px;
+  background: #F5F5F5;
+  min-height: 100vh;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+/* 金额区域 */
+.amount-section {
+  text-align: center;
+  padding: 32px 0 24px;
+}
+
+.amount-num {
+  font-size: 36px;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.amount-num.expense {
+  color: #FA5151;
+}
+
+.amount-num.income {
+  color: #07C160;
+}
+
+.category-label {
+  font-size: 15px;
+  color: #999;
+}
+
+/* 信息行 */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 14px;
+  color: #999;
+}
+
+.info-value {
+  font-size: 15px;
+  color: #333;
+}
+
+.info-value.income {
+  color: #07C160;
+}
+
+.info-value.warn {
+  color: #FF9800;
+}
+
+/* 标签 */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-chip {
+  padding: 4px 12px;
+  background: #F0F0F0;
+  border-radius: 12px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* 分录 */
+.entry-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.entry-item:last-child {
+  border-bottom: none;
+}
+
+.entry-account {
+  font-size: 14px;
+  color: #333;
+}
+
+.entry-amount {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.entry-amount.income {
+  color: #07C160;
+}
+
+.entry-amount.expense {
+  color: #FA5151;
+}
+
+/* 操作按钮 */
+.action-section {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.action-btn {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.action-btn.warn {
+  border-color: #FA5151;
+  color: #FA5151;
+}
+
+/* 退款弹窗 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+}
+
+.refund-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  z-index: 101;
+  padding: 20px 16px 32px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.panel-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.panel-close {
+  font-size: 16px;
+  color: #999;
+  padding: 4px 8px;
+}
+
+.panel-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.panel-label {
+  font-size: 15px;
+  color: #333;
+}
+
+.panel-input {
+  width: 200px;
+  height: 36px;
+  background: #F5F5F5;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 15px;
+  text-align: right;
+  color: #333;
+}
+
+.date-picker {
+  font-size: 15px;
+  color: #333;
+  padding: 8px 12px;
+  background: #F5F5F5;
+  border-radius: 8px;
+}
+
+.panel-footer {
+  margin-top: 16px;
+}
+
+.btn-confirm {
+  text-align: center;
+  padding: 14px;
+  background: #07C160;
+  color: #fff;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+/* 加载 */
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading-text {
+  color: #999;
+  font-size: 15px;
+}

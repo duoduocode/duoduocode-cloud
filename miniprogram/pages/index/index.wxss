@@ -1,0 +1,274 @@
+/* 首页仪表盘样式 */
+
+.page-scroll {
+  height: 100vh;
+  background: #F5F5F5;
+}
+
+.loading-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+.loading-text {
+  color: #999999;
+  font-size: 14px;
+}
+
+/* 净资产卡片 */
+.networth-card {
+  background: linear-gradient(135deg, #07C160 0%, #06AD56 100%);
+  margin: 16px;
+  padding: 24px 20px;
+  border-radius: 16px;
+  color: #FFFFFF;
+  box-shadow: 0 4px 16px rgba(7, 193, 96, 0.3);
+}
+
+.networth-label {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 8px;
+}
+
+.networth-value {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.networth-detail {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+
+.networth-item {
+  flex: 1;
+  text-align: center;
+}
+
+.networth-item-label {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-bottom: 4px;
+}
+
+.networth-item-value {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.networth-item-value.amount-income {
+  color: #FFFFFF;
+}
+
+.networth-item-value.amount-expense {
+  color: #FFD0D0;
+}
+
+.networth-divider {
+  width: 1px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.networth-arrow {
+  text-align: right;
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 12px;
+}
+
+/* 本月收支 */
+.month-card {
+  padding: 20px 16px;
+}
+
+.month-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 16px;
+}
+
+.month-items {
+  display: flex;
+}
+
+.month-item {
+  flex: 1;
+  text-align: center;
+}
+
+.month-item-label {
+  font-size: 13px;
+  color: #999999;
+  margin-bottom: 8px;
+}
+
+.month-item-value {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* 预算卡片 */
+.budget-card {
+  padding: 20px 16px;
+}
+
+.budget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.budget-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+}
+
+.budget-percent {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.text-primary { color: #07C160; }
+.text-warning { color: #FF9800; }
+.text-danger { color: #FA5151; }
+
+.budget-alert {
+  font-size: 12px;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.budget-alert-warning {
+  background: #FFF8E1;
+  color: #E65100;
+}
+
+.budget-alert-danger {
+  background: #FFEBEE;
+  color: #C62828;
+}
+
+/* 交易列表 */
+.transaction-card {
+  padding: 16px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 12px;
+}
+
+.section-empty {
+  text-align: center;
+  color: #999999;
+  font-size: 13px;
+  padding: 20px 0;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.transaction-item + .transaction-item {
+  border-top: 1rpx solid #F0F0F0;
+}
+
+.transaction-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.transaction-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #F5F5F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.transaction-icon {
+  font-size: 20px;
+}
+
+.transaction-info {
+  min-width: 0;
+}
+
+.transaction-name {
+  font-size: 15px;
+  color: #333333;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transaction-meta {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.transaction-date {
+  font-size: 12px;
+  color: #999999;
+}
+
+.transaction-account {
+  font-size: 12px;
+  color: #999999;
+  margin-left: 8px;
+  padding-left: 8px;
+  border-left: 1rpx solid #E5E5E5;
+}
+
+.transaction-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.transaction-desc {
+  font-size: 12px;
+  color: #BBBBBB;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 4px;
+}
+
+.transaction-amount {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* 空状态扩展 */
+.empty-state-sub {
+  font-size: 13px;
+  color: #BBBBBB;
+  margin-top: 4px;
+  margin-bottom: 20px;
+}

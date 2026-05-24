@@ -1,0 +1,177 @@
+/* pages/reports/comparison.wxss - 对比分析样式 */
+page {
+  background-color: #F5F5F5;
+}
+.container {
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+/* 时间段选择 */
+.period-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 10px;
+}
+.period-block {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.period-label {
+  display: block;
+  font-size: 12px;
+  color: #999999;
+  margin-bottom: 6px;
+}
+.period-picker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333333;
+}
+.picker-arrow {
+  font-size: 10px;
+  color: #07C160;
+}
+.vs-text {
+  font-size: 16px;
+  font-weight: bold;
+  color: #999999;
+  padding: 0 4px;
+}
+
+/* 对比表格 */
+.comparison-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.comparison-table {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+.table-header {
+  display: flex;
+  padding: 12px 16px;
+  background: #F5F5F5;
+}
+.table-row {
+  display: flex;
+  padding: 12px 16px;
+  border-bottom: 1px solid #F0F0F0;
+}
+.table-row:last-child {
+  border-bottom: none;
+}
+.total-row {
+  background: #F9F9F9;
+}
+.table-col {
+  font-size: 14px;
+  color: #333333;
+}
+.label-col {
+  flex: 1;
+  font-weight: 500;
+}
+.value-col {
+  width: 90px;
+  text-align: right;
+}
+.change-col {
+  width: 80px;
+  text-align: right;
+  font-weight: bold;
+}
+.change-up {
+  color: #07C160;
+}
+.change-down {
+  color: #FA5151;
+}
+
+/* 对比条 */
+.bar-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.bar-title {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 12px;
+}
+.bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bar-month-label {
+  width: 50px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #333333;
+}
+.bar-track {
+  flex: 1;
+  height: 10px;
+  background: #F0F0F0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 5px;
+}
+.income-fill {
+  background: #07C160;
+}
+.income-fill2 {
+  background: #4CAF50;
+}
+.expense-fill {
+  background: #FA5151;
+}
+.expense-fill2 {
+  background: #F44336;
+}
+.bar-value {
+  width: 80px;
+  font-size: 13px;
+  text-align: right;
+  color: #333333;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+}
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+.empty-text {
+  font-size: 14px;
+  color: #999999;
+}

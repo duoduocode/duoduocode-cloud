@@ -1,0 +1,51 @@
+<!-- pages/reports/trend.wxml - 趋势图表 -->
+<view class="container">
+  <!-- 年份选择 -->
+  <view class="year-picker">
+    <picker mode="date" fields="year" value="{{selectedYear}}" bindchange="onYearChange">
+      <view class="picker-display">
+        <text class="picker-label">{{selectedYear}}年</text>
+        <text class="picker-arrow">▼</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- Canvas折线图 -->
+  <view class="chart-section">
+    <text class="chart-title">资产趋势</text>
+    <canvas canvas-id="lineChart" class="line-chart" style="width: 360px; height: 320px;"></canvas>
+  </view>
+
+  <!-- 图例 -->
+  <view class="legend-row">
+    <view class="legend-item">
+      <view class="legend-dot assets-dot"></view>
+      <text class="legend-text">资产</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot liabilities-dot"></view>
+      <text class="legend-text">负债</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot networth-dot"></view>
+      <text class="legend-text">净资产</text>
+    </view>
+  </view>
+
+  <!-- 月度数据明细 -->
+  <view class="detail-section">
+    <text class="section-title">月度明细</text>
+    <view class="detail-header">
+      <text class="detail-col month-col">月份</text>
+      <text class="detail-col amount-col">资产</text>
+      <text class="detail-col amount-col">负债</text>
+      <text class="detail-col amount-col">净资产</text>
+    </view>
+    <view class="detail-row" wx:for="{{dataList}}" wx:key="month">
+      <text class="detail-col month-col">{{item.monthText}}</text>
+      <text class="detail-col amount-col">{{item.assetsText}}</text>
+      <text class="detail-col amount-col liability-color">{{item.liabilitiesText}}</text>
+      <text class="detail-col amount-col">{{item.netWorthText}}</text>
+    </view>
+  </view>
+</view>

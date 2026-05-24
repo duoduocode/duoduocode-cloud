@@ -1,0 +1,89 @@
+<!-- pages/templates/create/create.wxml -->
+<view class="container">
+  <!-- 类型 -->
+  <view class="card">
+    <view class="form-item column">
+      <text class="form-label required">交易类型</text>
+      <view class="type-radio-group">
+        <view class="type-radio {{transactionType === 'expense' ? 'active' : ''}}" bindtap="switchType" data-type="expense">
+          <text>支出</text>
+        </view>
+        <view class="type-radio {{transactionType === 'income' ? 'active' : ''}}" bindtap="switchType" data-type="income">
+          <text>收入</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="card">
+    <view class="form-item">
+      <text class="form-label required">名称</text>
+      <input class="form-input" placeholder="例如：每月房租" value="{{name}}" bindinput="onNameInput"/>
+    </view>
+    <view class="form-item">
+      <text class="form-label required">金额</text>
+      <view class="form-input-wrap">
+        <text class="prefix">￥</text>
+        <input class="form-input" type="digit" placeholder="0.00" value="{{amount}}" bindinput="onAmountInput"/>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分类和账户 -->
+  <view class="card">
+    <view class="form-item">
+      <text class="form-label required">分类</text>
+      <picker mode="selector" range="{{categories}}" range-key="name" bindchange="onCategoryChange">
+        <view class="picker-value">{{selectedCategoryName || '请选择'}}</view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <text class="form-label">账户</text>
+      <picker mode="selector" range="{{accounts}}" range-key="name" bindchange="onAccountChange">
+        <view class="picker-value">{{selectedAccountName || '默认'}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 频率 -->
+  <view class="card">
+    <view class="form-item">
+      <text class="form-label required">频率</text>
+      <picker mode="selector" range="{{frequencyOptions}}" bindchange="onFrequencyChange">
+        <view class="picker-value">{{frequencyOptions[frequencyIndex] || '请选择'}}</view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <text class="form-label">起始日期</text>
+      <picker mode="date" value="{{startDate}}" bindchange="onStartDateChange">
+        <view class="picker-value">{{startDate || '今天'}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 终止条件 -->
+  <view class="card">
+    <view class="form-item column">
+      <text class="form-label">终止条件 (可选)</text>
+      <view class="termination-group">
+        <view class="termination-option" bindtap="setTermination" data-type="count">
+          <text>执行</text>
+          <input class="termination-count-input" type="number" value="{{terminationCount}}" bindinput="onTerminationCountInput" placeholder="次数"/>
+          <text>次后终止</text>
+        </view>
+        <view class="termination-option" bindtap="setTermination" data-type="date">
+          <text>截止日期</text>
+          <picker mode="date" value="{{terminationDate}}" bindchange="onTerminationDateChange">
+            <view class="termination-date-picker">{{terminationDate || '选择日期'}}</view>
+          </picker>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 提交 -->
+  <view class="submit-btn" bindtap="submit">
+    <text>{{isEdit ? '更新模板' : '创建模板'}}</text>
+  </view>
+</view>

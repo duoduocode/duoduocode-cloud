@@ -1,0 +1,70 @@
+<!-- pages/budget/special/create/create.wxml -->
+<view class="container">
+  <!-- 名称 -->
+  <view class="card">
+    <view class="form-item">
+      <text class="form-label">名称</text>
+      <input class="form-input" placeholder="例如：618购物预算" value="{{name}}" bindinput="onNameInput"/>
+    </view>
+  </view>
+
+  <!-- 金额 -->
+  <view class="card">
+    <view class="form-item">
+      <text class="form-label">预算金额</text>
+      <view class="form-input-wrap">
+        <text class="prefix">￥</text>
+        <input class="form-input" type="digit" placeholder="0.00" value="{{totalAmount}}" bindinput="onAmountInput"/>
+      </view>
+    </view>
+  </view>
+
+  <!-- 起止日期 -->
+  <view class="card">
+    <view class="form-item">
+      <text class="form-label">开始日期</text>
+      <picker mode="date" value="{{startDate}}" bindchange="onStartDateChange">
+        <view class="picker-value">{{startDate || '请选择'}}</view>
+      </picker>
+    </view>
+    <view class="form-divider"></view>
+    <view class="form-item">
+      <text class="form-label">结束日期</text>
+      <picker mode="date" value="{{endDate}}" bindchange="onEndDateChange">
+        <view class="picker-value">{{endDate || '请选择'}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 备注 -->
+  <view class="card">
+    <view class="form-item column">
+      <text class="form-label">备注</text>
+      <textarea class="form-textarea" placeholder="预算说明（选填）" value="{{note}}" bindinput="onNoteInput" maxlength="200"/>
+    </view>
+  </view>
+
+  <!-- 关联分类 -->
+  <view class="card">
+    <view class="form-item column">
+      <text class="form-label">关联分类（可多选）</text>
+      <view class="category-grid">
+        <block wx:if="{{categories.length > 0}}">
+          <view class="cat-chip {{selectedCategoryIds.indexOf(item.id) > -1 ? 'selected' : ''}}"
+                wx:for="{{categories}}" wx:key="id"
+                bindtap="toggleCategory" data-id="{{item.id}}">
+            <text>{{item.name}}</text>
+          </view>
+        </block>
+        <block wx:else>
+          <text class="empty-tip">暂无可用分类</text>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-btn {{submitting ? 'disabled' : ''}}" bindtap="submit">
+    <text>{{submitting ? '创建中...' : '创建专项预算'}}</text>
+  </view>
+</view>

@@ -1,0 +1,45 @@
+<!-- pages/budget/special/list/list.wxml -->
+<view class="container">
+  <!-- 筛选Tab -->
+  <view class="tab-bar">
+    <view class="tab-item {{currentTab === 'ongoing' ? 'active' : ''}}" bindtap="switchTab" data-tab="ongoing">进行中</view>
+    <view class="tab-item {{currentTab === 'completed' ? 'active' : ''}}" bindtap="switchTab" data-tab="completed">已完成</view>
+  </view>
+
+  <!-- 列表 -->
+  <scroll-view class="list-scroll" scroll-y="true" bindscrolltolower="loadMore" lower-threshold="100">
+    <block wx:if="{{budgets.length > 0}}">
+      <view class="budget-card card" wx:for="{{budgets}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+        <view class="card-top">
+          <view class="card-left">
+            <text class="budget-name">{{item.name}}</text>
+            <text class="budget-amount">￥{{item.spentAmount}} / ￥{{item.totalAmount}}</text>
+          </view>
+          <view class="card-right">
+            <text class="budget-percent">{{item.percent}}%</text>
+          </view>
+        </view>
+        <view class="progress-bar">
+          <view class="progress-fill {{item.percent >= 80 ? 'warn' : ''}}" style="width: {{item.percent}}%"></view>
+        </view>
+        <view class="card-bottom">
+          <text class="budget-date">{{item.startDate}} ~ {{item.endDate}}</text>
+          <text class="budget-days" wx:if="{{currentTab === 'ongoing'}}">剩余{{item.remainDays}}天</text>
+          <text class="budget-status completed" wx:if="{{currentTab === 'completed'}}">已完成</text>
+        </view>
+      </view>
+      <view class="loading-tip" wx:if="{{loading}}">加载中...</view>
+      <view class="loading-tip" wx:elif="{{!hasMore}}">没有更多了</view>
+    </block>
+    <block wx:else>
+      <view class="empty-tip">
+        <text>{{currentTab === 'ongoing' ? '暂无进行中的专项预算' : '暂无已完成的专项预算'}}</text>
+      </view>
+    </block>
+  </scroll-view>
+
+  <!-- 创建按钮 -->
+  <view class="create-fab" bindtap="goCreate">
+    <text>+</text>
+  </view>
+</view>

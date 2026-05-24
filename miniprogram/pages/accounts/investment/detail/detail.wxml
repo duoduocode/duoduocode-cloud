@@ -1,0 +1,47 @@
+<!-- pages/accounts/investment/detail.wxml - 投资账户详情页 -->
+<view class="container">
+  <!-- 账户信息头部 -->
+  <view class="account-header">
+    <view class="account-icon-large" style="background-color: {{account.color || '#FF9800'}}">
+      <text>{{account.icon || '📈'}}</text>
+    </view>
+    <text class="account-name-large">{{account.name}}</text>
+    <text class="account-balance-large">{{account.balanceText}}</text>
+  </view>
+
+  <!-- 市值/成本/浮盈/收益率 -->
+  <view class="metrics-section">
+    <view class="metrics-row">
+      <view class="metric-card">
+        <text class="metric-label">当前市值</text>
+        <text class="metric-value">{{marketValueText}}</text>
+      </view>
+      <view class="metric-card">
+        <text class="metric-label">成本</text>
+        <text class="metric-value">{{costBasisText}}</text>
+      </view>
+    </view>
+    <view class="metrics-row">
+      <view class="metric-card">
+        <text class="metric-label">累计收益</text>
+        <text class="metric-value">{{totalIncomeText}}</text>
+      </view>
+      <view class="metric-card">
+        <text class="metric-label">浮盈</text>
+        <text class="metric-value {{floatProfit >= 0 ? 'profit-positive' : 'profit-negative'}}">{{floatProfitText}}</text>
+      </view>
+    </view>
+    <view class="profit-rate-row">
+      <text class="profit-rate-label">收益率</text>
+      <text class="profit-rate-value {{profitRate >= 0 ? 'profit-positive' : 'profit-negative'}}">
+        {{profitRateText}}
+      </text>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-row">
+    <view class="action-btn primary" bindtap="goUpdateValue">更新市值</view>
+    <view class="action-btn primary" bindtap="goRecordIncome">记录收益</view>
+  </view>
+</view>

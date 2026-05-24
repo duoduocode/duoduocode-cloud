@@ -1,0 +1,141 @@
+<!-- 转账记账页 -->
+<scroll-view scroll-y="true" class="expense-page">
+
+  <!-- 金额输入区 -->
+  <view class="amount-section">
+    <view class="amount-label">转账金额</view>
+    <view class="amount-input-wrap">
+      <text class="amount-currency">¥</text>
+      <input class="amount-input" type="digit" placeholder="0.00" value="{{amount}}"
+        focus="true" bindinput="onAmountInput" />
+    </view>
+  </view>
+
+  <!-- 分录预览 -->
+  <view wx:if="{{fromAccount || toAccount}}" class="entry-preview">
+    <view class="entry-title">分录预览</view>
+    <view class="entry-table">
+      <view class="entry-header">
+        <text class="entry-col-account">账户</text>
+        <text class="entry-col-debit">借方</text>
+        <text class="entry-col-credit">贷方</text>
+      </view>
+      <view wx:if="{{toAccount}}" class="entry-row">
+        <text class="entry-col-account">
+          <text class="entry-tag entry-tag-debit">借</text>
+          {{toAccount.icon || '💳'}} {{toAccount.name}}
+        </text>
+        <text class="entry-col-debit amount-income">¥{{amount || '0.00'}}</text>
+        <text class="entry-col-credit"></text>
+      </view>
+      <view wx:if="{{fromAccount}}" class="entry-row">
+        <text class="entry-col-account">
+          <text class="entry-tag entry-tag-credit">贷</text>
+          {{fromAccount.icon || '💳'}} {{fromAccount.name}}
+        </text>
+        <text class="entry-col-debit"></text>
+        <text class="entry-col-credit amount-expense">¥{{amount || '0.00'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 余额警告 -->
+  <view wx:if="{{balanceWarning}}" class="balance-warning">
+    <text class="balance-warning-icon">/!\</text>
+    <text>{{balanceWarning}}</text>
+  </view>
+
+  <!-- 选择区域 -->
+  <view class="form-section">
+    <view class="form-item" bindtap="openFromAccountPicker">
+      <view class="form-item-left">
+        <view class="form-item-label">
+          <text class="form-tag form-tag-credit">贷</text>
+          转出账户
+        </view>
+        <view class="form-item-desc">资产减少</view>
+      </view>
+      <view class="form-item-right">
+        <text wx:if="{{fromAccount}}" class="form-item-selected">
+          {{fromAccount.icon || '💳'}} {{fromAccount.name}}
+        </text>
+        <text wx:else class="form-item-placeholder">请选择</text>
+        <text class="form-item-arrow">></text>
+      </view>
+    </view>
+
+    <view class="form-item" bindtap="openToAccountPicker">
+      <view class="form-item-left">
+        <view class="form-item-label">
+          <text class="form-tag form-tag-debit">借</text>
+          转入账户
+        </view>
+        <view class="form-item-desc">资产增加</view>
+      </view>
+      <view class="form-item-right">
+        <text wx:if="{{toAccount}}" class="form-item-selected">
+          {{toAccount.icon || '💳'}} {{toAccount.name}}
+        </text>
+        <text wx:else class="form-item-placeholder">请选择</text>
+        <text class="form-item-arrow">></text>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="form-item-left"><view class="form-item-label">日期</view></view>
+      <view class="form-item-right">
+        <picker mode="date" value="{{date}}" bindchange="onDateChange">
+          <text class="form-item-value">{{date}}</text>
+        </picker>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="form-item-left"><view class="form-item-label">时间</view></view>
+      <view class="form-item-right">
+        <picker mode="time" value="{{time}}" bindchange="onTimeChange">
+          <text class="form-item-value">{{time}}</text>
+        </picker>
+      </view>
+    </view>
+
+    <view class="form-item form-item-notes">
+      <view class="form-item-left"><view class="form-item-label">备注</view></view>
+      <view class="form-item-right">
+        <input class="desc-input" placeholder="添加备注..." value="{{description}}" bindinput="onDescInput" />
+      </view>
+    </view>
+  </view>
+
+  <view class="btn-group">
+    <button class="btn-save" bindtap="onSave" loading="{{saving}}" disabled="{{saving}}">保存</button>
+    <button class="btn-cancel" bindtap="onCancel">取消</button>
+  </view>
+
+  <view style="height: 40px;"></view>
+
+</scroll-view>
+
+<!-- ========== 账户选择弹窗 ========== -->
+<view wx:if="{{showAccountPicker}}" class="modal-overlay" bindtap="closeAccountPicker">
+  <view class="bottom-sheet" catchtap="">
+    <view class="sheet-header">
+      <view class="sheet-title">{{pickerTitle}}</view>
+      <view class="sheet-close" bindtap="closeAccountPicker">关闭</view>
+    </view>
+    <scroll-view scroll-y="true" class="sheet-body">
+      <block wx:for="{{pickerAccounts}}" wx:key="id">
+        <view class="sheet-item {{pickerSelectedId === item.id ? 'sheet-item-active' : ''}}"
+          data-id="{{item.id}}" bindtap="onSelectAccount">
+          <text class="sheet-item-icon">{{item.icon || '💳'}}</text>
+          <view class="sheet-item-info">
+            <text class="sheet-item-name">{{item.name}}</text>
+            <text class="sheet-item-sub">余额: ¥{{item.balance || 0}}</text>
+          </view>
+          <view wx:if="{{pickerSelectedId === item.id}}" class="sheet-item-check">√</view>
+        </view>
+      </block>
+      <view wx:if="{{pickerAccounts.length === 0}}" class="sheet-empty">暂无可用账户</view>
+    </scroll-view>
+  </view>
+</view>

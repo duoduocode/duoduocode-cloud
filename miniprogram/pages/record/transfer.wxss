@@ -1,0 +1,18 @@
+/* 转账页样式 - 复用支出页 */
+@import './expense.wxss';
+
+.balance-warning {
+  background: #FFF3E0;
+  padding: 10px 16px;
+  margin: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #E65100;
+  display: flex;
+  align-items: center;
+}
+
+.balance-warning-icon {
+  margin-right: 6px;
+  font-size: 16px;
+}

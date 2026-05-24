@@ -1,0 +1,209 @@
+<!-- 收入记账页 -->
+<scroll-view scroll-y="true" class="expense-page">
+
+  <!-- 金额输入区 -->
+  <view class="amount-section">
+    <view class="amount-label">金额</view>
+    <view class="amount-input-wrap">
+      <text class="amount-currency">¥</text>
+      <input class="amount-input" type="digit" placeholder="0.00" value="{{amount}}"
+        focus="true" bindinput="onAmountInput" />
+    </view>
+  </view>
+
+  <!-- 分录预览 -->
+  <view wx:if="{{selectedAccount || selectedCategory}}" class="entry-preview">
+    <view class="entry-title">分录预览（简化模式）</view>
+    <view class="entry-table">
+      <view class="entry-header">
+        <text class="entry-col-account">账户/分类</text>
+        <text class="entry-col-debit">借方</text>
+        <text class="entry-col-credit">贷方</text>
+      </view>
+      <!-- 借方: 资产增加（到账户） -->
+      <view wx:if="{{selectedAccount}}" class="entry-row">
+        <text class="entry-col-account">
+          <text class="entry-tag entry-tag-debit">借</text>
+          {{selectedAccount.icon || '💳'}} {{selectedAccount.name}}
+        </text>
+        <text class="entry-col-debit amount-income">¥{{amount || '0.00'}}</text>
+        <text class="entry-col-credit"></text>
+      </view>
+      <!-- 贷方: 收入增加（收入项目） -->
+      <view wx:if="{{selectedCategory}}" class="entry-row">
+        <text class="entry-col-account">
+          <text class="entry-tag entry-tag-credit">贷</text>
+          {{selectedCategory.icon || '📋'}} {{selectedCategory.name}}
+        </text>
+        <text class="entry-col-debit"></text>
+        <text class="entry-col-credit amount-income">¥{{amount || '0.00'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 选择区域 -->
+  <view class="form-section">
+    <!-- 收入项目（贷方: 收入增加） -->
+    <view class="form-item" bindtap="openCategoryPicker">
+      <view class="form-item-left">
+        <view class="form-item-label">
+          <text class="form-tag form-tag-credit">贷</text>
+          收入项目
+        </view>
+        <view class="form-item-desc">收入增加</view>
+      </view>
+      <view class="form-item-right">
+        <text wx:if="{{selectedCategory}}" class="form-item-selected">
+          {{selectedCategory.icon || '📋'}} {{selectedCategory.name}}
+        </text>
+        <text wx:else class="form-item-placeholder">请选择</text>
+        <text class="form-item-arrow">></text>
+      </view>
+    </view>
+
+    <!-- 到账户（借方: 资产增加） -->
+    <view class="form-item" bindtap="openAccountPicker">
+      <view class="form-item-left">
+        <view class="form-item-label">
+          <text class="form-tag form-tag-debit">借</text>
+          到账户
+        </view>
+        <view class="form-item-desc">资产增加</view>
+      </view>
+      <view class="form-item-right">
+        <text wx:if="{{selectedAccount}}" class="form-item-selected">
+          {{selectedAccount.icon || '💳'}} {{selectedAccount.name}}
+        </text>
+        <text wx:else class="form-item-placeholder">请选择</text>
+        <text class="form-item-arrow">></text>
+      </view>
+    </view>
+
+    <!-- 日期 -->
+    <view class="form-item">
+      <view class="form-item-left">
+        <view class="form-item-label">日期</view>
+      </view>
+      <view class="form-item-right">
+        <picker mode="date" value="{{date}}" bindchange="onDateChange">
+          <text class="form-item-value">{{date}}</text>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 时间 -->
+    <view class="form-item">
+      <view class="form-item-left">
+        <view class="form-item-label">时间</view>
+      </view>
+      <view class="form-item-right">
+        <picker mode="time" value="{{time}}" bindchange="onTimeChange">
+          <text class="form-item-value">{{time}}</text>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 备注 -->
+    <view class="form-item form-item-notes">
+      <view class="form-item-left">
+        <view class="form-item-label">备注</view>
+      </view>
+      <view class="form-item-right">
+        <input class="desc-input" placeholder="添加备注..." value="{{description}}" bindinput="onDescInput" />
+      </view>
+    </view>
+
+    <!-- 标签选择 -->
+    <view class="form-item" bindtap="openTagPicker">
+      <view class="form-item-left">
+        <view class="form-item-label">标签</view>
+      </view>
+      <view class="form-item-right">
+        <text wx:if="{{selectedTags.length > 0}}" class="form-item-selected">已选 {{selectedTags.length}} 个</text>
+        <text wx:else class="form-item-placeholder">选择标签</text>
+        <text class="form-item-arrow">></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="btn-group">
+    <button class="btn-save" bindtap="onSave" loading="{{saving}}" disabled="{{saving}}">保存</button>
+    <button class="btn-cancel" bindtap="onCancel">取消</button>
+  </view>
+
+  <view style="height: 40px;"></view>
+</scroll-view>
+
+<!-- ========== 账户选择弹窗 ========== -->
+<view wx:if="{{showAccountPicker}}" class="modal-overlay" bindtap="closeAccountPicker">
+  <view class="bottom-sheet" catchtap="">
+    <view class="sheet-header">
+      <view class="sheet-title">选择到账账户</view>
+      <view class="sheet-close" bindtap="closeAccountPicker">关闭</view>
+    </view>
+    <scroll-view scroll-y="true" class="sheet-body">
+      <block wx:for="{{accounts}}" wx:key="id">
+        <view class="sheet-item {{selectedAccount.id === item.id ? 'sheet-item-active' : ''}}"
+          data-id="{{item.id}}" bindtap="onSelectAccount">
+          <text class="sheet-item-icon">{{item.icon || '💳'}}</text>
+          <view class="sheet-item-info">
+            <text class="sheet-item-name">{{item.name}}</text>
+            <text class="sheet-item-sub">余额: ¥{{item.balance || 0}}</text>
+          </view>
+          <view wx:if="{{selectedAccount.id === item.id}}" class="sheet-item-check">✓</view>
+        </view>
+      </block>
+      <view wx:if="{{accounts.length === 0}}" class="sheet-empty">暂无账户</view>
+    </scroll-view>
+  </view>
+</view>
+
+<!-- ========== 分类选择弹窗 ========== -->
+<view wx:if="{{showCategoryPicker}}" class="modal-overlay" bindtap="closeCategoryPicker">
+  <view class="bottom-sheet" catchtap="">
+    <view class="sheet-header">
+      <view class="sheet-title">选择收入项目</view>
+      <view class="sheet-close" bindtap="closeCategoryPicker">关闭</view>
+    </view>
+    <view class="category-picker-body">
+      <scroll-view scroll-y="true" class="category-parent-list">
+        <block wx:for="{{parentCategories}}" wx:key="id" wx:for-index="idx">
+          <view class="category-parent-item {{activeParentIndex === idx ? 'category-parent-active' : ''}}"
+            data-index="{{idx}}" bindtap="onSelectParentCategory">
+            <text>{{item.icon || '📋'}} {{item.name}}</text>
+          </view>
+        </block>
+      </scroll-view>
+      <scroll-view scroll-y="true" class="category-child-list">
+        <block wx:for="{{currentSubCategories}}" wx:key="id">
+          <view class="category-child-item {{selectedCategory.id === item.id ? 'category-child-active' : ''}}"
+            data-id="{{item.id}}" data-name="{{item.name}}" data-icon="{{item.icon}}"
+            bindtap="onSelectSubCategory">
+            <text>{{item.icon || '📋'}} {{item.name}}</text>
+          </view>
+        </block>
+        <view wx:if="{{currentSubCategories.length === 0}}" class="sheet-empty">暂无子分类</view>
+      </scroll-view>
+    </view>
+  </view>
+</view>
+
+<!-- ========== 标签选择弹窗 ========== -->
+<view wx:if="{{showTagPicker}}" class="modal-overlay" bindtap="closeTagPicker">
+  <view class="bottom-sheet" catchtap="">
+    <view class="sheet-header">
+      <view class="sheet-title">选择标签</view>
+      <view class="sheet-close" bindtap="closeTagPicker">确定</view>
+    </view>
+    <view class="tag-grid">
+      <block wx:for="{{tags}}" wx:key="id">
+        <view class="tag-item {{selectedTags.indexOf(item.id) > -1 ? 'tag-item-active' : ''}}"
+          data-id="{{item.id}}" bindtap="onToggleTag">
+          <text>{{item.name}}</text>
+        </view>
+      </block>
+      <view wx:if="{{tags.length === 0}}" class="sheet-empty">暂无标签</view>
+    </view>
+  </view>
+</view>

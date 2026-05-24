@@ -1,0 +1,98 @@
+<!-- pages/accounts/accounts.wxml - 账户列表页(Tab页) -->
+<view class="container">
+  <!-- 净资产卡片 -->
+  <view class="net-worth-card">
+    <view class="net-worth-header">
+      <text class="net-worth-label">净资产</text>
+      <text class="net-worth-value">{{netWorthText}}</text>
+    </view>
+    <view class="net-worth-detail">
+      <view class="net-worth-item">
+        <text class="net-worth-item-label">总资产</text>
+        <text class="net-worth-item-value asset-color">{{totalAssetsText}}</text>
+      </view>
+      <view class="net-worth-divider"></view>
+      <view class="net-worth-item">
+        <text class="net-worth-item-label">总负债</text>
+        <text class="net-worth-item-value liability-color">{{totalLiabilitiesText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 资产账户分组 -->
+  <view class="section" wx:if="{{assetAccounts.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">资产账户</text>
+      <text class="section-total">{{assetTotalText}}</text>
+    </view>
+    <view class="account-card" wx:for="{{assetAccounts}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="account-icon" style="background-color: {{item.color || '#07C160'}}">
+        <text>{{item.icon || '💰'}}</text>
+      </view>
+      <view class="account-info">
+        <text class="account-name">{{item.name}}</text>
+      </view>
+      <view class="account-balance">
+        <text class="balance-value">{{item.balanceText}}</text>
+      </view>
+      <view class="account-arrow">
+        <text class="arrow-icon">></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 负债账户分组 -->
+  <view class="section" wx:if="{{liabilityAccounts.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">负债账户</text>
+      <text class="section-total liability-color">{{liabilityTotalText}}</text>
+    </view>
+    <view class="account-card" wx:for="{{liabilityAccounts}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="account-icon" style="background-color: {{item.color || '#FA5151'}}">
+        <text>{{item.icon || '💳'}}</text>
+      </view>
+      <view class="account-info">
+        <text class="account-name">{{item.name}}</text>
+      </view>
+      <view class="account-balance">
+        <text class="balance-value liability-color">{{item.balanceText}}</text>
+      </view>
+      <view class="account-arrow">
+        <text class="arrow-icon">></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 投资账户分组 -->
+  <view class="section" wx:if="{{investmentAccounts.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">投资账户</text>
+      <text class="section-total">{{investmentTotalText}}</text>
+    </view>
+    <view class="account-card" wx:for="{{investmentAccounts}}" wx:key="id" bindtap="goInvestDetail" data-id="{{item.id}}">
+      <view class="account-icon" style="background-color: {{item.color || '#FF9800'}}">
+        <text>{{item.icon || '📈'}}</text>
+      </view>
+      <view class="account-info">
+        <text class="account-name">{{item.name}}</text>
+      </view>
+      <view class="account-balance">
+        <text class="balance-value">{{item.balanceText}}</text>
+      </view>
+      <view class="account-arrow">
+        <text class="arrow-icon">></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{assetAccounts.length === 0 && liabilityAccounts.length === 0 && investmentAccounts.length === 0}}">
+    <text class="empty-icon">📂</text>
+    <text class="empty-text">还没有账户，点击右上角添加</text>
+  </view>
+
+  <!-- 右上角添加按钮 -->
+  <view class="add-fab" bindtap="goCreate">
+    <text class="add-fab-icon">+</text>
+  </view>
+</view>

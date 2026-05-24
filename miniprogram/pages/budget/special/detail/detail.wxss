@@ -1,0 +1,254 @@
+/* pages/budget/special/detail/detail.wxss */
+.container {
+  padding: 16px;
+  background: #F5F5F5;
+  min-height: 100vh;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+/* 进度环卡片 */
+.progress-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.progress-ring {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ring-canvas {
+  width: 130px;
+  height: 130px;
+}
+
+.ring-center {
+  position: absolute;
+  text-align: center;
+}
+
+.percent-num {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.percent-label {
+  font-size: 12px;
+  color: #999;
+  display: block;
+}
+
+.amount-info {
+  flex: 1;
+}
+
+.amount-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.amount-row:last-child {
+  border-bottom: none;
+}
+
+.amount-label {
+  font-size: 14px;
+  color: #999;
+}
+
+.amount-value {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+.amount-value.expense {
+  color: #FA5151;
+}
+
+.status-badge {
+  font-size: 13px;
+  padding: 2px 10px;
+  border-radius: 10px;
+}
+
+.status-badge.ongoing {
+  background: #FFF3E0;
+  color: #FF9800;
+}
+
+.status-badge.completed {
+  background: #E8F8EF;
+  color: #07C160;
+}
+
+/* 信息行 */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 14px;
+  color: #999;
+}
+
+.info-value {
+  font-size: 15px;
+  color: #333;
+}
+
+.info-value.warn {
+  color: #FF9800;
+  font-weight: 500;
+}
+
+/* 分类列表 */
+.cat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cat-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.cat-info {
+  flex: 1;
+}
+
+.cat-name {
+  font-size: 14px;
+  color: #333;
+  display: block;
+}
+
+.cat-amount {
+  font-size: 12px;
+  color: #999;
+}
+
+.progress-bar.small {
+  width: 60px;
+  height: 4px;
+  background: #F0F0F0;
+  border-radius: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.progress-bar.small .progress-fill {
+  height: 100%;
+  background: #07C160;
+  border-radius: 2px;
+}
+
+/* 交易列表 */
+.tx-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tx-item:last-child {
+  border-bottom: none;
+}
+
+.tx-left {
+  flex: 1;
+}
+
+.tx-category {
+  font-size: 15px;
+  color: #333;
+  display: block;
+}
+
+.tx-desc {
+  font-size: 12px;
+  color: #999;
+  display: block;
+  margin-top: 2px;
+}
+
+.tx-date {
+  font-size: 11px;
+  color: #ccc;
+  margin-top: 2px;
+  display: block;
+}
+
+.tx-amount {
+  font-size: 16px;
+  font-weight: 500;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.tx-amount.expense {
+  color: #FA5151;
+}
+
+/* 结束按钮 */
+.end-btn {
+  text-align: center;
+  padding: 14px;
+  border: 1px solid #FA5151;
+  border-radius: 12px;
+  color: #FA5151;
+  font-size: 15px;
+  margin-top: 16px;
+}
+
+/* 加载 */
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading-text {
+  color: #999;
+  font-size: 15px;
+}

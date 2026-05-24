@@ -1,0 +1,26 @@
+<!-- pages/accounts/investment/value.wxml - 更新市值页 -->
+<view class="container">
+  <view class="form-section">
+    <text class="form-label">当前市值 <text class="required">*</text></text>
+    <input class="form-input" type="digit" placeholder="请输入当前市值" value="{{marketValue}}" bindinput="onValueInput" />
+  </view>
+
+  <view class="form-section">
+    <text class="form-label">日期 <text class="required">*</text></text>
+    <picker mode="date" value="{{date}}" bindchange="onDateChange">
+      <view class="form-picker">
+        <text>{{date || '请选择日期'}}</text>
+        <text class="picker-arrow">></text>
+      </view>
+    </picker>
+  </view>
+
+  <view class="form-section">
+    <text class="form-label">备注</text>
+    <input class="form-input" placeholder="备注信息（选填）" value="{{note}}" bindinput="onNoteInput" />
+  </view>
+
+  <view class="submit-section">
+    <button class="submit-btn" bindtap="submit">保存</button>
+  </view>
+</view>

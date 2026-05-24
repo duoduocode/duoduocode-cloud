@@ -1,0 +1,137 @@
+/* pages/mine/about/about.wxss */
+.container {
+  padding: 16px;
+  background: #F5F5F5;
+  min-height: 100vh;
+}
+
+/* Logo区域 */
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0 32px;
+}
+
+.logo-wrap {
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, #07C160, #06AD56);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(7, 193, 96, 0.3);
+}
+
+.logo-text {
+  font-size: 36px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.app-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.app-version {
+  font-size: 13px;
+  color: #999;
+}
+
+/* 功能介绍 */
+.info-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 14px;
+}
+
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feature-item {
+  display: flex;
+  gap: 8px;
+}
+
+.feature-dot {
+  color: #07C160;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.feature-text {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* 协议链接 */
+.links-section {
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+
+.link-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 15px;
+  color: #333;
+}
+
+.link-item:last-child {
+  border-bottom: none;
+}
+
+.arrow {
+  color: #ccc;
+  font-size: 14px;
+}
+
+.copyright {
+  text-align: center;
+  font-size: 12px;
+  color: #ccc;
+  padding: 16px 0;
+}
+
+/* 内容页 */
+.content-page {
+  padding: 16px;
+  background: #fff;
+  min-height: 100vh;
+}
+
+.content-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.content-body {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.8;
+  white-space: pre-line;
+}
