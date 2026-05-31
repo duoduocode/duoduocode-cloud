@@ -55,7 +55,9 @@ Page({
   async loadAccounts() {
     try {
       const data = await api.get('/accounts');
-      this.setData({ accounts: data || [] });
+      const grouped = (data && data.accounts) || {};
+      const all = (grouped.asset || []).concat(grouped.liability || []).concat(grouped.investment || []);
+      this.setData({ accounts: all });
     } catch (err) {
       console.error('加载账户失败:', err);
     }
@@ -135,8 +137,8 @@ Page({
     this.setData({ showCategoryPicker: false });
   },
   onSelectParentCategory(e) {
-    const index = e.currentTarget.dataset.index;
-    const parentCategories = this.data.parentCategories;
+    var index = Number(e.currentTarget.dataset.index);
+    var parentCategories = this.data.parentCategories;
     this.setData({
       activeParentIndex: index,
       currentSubCategories: parentCategories[index].children || []

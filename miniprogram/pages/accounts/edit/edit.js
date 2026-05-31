@@ -13,7 +13,8 @@ Page({
       initialBalance: '',
       creditLimit: '',
       includeInNetWorth: true,
-      allowTransfer: true
+      allowTransfer: true,
+      desc: ''
     },
     emojiList: ['💰','💳','🏦','💵','💎','📈','🏠','🚗','✈️','🎓','💊','🎵','🍔','👕','💻','📱','🎁','🐷','✨','⭐'],
     colorList: ['#07C160','#FA5151','#FF9800','#2196F3','#9C27B0','#00BCD4','#FF5722','#795548','#607D8B','#4CAF50','#FFEB3B','#E91E63']
@@ -39,7 +40,8 @@ Page({
           initialBalance: data.initialBalance != null ? String(data.initialBalance) : '',
           creditLimit: data.creditLimit != null ? String(data.creditLimit) : '',
           includeInNetWorth: data.includeInNetWorth !== false,
-          allowTransfer: data.allowTransfer !== false
+          allowTransfer: data.allowTransfer !== false,
+          desc: data.desc || ''
         }
       });
     });
@@ -57,16 +59,7 @@ Page({
     this.setData({ 'formData.creditLimit': e.detail.value });
   },
 
-  selectType: function (e) {
-    var type = e.currentTarget.dataset.type;
-    var iconMap = { asset: '💰', liability: '💳', investment: '📈' };
-    var colorMap = { asset: '#07C160', liability: '#FA5151', investment: '#FF9800' };
-    this.setData({
-      'formData.type': type,
-      'formData.icon': iconMap[type],
-      'formData.color': colorMap[type]
-    });
-  },
+  selectType: function () { },
 
   selectIcon: function (e) {
     this.setData({ 'formData.icon': e.currentTarget.dataset.icon });
@@ -84,21 +77,47 @@ Page({
     this.setData({ 'formData.allowTransfer': e.detail.value });
   },
 
+  onDescInput: function (e) {
+    this.setData({ 'formData.desc': e.detail.value });
+  },
+
+  // 数字正则：允许负数、小数点
+  _isValidNumber: function (val) {
+    return val === '' || /^-?\d+(\.\d+)?$/.test(val);
+  },
+
   submit: function () {
     var formData = this.data.formData;
-    if (!formData.name.trim()) {
+    var name = formData.name.trim();
+    if (!name) {
       wx.showToast({ title: '请输入账户名称', icon: 'none' });
+      return;
+    }
+    if (name.length > 50) {
+      wx.showToast({ title: '账户名称不能超过50个字符', icon: 'none' });
+      return;
+    }
+    if (formData.desc && formData.desc.trim().length > 200) {
+      wx.showToast({ title: '账户备注不能超过200个字符', icon: 'none' });
+      return;
+    }
+    if (!this._isValidNumber(formData.initialBalance)) {
+      wx.showToast({ title: '金额请输入有效数字', icon: 'none' });
+      return;
+    }
+    if (formData.type === 'liability' && !this._isValidNumber(formData.creditLimit)) {
+      wx.showToast({ title: '信用额度请输入有效数字', icon: 'none' });
       return;
     }
 
     var payload = {
       name: formData.name.trim(),
-      type: formData.type,
       icon: formData.icon,
       color: formData.color,
       initialBalance: parseFloat(formData.initialBalance) || 0,
       includeInNetWorth: formData.includeInNetWorth,
-      allowTransfer: formData.allowTransfer
+      allowTransfer: formData.allowTransfer,
+      desc: formData.desc.trim()
     };
 
     if (formData.type === 'liability') {

@@ -45,7 +45,9 @@ Page({
   async loadAccounts() {
     try {
       const data = await api.get('/accounts');
-      this.setData({ accounts: data || [] });
+      const grouped = (data && data.accounts) || {};
+      const all = (grouped.asset || []).concat(grouped.liability || []).concat(grouped.investment || []);
+      this.setData({ accounts: all });
     } catch (err) {
       console.error('加载账户失败:', err);
     }

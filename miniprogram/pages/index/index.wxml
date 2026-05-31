@@ -9,7 +9,7 @@
   <block wx:else>
 
     <!-- 空状态 -->
-    <view wx:if="{{!hasTransactions}}" class="empty-state">
+    <view wx:if="{{monthTransactionCount === 0 && accountCount === 0}}" class="empty-state">
       <view class="empty-icon">📒</view>
       <view class="empty-text">还没有记账记录</view>
       <view class="empty-text-sub">开始记录你的每一笔收支吧</view>
@@ -21,16 +21,24 @@
       <!-- 净资产卡片 -->
       <view class="networth-card" bindtap="goToBalanceSheet">
         <view class="networth-label">净资产</view>
-        <view class="networth-value">{{netWorth >= 0 ? '' : '-'}}¥{{formatAmount(netWorth)}}</view>
+        <view class="networth-value">{{netWorth >= 0 ? '' : '-'}}¥{{netWorth}}</view>
+        <view wx:if="{{netWorthChangePercent !== 0}}" class="networth-change {{netWorthChange >= 0 ? 'amount-income' : 'amount-expense'}}">
+          {{netWorthChange >= 0 ? '↑' : '↓'}} {{netWorthChange >= 0 ? '+' : ''}}¥{{netWorthChange}} ({{netWorthChangePercent}}%)
+        </view>
         <view class="networth-detail">
           <view class="networth-item">
             <view class="networth-item-label">总资产</view>
-            <view class="networth-item-value amount-income">¥{{formatAmount(totalAssets)}}</view>
+            <view class="networth-item-value amount-income">¥{{totalAssets}}</view>
           </view>
           <view class="networth-divider"></view>
           <view class="networth-item">
             <view class="networth-item-label">总负债</view>
-            <view class="networth-item-value amount-expense">¥{{formatAmount(totalLiabilities)}}</view>
+            <view class="networth-item-value amount-expense">¥{{totalLiabilities}}</view>
+          </view>
+          <view class="networth-divider"></view>
+          <view class="networth-item">
+            <view class="networth-item-label">总投资</view>
+            <view class="networth-item-value amount-invest">¥{{totalInvestments}}</view>
           </view>
         </view>
         <view class="networth-arrow">查看详情 ></view>
@@ -41,59 +49,65 @@
         <view class="month-title">本月收支</view>
         <view class="month-items">
           <view class="month-item">
-            <view class="month-item-label">收入</view>
-            <view class="month-item-value amount-income">+¥{{formatAmount(monthIncome)}}</view>
+            <view class="month-item-label">收入 ({{incomeCount}}笔)</view>
+            <view class="month-item-value amount-income">+¥{{totalIncome}}</view>
           </view>
           <view class="month-item">
-            <view class="month-item-label">支出</view>
-            <view class="month-item-value amount-expense">-¥{{formatAmount(monthExpense)}}</view>
+            <view class="month-item-label">支出 ({{expenseCount}}笔)</view>
+            <view class="month-item-value amount-expense">-¥{{totalExpense}}</view>
           </view>
           <view class="month-item">
             <view class="month-item-label">结余</view>
-            <view class="month-item-value {{monthBalance >= 0 ? 'amount-income' : 'amount-expense'}}">{{monthBalance >= 0 ? '+' : ''}}¥{{formatAmount(monthBalance)}}</view>
+            <view class="month-item-value {{netAmount >= 0 ? 'amount-income' : 'amount-expense'}}">{{netAmount >= 0 ? '+' : ''}}¥{{netAmount}}</view>
           </view>
         </view>
       </view>
 
-      <!-- 预算使用卡片 -->
-      <view class="card budget-card" bindtap="goToBudget" wx:if="{{budgetUsage > 0}}">
-        <view class="budget-header">
-          <view class="budget-title">预算使用</view>
-          <view class="budget-percent {{budgetDanger ? 'text-danger' : (budgetWarning ? 'text-warning' : 'text-primary')}}">{{budgetPercent}}%</view>
+      <!-- 今日/本周 -->
+      <view class="card today-card" wx:if="{{todayExpense > 0 || weekExpense > 0}}">
+        <view class="today-row">
+          <view class="today-item">
+            <view class="today-item-label">今日支出</view>
+            <view class="today-item-value amount-expense">¥{{todayExpense}}</view>
+          </view>
+          <view class="today-item">
+            <view class="today-item-label">本周支出</view>
+            <view class="today-item-value amount-expense">¥{{weekExpense}}</view>
+          </view>
         </view>
-        <view class="progress-bar">
-          <view class="progress-fill {{budgetDanger ? 'progress-danger' : (budgetWarning ? 'progress-warning' : '')}}" style="width: {{budgetPercent}}%;"></view>
-        </view>
-        <view wx:if="{{budgetDanger}}" class="budget-alert budget-alert-danger">预算已超支，请注意控制支出</view>
-        <view wx:elif="{{budgetWarning}}" class="budget-alert budget-alert-warning">预算已使用 {{budgetPercent}}%，请留意剩余额度</view>
       </view>
 
-      <!-- 最近交易 -->
-      <view class="card transaction-card">
-        <view class="section-title">最近交易</view>
-        <view wx:if="{{recentTransactions.length === 0}}" class="section-empty">暂无交易记录</view>
-        <block wx:for="{{recentTransactions}}" wx:key="id">
-          <view class="transaction-item" data-id="{{item.id}}" bindtap="goToTransaction">
-            <view class="transaction-left">
-              <view class="transaction-icon-wrap">
-                <text class="transaction-icon">{{item.categoryIcon || '📋'}}</text>
+      <!-- 支出TOP5分类 -->
+      <view class="card transaction-card" wx:if="{{topExpenseCategories.length > 0}}">
+        <view class="section-title">支出排行 TOP{{topExpenseCategories.length}}</view>
+        <block wx:for="{{topExpenseCategories}}" wx:key="categoryId">
+          <view class="top-category-item">
+            <view class="top-category-left">
+              <view class="top-category-icon-wrap">
+                <text class="top-category-icon">{{item.categoryIcon || '📋'}}</text>
               </view>
-              <view class="transaction-info">
-                <view class="transaction-name">{{item.categoryName || '未分类'}}</view>
-                <view class="transaction-meta">
-                  <text class="transaction-date">{{item.date}}</text>
-                  <text class="transaction-account">{{item.accountName || ''}}</text>
-                </view>
+              <view class="top-category-info">
+                <view class="top-category-name">{{item.categoryName}}</view>
+                <view class="top-category-count">{{item.transactionCount}}笔</view>
               </view>
             </view>
-            <view class="transaction-right">
-              <view class="transaction-desc">{{item.description || ''}}</view>
-              <view class="transaction-amount {{item.type === 'income' ? 'amount-income' : (item.type === 'expense' ? 'amount-expense' : 'amount-neutral')}}">
-                {{item.type === 'income' ? '+' : (item.type === 'expense' ? '-' : '')}}¥{{formatSignAmount(item.amount, item.type)}}
+            <view class="top-category-right">
+              <view class="top-category-amount amount-expense">¥{{item.amount}}</view>
+              <view class="progress-bar top-category-bar">
+                <view class="progress-fill progress-expense" style="width: {{item.percentage}}%;"></view>
               </view>
+              <view class="top-category-percent">{{item.percentage}}%</view>
             </view>
           </view>
         </block>
+      </view>
+
+      <view wx:if="{{monthTransactionCount > 0}}" class="card stats-card">
+        <view class="section-title">本月统计</view>
+        <view class="stats-row">
+          <view class="stat-item">共 {{monthTransactionCount}} 笔交易</view>
+          <view class="stat-item">{{accountCount}} 个账户</view>
+        </view>
       </view>
 
     </block>

@@ -47,12 +47,13 @@ Page({
   async loadAccounts() {
     try {
       const data = await api.get('/accounts');
-      const list = data || [];
-      const assetAccounts = list.filter(function(a) {
-        return !a.type || a.type === 'asset' || a.type === 'checking' ||
+      const grouped = (data && data.accounts) || {};
+      const all = (grouped.asset || []).concat(grouped.liability || []).concat(grouped.investment || []);
+      const assetAccounts = all.filter(function(a) {
+        return a.type === 'asset' || a.type === 'checking' ||
           a.type === 'savings' || a.type === 'cash' || a.type === 'investment';
       });
-      const liabilities = list.filter(function(a) {
+      const liabilities = all.filter(function(a) {
         return a.type === 'liability' || a.type === 'credit_card' || a.type === 'loan';
       });
       this.setData({

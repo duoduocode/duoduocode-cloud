@@ -1,32 +1,45 @@
 const { api } = require('../../utils/request');
+const app = getApp();
 
 Page({
   data: {
     loading: true,
     totalAssets: 0,
     totalLiabilities: 0,
+    totalInvestments: 0,
     netWorth: 0,
-    monthIncome: 0,
-    monthExpense: 0,
-    monthBalance: 0,
-    budgetUsage: 0,
-    budgetPercent: 0,
-    budgetWarning: false,
-    budgetDanger: false,
-    recentTransactions: [],
-    hasTransactions: false
+    netWorthChange: 0,
+    netWorthChangePercent: 0,
+    totalIncome: 0,
+    totalExpense: 0,
+    netAmount: 0,
+    todayExpense: 0,
+    weekExpense: 0,
+    accountCount: 0,
+    monthTransactionCount: 0,
+    topExpenseCategories: [],
+    incomeCount: 0,
+    expenseCount: 0
   },
 
   onLoad() {
-    this.loadDashboard();
+    this.checkLoginAndLoad();
   },
 
   onShow() {
+    this.checkLoginAndLoad();
+  },
+
+  checkLoginAndLoad() {
+    if (!app.globalData.isLogin) {
+      wx.reLaunch({ url: '/pages/onboarding/welcome/welcome' });
+      return;
+    }
     this.loadDashboard();
   },
 
   onPullDownRefresh() {
-    this.loadDashboard().then(() => {
+    this.loadDashboard().then(function() {
       wx.stopPullDownRefresh();
     });
   },
@@ -34,27 +47,33 @@ Page({
   async loadDashboard() {
     try {
       this.setData({ loading: true });
-      const data = await api.get('/dashboard');
+      var data = await api.get('/dashboard');
 
-      const netWorth = (data.totalAssets || 0) - (data.totalLiabilities || 0);
-      const monthBalance = (data.monthIncome || 0) - (data.monthExpense || 0);
-      const budgetPercent = data.budgetUsage ? Math.round(data.budgetUsage * 100) : 0;
-      const transactions = data.recentTransactions || [];
+      var netWorth = data.netWorth || 0;
+      var netWorthChange = data.netWorthChange || 0;
+      var netWorthChangePercent = data.netWorthChangePercent || 0;
+      var totalIncome = data.totalIncome || 0;
+      var totalExpense = data.totalExpense || 0;
+      var netAmount = data.netAmount || 0;
 
       this.setData({
         loading: false,
         totalAssets: data.totalAssets || 0,
         totalLiabilities: data.totalLiabilities || 0,
+        totalInvestments: data.totalInvestments || 0,
         netWorth: netWorth,
-        monthIncome: data.monthIncome || 0,
-        monthExpense: data.monthExpense || 0,
-        monthBalance: monthBalance,
-        budgetUsage: budgetPercent,
-        budgetPercent: Math.min(budgetPercent, 100),
-        budgetWarning: budgetPercent >= 80,
-        budgetDanger: budgetPercent >= 100,
-        recentTransactions: transactions.slice(0, 10),
-        hasTransactions: transactions.length > 0
+        netWorthChange: netWorthChange,
+        netWorthChangePercent: netWorthChangePercent,
+        totalIncome: totalIncome,
+        totalExpense: totalExpense,
+        netAmount: netAmount,
+        todayExpense: data.todayExpense || 0,
+        weekExpense: data.weekExpense || 0,
+        accountCount: data.accountCount || 0,
+        monthTransactionCount: data.monthTransactionCount || 0,
+        topExpenseCategories: data.topExpenseCategories || [],
+        incomeCount: data.incomeCount || 0,
+        expenseCount: data.expenseCount || 0
       });
     } catch (err) {
       this.setData({ loading: false });
@@ -67,34 +86,8 @@ Page({
     wx.navigateTo({ url: '/pages/reports/balance-sheet/balance-sheet' });
   },
 
-  // 跳转交易详情
-  goToTransaction(e) {
-    const id = e.currentTarget.dataset.id;
-    wx.navigateTo({ url: '/pages/transaction/detail/detail?id=' + id });
-  },
-
   // 跳转记账页
   goToRecord() {
     wx.switchTab({ url: '/pages/record/record' });
   },
-
-  // 跳转预算页
-  goToBudget() {
-    wx.navigateTo({ url: '/pages/budget/budget/budget' });
-  },
-
-  // 格式化金额
-  formatAmount(amount) {
-    const abs = Math.abs(amount);
-    if (abs >= 10000) {
-      return (abs / 10000).toFixed(2) + '万';
-    }
-    return abs.toFixed(2);
-  },
-
-  formatSignAmount(amount, type) {
-    const abs = Math.abs(amount).toFixed(2);
-    if (type === 'income') return '+' + abs;
-    return '-' + abs;
-  }
 });

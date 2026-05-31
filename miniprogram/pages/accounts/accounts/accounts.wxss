@@ -14,6 +14,22 @@ page {
   padding: 20px 16px;
   margin-bottom: 16px;
   color: #ffffff;
+  position: relative;
+}
+.net-worth-hint-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: bold;
+  color: #fff;
 }
 .net-worth-header {
   display: flex;
@@ -53,7 +69,10 @@ page {
   color: #ffffff;
 }
 .liability-color {
-  color: #FFD0D0;
+  color: #FFB74D;
+}
+.investment-color {
+  color: #FFE082;
 }
 .net-worth-divider {
   width: 1px;
@@ -103,33 +122,60 @@ page {
   justify-content: center;
   margin-right: 12px;
   font-size: 20px;
+  flex-shrink: 0;
 }
 .account-info {
   flex: 1;
+  min-width: 0;
 }
 .account-name {
   font-size: 15px;
   color: #333333;
   font-weight: 500;
+  margin-bottom: 4px;
 }
 .account-balance {
-  margin-right: 8px;
-}
-.balance-value {
   font-size: 16px;
   font-weight: bold;
   color: #333333;
 }
-.balance-value.liability-color {
+.account-balance.liability-color {
   color: #FA5151;
 }
-.account-arrow {
-  width: 20px;
-  text-align: center;
+
+.net-worth-item-value.liability-color {
+  color: #FFB74D;
 }
-.arrow-icon {
-  font-size: 14px;
-  color: #C0C0C0;
+.net-worth-item-value.investment-color {
+  color: #FFE082;
+}
+
+/* 操作区 */
+.account-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+.action-btn {
+  width: 52px;
+  height: 28px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+}
+.action-edit {
+  background: #F0F7FF;
+  color: #2196F3;
+  border: 1px solid #D6E4F0;
+}
+.action-delete {
+  background: #FFF0F0;
+  color: #FA5151;
+  border: 1px solid #F0D6D6;
 }
 
 /* 空状态 */
@@ -147,6 +193,116 @@ page {
 .empty-text {
   font-size: 14px;
   color: #999999;
+}
+
+/* ===== 新用户入门引导 ===== */
+.onboarding {
+  padding: 16px 0 40px 0;
+}
+
+.onboarding-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.onboarding-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.onboarding-section-icon {
+  font-size: 20px;
+}
+
+.onboarding-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.onboarding-section-sub {
+  font-size: 12px;
+  color: #999;
+  margin-left: auto;
+}
+
+.preset-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.preset-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #F5F5F5;
+  border-radius: 20px;
+  border: 1px solid #E5E5E5;
+}
+
+.preset-item:active {
+  background: #E8F8EF;
+  border-color: #07C160;
+}
+
+.preset-icon {
+  font-size: 16px;
+}
+
+.preset-name {
+  font-size: 13px;
+  color: #333;
+}
+
+.preset-action {
+  font-size: 11px;
+  color: #07C160;
+}
+
+.onboarding-custom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0 60px 0;
+}
+
+.onboarding-custom-hint {
+  font-size: 13px;
+  color: #999;
+}
+
+.custom-btn {
+  width: 200px;
+  padding: 12px;
+  background: #07C160;
+  border-radius: 24px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(7, 193, 96, 0.3);
+}
+
+/* 有账户时的添加入口 */
+.add-custom-entry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 0 60px 0;
+}
+
+.add-custom-text {
+  font-size: 14px;
+  color: #07C160;
+  font-weight: 500;
 }
 
 /* 悬浮按钮 */
@@ -169,4 +325,140 @@ page {
   color: #ffffff;
   font-weight: 300;
   line-height: 1;
+}
+
+/* 欢迎弹窗（新用户引导第一步） */
+.guide-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.guide-modal {
+  width: 300px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 24px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.guide-illustration {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.guide-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.guide-desc {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.guide-btn {
+  width: 100%;
+  padding: 12px;
+  background: #07C160;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* 什么是账户？弹窗 */
+.hint-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.hint-modal {
+  width: 320px;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.hint-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 12px 20px;
+}
+
+.hint-modal-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #333;
+}
+
+.hint-modal-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  background: #F5F5F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #999;
+}
+
+.hint-modal-body {
+  padding: 4px 20px 8px 20px;
+}
+
+.hint-modal-text {
+  display: block;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+.hint-modal-text:last-child {
+  margin-bottom: 0;
+}
+
+.hint-modal-footer {
+  padding: 16px 20px 20px 20px;
+}
+
+.hint-modal-btn {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  background: #07C160;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
 }

@@ -2,19 +2,22 @@
 <view class="container">
   <!-- 账户类型选择 -->
   <view class="form-section">
-    <text class="form-label">账户类型</text>
-    <view class="type-selector">
+    <text class="form-label">账户类型<text wx:if="{{isEdit}}" class="type-hint">（不可更改）</text></text>
+    <view class="type-selector {{isEdit ? 'type-disabled' : ''}}">
       <view class="type-option {{formData.type === 'asset' ? 'active' : ''}}" bindtap="selectType" data-type="asset">
         <text class="type-icon">💰</text>
         <text class="type-text">资产</text>
+        <text class="type-desc">现金、银行卡、支付宝等</text>
       </view>
       <view class="type-option {{formData.type === 'liability' ? 'active' : ''}}" bindtap="selectType" data-type="liability">
         <text class="type-icon">💳</text>
         <text class="type-text">负债</text>
+        <text class="type-desc">信用卡、花呗、借款等</text>
       </view>
       <view class="type-option {{formData.type === 'investment' ? 'active' : ''}}" bindtap="selectType" data-type="investment">
         <text class="type-icon">📈</text>
         <text class="type-text">投资</text>
+        <text class="type-desc">股票、基金、定期存款等</text>
       </view>
     </view>
   </view>
@@ -45,9 +48,9 @@
     </view>
   </view>
 
-  <!-- 初始余额 -->
+  <!-- 初始余额（负债类显示当前负债） -->
   <view class="form-section">
-    <text class="form-label">初始余额</text>
+    <text class="form-label">{{formData.type === 'liability' ? '当前负债' : '初始余额'}}</text>
     <input class="form-input" type="digit" placeholder="0.00" value="{{formData.initialBalance}}" bindinput="onBalanceInput" />
   </view>
 
@@ -55,6 +58,12 @@
   <view class="form-section" wx:if="{{formData.type === 'liability'}}">
     <text class="form-label">信用额度</text>
     <input class="form-input" type="digit" placeholder="0.00" value="{{formData.creditLimit}}" bindinput="onCreditLimitInput" />
+  </view>
+
+  <!-- 账户备注 -->
+  <view class="form-section">
+    <text class="form-label">账户备注</text>
+    <textarea class="form-textarea" placeholder="备注信息（选填）" value="{{formData.desc}}" bindinput="onDescInput" maxlength="200" auto-height />
   </view>
 
   <!-- 高级设置 -->
@@ -72,6 +81,6 @@
 
   <!-- 保存按钮 -->
   <view class="submit-section">
-    <button class="submit-btn" bindtap="submit">保存账户</button>
+    <button class="submit-btn" bindtap="submit">{{isEdit ? '保存修改' : '保存账户'}}</button>
   </view>
 </view>

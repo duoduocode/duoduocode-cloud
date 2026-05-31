@@ -1,4 +1,3 @@
-// pages/mine/mine/mine.js
 const { api } = require('../../../utils/request');
 const util = require('../../../utils/util');
 const app = getApp();
@@ -6,7 +5,7 @@ const app = getApp();
 Page({
   data: {
     avatarUrl: '',
-    nickname: '',
+    nickname: '微信用户',
     totalDays: 0,
     totalCount: 0,
     netAsset: '0.00'
@@ -22,16 +21,16 @@ Page({
     if (userInfo) {
       this.setData({
         avatarUrl: userInfo.avatarUrl || '',
-        nickname: userInfo.nickname || '测试用户'
+        nickname: userInfo.nickname || '微信用户'
       });
     } else {
-      this.setData({ nickname: '测试用户' });
+      this.setData({ nickname: '微信用户' });
     }
   },
 
   async loadStats() {
     try {
-      var res = await api.get('/users/stats').catch(function() { return null; });
+      var res = await api.get('/user/stats').catch(function() { return null; });
       if (res) {
         this.setData({
           totalDays: res.totalDays || 0,
@@ -44,7 +43,6 @@ Page({
     }
   },
 
-  // 导航
   goBudget() {
     wx.navigateTo({ url: '/pages/budget/budget/budget' });
   },

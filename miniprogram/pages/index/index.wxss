@@ -71,10 +71,29 @@
   color: #FFD0D0;
 }
 
+.networth-item-value.amount-invest {
+  color: #FFE082;
+}
+
 .networth-divider {
   width: 1px;
   height: 30px;
   background: rgba(255, 255, 255, 0.25);
+}
+
+.networth-change {
+  font-size: 13px;
+  margin-top: -10px;
+  margin-bottom: 14px;
+  opacity: 0.9;
+}
+
+.networth-change.amount-income {
+  color: #FFFFFF;
+}
+
+.networth-change.amount-expense {
+  color: #FFD0D0;
 }
 
 .networth-arrow {
@@ -116,153 +135,131 @@
   font-weight: 600;
 }
 
-/* 预算卡片 */
-.budget-card {
-  padding: 20px 16px;
-}
-
-.budget-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.budget-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333333;
-}
-
-.budget-percent {
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.text-primary { color: #07C160; }
-.text-warning { color: #FF9800; }
-.text-danger { color: #FA5151; }
-
-.budget-alert {
-  font-size: 12px;
-  margin-top: 8px;
-  padding: 6px 10px;
-  border-radius: 6px;
-}
-
-.budget-alert-warning {
-  background: #FFF8E1;
-  color: #E65100;
-}
-
-.budget-alert-danger {
-  background: #FFEBEE;
-  color: #C62828;
-}
-
-/* 交易列表 */
-.transaction-card {
+/* 今日/本周卡片 */
+.today-card {
   padding: 16px;
 }
 
-.section-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333333;
-  margin-bottom: 12px;
-}
-
-.section-empty {
-  text-align: center;
-  color: #999999;
-  font-size: 13px;
-  padding: 20px 0;
-}
-
-.transaction-item {
+.today-row {
   display: flex;
-  justify-content: space-between;
+}
+
+.today-item {
+  flex: 1;
+  text-align: center;
+}
+
+.today-item + .today-item {
+  border-left: 1rpx solid #F0F0F0;
+}
+
+.today-item-label {
+  font-size: 13px;
+  color: #999999;
+  margin-bottom: 6px;
+}
+
+.today-item-value {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* 支出TOP5分类 */
+.top-category-item {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 12px 0;
 }
 
-.transaction-item + .transaction-item {
+.top-category-item + .top-category-item {
   border-top: 1rpx solid #F0F0F0;
 }
 
-.transaction-left {
+.top-category-left {
   display: flex;
   align-items: center;
   flex: 1;
   min-width: 0;
 }
 
-.transaction-icon-wrap {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+.top-category-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
   background: #F5F5F5;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 12px;
+  margin-right: 10px;
   flex-shrink: 0;
 }
 
-.transaction-icon {
-  font-size: 20px;
+.top-category-icon {
+  font-size: 18px;
 }
 
-.transaction-info {
+.top-category-info {
   min-width: 0;
 }
 
-.transaction-name {
-  font-size: 15px;
+.top-category-name {
+  font-size: 14px;
   color: #333333;
   font-weight: 500;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-.transaction-meta {
-  display: flex;
-  align-items: center;
-  margin-top: 4px;
-}
-
-.transaction-date {
+.top-category-count {
   font-size: 12px;
   color: #999999;
+  margin-top: 2px;
 }
 
-.transaction-account {
-  font-size: 12px;
-  color: #999999;
-  margin-left: 8px;
-  padding-left: 8px;
-  border-left: 1rpx solid #E5E5E5;
-}
-
-.transaction-right {
+.top-category-right {
   text-align: right;
   flex-shrink: 0;
+  margin-left: 12px;
+  min-width: 100px;
 }
 
-.transaction-desc {
-  font-size: 12px;
-  color: #BBBBBB;
-  max-width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.top-category-amount {
+  font-size: 16px;
+  font-weight: 600;
   margin-bottom: 4px;
 }
 
-.transaction-amount {
-  font-size: 17px;
-  font-weight: 600;
+.top-category-bar {
+  height: 4px;
+  margin-bottom: 2px;
+}
+
+.progress-expense {
+  background: #FA5151;
+}
+
+.top-category-percent {
+  font-size: 11px;
+  color: #999999;
+}
+
+/* 统计卡片 */
+.stats-card {
+  padding: 16px;
+}
+
+.stats-row {
+  display: flex;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+  color: #666666;
+}
+
+.stat-item + .stat-item {
+  border-left: 1rpx solid #F0F0F0;
 }
 
 /* 空状态扩展 */

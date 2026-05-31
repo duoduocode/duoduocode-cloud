@@ -1,6 +1,9 @@
 {
   "description": "个人财务管理小程序 - 复式记账",
-  "packOptions": { "ignore": [], "include": [] },
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
   "setting": {
     "urlCheck": false,
     "es6": true,
@@ -44,12 +47,13 @@
   },
   "compileType": "miniprogram",
   "libVersion": "3.16.1",
-  "appid": "",
+  "appid": "wxd28c90174393e686",
   "projectname": "duoduocode",
   "miniprogramRoot": "miniprogram/",
   "condition": {},
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
-  }
+  },
+  "srcMiniprogramRoot": "miniprogram/"
 }

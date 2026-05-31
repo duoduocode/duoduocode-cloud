@@ -1,20 +1,28 @@
 <!-- pages/accounts/accounts.wxml - 账户列表页(Tab页) -->
 <view class="container">
-  <!-- 净资产卡片 -->
+  <!-- 账户总额卡片 -->
   <view class="net-worth-card">
+    <view class="net-worth-hint-btn" bindtap="openHint">
+      <text>?</text>
+    </view>
     <view class="net-worth-header">
-      <text class="net-worth-label">净资产</text>
+      <text class="net-worth-label">账户总额</text>
       <text class="net-worth-value">{{netWorthText}}</text>
     </view>
     <view class="net-worth-detail">
       <view class="net-worth-item">
-        <text class="net-worth-item-label">总资产</text>
+        <text class="net-worth-item-label">资产账户</text>
         <text class="net-worth-item-value asset-color">{{totalAssetsText}}</text>
       </view>
       <view class="net-worth-divider"></view>
       <view class="net-worth-item">
-        <text class="net-worth-item-label">总负债</text>
+        <text class="net-worth-item-label">负债账户</text>
         <text class="net-worth-item-value liability-color">{{totalLiabilitiesText}}</text>
+      </view>
+      <view class="net-worth-divider"></view>
+      <view class="net-worth-item">
+        <text class="net-worth-item-label">投资账户</text>
+        <text class="net-worth-item-value investment-color">{{totalInvestmentsText}}</text>
       </view>
     </view>
   </view>
@@ -25,18 +33,17 @@
       <text class="section-title">资产账户</text>
       <text class="section-total">{{assetTotalText}}</text>
     </view>
-    <view class="account-card" wx:for="{{assetAccounts}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+    <view class="account-card" wx:for="{{assetAccounts}}" wx:key="id">
       <view class="account-icon" style="background-color: {{item.color || '#07C160'}}">
         <text>{{item.icon || '💰'}}</text>
       </view>
       <view class="account-info">
-        <text class="account-name">{{item.name}}</text>
+        <view class="account-name">{{item.name}}</view>
+        <view class="account-balance">{{item.balanceText}}</view>
       </view>
-      <view class="account-balance">
-        <text class="balance-value">{{item.balanceText}}</text>
-      </view>
-      <view class="account-arrow">
-        <text class="arrow-icon">></text>
+      <view class="account-actions">
+        <view class="action-btn action-edit" catchtap="onEdit" data-id="{{item.id}}" data-type="{{item.type}}">编辑</view>
+        <view class="action-btn action-delete" catchtap="onDelete" data-id="{{item.id}}" data-name="{{item.name}}">删除</view>
       </view>
     </view>
   </view>
@@ -47,18 +54,17 @@
       <text class="section-title">负债账户</text>
       <text class="section-total liability-color">{{liabilityTotalText}}</text>
     </view>
-    <view class="account-card" wx:for="{{liabilityAccounts}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+    <view class="account-card" wx:for="{{liabilityAccounts}}" wx:key="id">
       <view class="account-icon" style="background-color: {{item.color || '#FA5151'}}">
         <text>{{item.icon || '💳'}}</text>
       </view>
       <view class="account-info">
-        <text class="account-name">{{item.name}}</text>
+        <view class="account-name">{{item.name}}</view>
+        <view class="account-balance liability-color">{{item.balanceText}}</view>
       </view>
-      <view class="account-balance">
-        <text class="balance-value liability-color">{{item.balanceText}}</text>
-      </view>
-      <view class="account-arrow">
-        <text class="arrow-icon">></text>
+      <view class="account-actions">
+        <view class="action-btn action-edit" catchtap="onEdit" data-id="{{item.id}}" data-type="{{item.type}}">编辑</view>
+        <view class="action-btn action-delete" catchtap="onDelete" data-id="{{item.id}}" data-name="{{item.name}}">删除</view>
       </view>
     </view>
   </view>
@@ -69,30 +75,145 @@
       <text class="section-title">投资账户</text>
       <text class="section-total">{{investmentTotalText}}</text>
     </view>
-    <view class="account-card" wx:for="{{investmentAccounts}}" wx:key="id" bindtap="goInvestDetail" data-id="{{item.id}}">
+    <view class="account-card" wx:for="{{investmentAccounts}}" wx:key="id">
       <view class="account-icon" style="background-color: {{item.color || '#FF9800'}}">
         <text>{{item.icon || '📈'}}</text>
       </view>
       <view class="account-info">
-        <text class="account-name">{{item.name}}</text>
+        <view class="account-name">{{item.name}}</view>
+        <view class="account-balance">{{item.balanceText}}</view>
       </view>
-      <view class="account-balance">
-        <text class="balance-value">{{item.balanceText}}</text>
-      </view>
-      <view class="account-arrow">
-        <text class="arrow-icon">></text>
+      <view class="account-actions">
+        <view class="action-btn action-edit" catchtap="onEdit" data-id="{{item.id}}" data-type="{{item.type}}">编辑</view>
+        <view class="action-btn action-delete" catchtap="onDelete" data-id="{{item.id}}" data-name="{{item.name}}">删除</view>
       </view>
     </view>
   </view>
 
-  <!-- 空状态 -->
-  <view class="empty-state" wx:if="{{assetAccounts.length === 0 && liabilityAccounts.length === 0 && investmentAccounts.length === 0}}">
-    <text class="empty-icon">📂</text>
-    <text class="empty-text">还没有账户，点击右上角添加</text>
+  <!-- 自定义账户入口 — 仅在有账户时显示 -->
+  <view class="add-custom-entry" wx:if="{{assetAccounts.length > 0 || liabilityAccounts.length > 0 || investmentAccounts.length > 0}}" bindtap="goCreate">
+    <text class="add-custom-text">+ 添加新账户</text>
   </view>
 
-  <!-- 右上角添加按钮 -->
-  <view class="add-fab" bindtap="goCreate">
+  <!-- 空状态：新用户入门引导 -->
+  <view class="onboarding" wx:if="{{assetAccounts.length === 0 && liabilityAccounts.length === 0 && investmentAccounts.length === 0}}">
+    <view class="onboarding-section">
+      <view class="onboarding-section-header">
+        <text class="onboarding-section-icon">💰</text>
+        <text class="onboarding-section-title">资产账户</text>
+        <text class="onboarding-section-sub">存放你的钱的地方</text>
+      </view>
+      <view class="preset-list">
+        <view class="preset-item" bindtap="quickCreate" data-name="现金" data-type="asset" data-icon="💵" data-color="#07C160">
+          <text class="preset-icon">💵</text>
+          <text class="preset-name">现金</text>
+          <text class="preset-action">添加</text>
+        </view>
+        <view class="preset-item" bindtap="quickCreate" data-name="银行卡" data-type="asset" data-icon="🏦" data-color="#07C160">
+          <text class="preset-icon">🏦</text>
+          <text class="preset-name">银行卡</text>
+          <text class="preset-action">添加</text>
+        </view>
+        <view class="preset-item" bindtap="quickCreate" data-name="支付宝" data-type="asset" data-icon="📱" data-color="#2196F3">
+          <text class="preset-icon">📱</text>
+          <text class="preset-name">支付宝</text>
+          <text class="preset-action">添加</text>
+        </view>
+        <view class="preset-item" bindtap="quickCreate" data-name="微信钱包" data-type="asset" data-icon="💚" data-color="#07C160">
+          <text class="preset-icon">💚</text>
+          <text class="preset-name">微信钱包</text>
+          <text class="preset-action">添加</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="onboarding-section">
+      <view class="onboarding-section-header">
+        <text class="onboarding-section-icon">💳</text>
+        <text class="onboarding-section-title">负债账户</text>
+        <text class="onboarding-section-sub">需要偿还的钱</text>
+      </view>
+      <view class="preset-list">
+        <view class="preset-item" bindtap="quickCreate" data-name="信用卡" data-type="liability" data-icon="💳" data-color="#FA5151">
+          <text class="preset-icon">💳</text>
+          <text class="preset-name">信用卡</text>
+          <text class="preset-action">添加</text>
+        </view>
+        <view class="preset-item" bindtap="quickCreate" data-name="花呗" data-type="liability" data-icon="🌸" data-color="#FF5722">
+          <text class="preset-icon">🌸</text>
+          <text class="preset-name">花呗</text>
+          <text class="preset-action">添加</text>
+        </view>
+        <view class="preset-item" bindtap="quickCreate" data-name="借款" data-type="liability" data-icon="📝" data-color="#FA5151">
+          <text class="preset-icon">📝</text>
+          <text class="preset-name">借款</text>
+          <text class="preset-action">添加</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="onboarding-section">
+      <view class="onboarding-section-header">
+        <text class="onboarding-section-icon">📈</text>
+        <text class="onboarding-section-title">投资账户</text>
+        <text class="onboarding-section-sub">钱生钱的账户</text>
+      </view>
+      <view class="preset-list">
+        <view class="preset-item" bindtap="quickCreate" data-name="股票账户" data-type="investment" data-icon="📈" data-color="#FF9800">
+          <text class="preset-icon">📈</text>
+          <text class="preset-name">股票账户</text>
+          <text class="preset-action">添加</text>
+        </view>
+        <view class="preset-item" bindtap="quickCreate" data-name="基金账户" data-type="investment" data-icon="📊" data-color="#FF9800">
+          <text class="preset-icon">📊</text>
+          <text class="preset-name">基金账户</text>
+          <text class="preset-action">添加</text>
+        </view>
+        <view class="preset-item" bindtap="quickCreate" data-name="定期存款" data-type="investment" data-icon="🏦" data-color="#FF9800">
+          <text class="preset-icon">🏦</text>
+          <text class="preset-name">定期存款</text>
+          <text class="preset-action">添加</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="onboarding-custom">
+      <text class="onboarding-custom-hint">以上没有你需要的？</text>
+      <view class="custom-btn" bindtap="goCreate">自定义账户</view>
+    </view>
+  </view>
+
+  <!-- 悬浮添加按钮 — 仅在有账户时显示 -->
+  <view class="add-fab" bindtap="goRecord" wx:if="{{assetAccounts.length > 0 || liabilityAccounts.length > 0 || investmentAccounts.length > 0}}">
     <text class="add-fab-icon">+</text>
+  </view>
+</view>
+
+<!-- 欢迎弹窗（新用户首次进入账户页） -->
+<view class="guide-overlay" wx:if="{{showWelcomeModal}}">
+  <view class="guide-modal">
+    <view class="guide-illustration">🏦</view>
+    <text class="guide-title">欢迎使用多多记账</text>
+    <text class="guide-desc">在开始记账之前，先来设置你的资金账户吧</text>
+    <view class="guide-btn" bindtap="onWelcomeConfirm">下一步</view>
+  </view>
+</view>
+
+<!-- 什么是账户？弹窗 -->
+<view class="hint-modal-overlay" wx:if="{{showHintModal}}" catchtap="closeHint">
+  <view class="hint-modal" catchtap="">
+    <view class="hint-modal-header">
+      <text class="hint-modal-title">💡 什么是账户？</text>
+      <view class="hint-modal-close" bindtap="closeHint">
+        <text>✕</text>
+      </view>
+    </view>
+    <view class="hint-modal-body">
+      <text class="hint-modal-text">账户就是你存放资金的地方，比如你的银行卡、微信钱包、支付宝，以及信用卡、投资账户等。</text>
+      <text class="hint-modal-text">每笔记账都需要选择一个账户，这样才能准确追踪每个账户的余额变化。</text>
+    </view>
+    <view class="hint-modal-footer">
+      <view class="hint-modal-btn" bindtap="closeHint">我知道了</view>
+    </view>
   </view>
 </view>

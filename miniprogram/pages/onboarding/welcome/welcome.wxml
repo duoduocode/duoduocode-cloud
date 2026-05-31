@@ -1,38 +1,23 @@
 <!-- pages/onboarding/welcome/welcome.wxml -->
 <view class="container">
-  <!-- Logo和标语 -->
   <view class="brand-section">
     <view class="logo-wrap">
       <text class="logo-text">记</text>
     </view>
-    <text class="app-name">借贷记</text>
+    <text class="app-name">多多记账</text>
     <text class="app-slogan">轻松记账，智慧理财</text>
   </view>
 
-  <!-- 功能特色 -->
-  <view class="features">
-    <view class="feature-item">
-      <view class="feature-dot"></view>
-      <text class="feature-text">快速记账，每一笔都清晰明了</text>
-    </view>
-    <view class="feature-item">
-      <view class="feature-dot"></view>
-      <text class="feature-text">多账户管理，资金流向尽在掌握</text>
-    </view>
-    <view class="feature-item">
-      <view class="feature-dot"></view>
-      <text class="feature-text">智能预算，告别超支烦恼</text>
-    </view>
-    <view class="feature-item">
-      <view class="feature-dot"></view>
-      <text class="feature-text">可视化报表，收支趋势一目了然</text>
-    </view>
+  <!-- 加载中 -->
+  <view wx:if="{{status === 'loading'}}" class="loading-section">
+    <view class="spinner"></view>
+    <text class="loading-hint">正在连接...</text>
   </view>
 
-  <!-- 开始按钮 -->
-  <view class="start-btn" bindtap="start">
-    <text>开始使用</text>
+  <!-- 登录失败 -->
+  <view wx:if="{{status === 'fail'}}" class="fail-section">
+    <view class="fail-icon">😕</view>
+    <text class="fail-text">{{failMsg}}</text>
+    <view class="retry-btn" bindtap="retryLogin">重新连接</view>
   </view>
-
-  <text class="bottom-text">随时掌控你的财富</text>
 </view>

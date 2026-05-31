@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 48px;
+  margin-bottom: 56px;
 }
 
 .logo-wrap {
@@ -48,51 +48,59 @@
   line-height: 1.6;
 }
 
-/* 特色 */
-.features {
+/* 加载中 */
+.loading-section {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  width: 100%;
-  margin-bottom: 48px;
-}
-
-.feature-item {
-  display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 0;
+  gap: 20px;
 }
 
-.feature-dot {
-  width: 8px;
-  height: 8px;
-  background: #07C160;
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #E0E0E0;
+  border-top-color: #07C160;
   border-radius: 50%;
-  flex-shrink: 0;
+  animation: spin 0.8s linear infinite;
 }
 
-.feature-text {
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-hint {
   font-size: 14px;
-  color: #666;
+  color: #999;
 }
 
-/* 开始按钮 */
-.start-btn {
-  width: 100%;
-  padding: 16px;
+/* 登录失败 */
+.fail-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.fail-icon {
+  font-size: 48px;
+}
+
+.fail-text {
+  font-size: 15px;
+  color: #666;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.retry-btn {
+  width: 200px;
+  padding: 14px;
   background: linear-gradient(135deg, #07C160, #06AD56);
   border-radius: 28px;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #fff;
-  box-shadow: 0 8px 24px rgba(7, 193, 96, 0.35);
-  letter-spacing: 2px;
-}
-
-.bottom-text {
-  font-size: 12px;
-  color: #ccc;
-  margin-top: 32px;
+  box-shadow: 0 4px 16px rgba(7, 193, 96, 0.3);
 }

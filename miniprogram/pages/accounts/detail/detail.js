@@ -42,7 +42,7 @@ Page({
 
     api.get('/accounts/' + id, {}, { silent: true }).then(function (data) {
       var account = data;
-      account.balanceText = util.formatMoney(account.balance);
+      account.balanceText = util.formatMoney(account.initialBalance);
       account.initialBalanceText = util.formatMoney(account.initialBalance);
 
       var typeMap = { asset: '资产', liability: '负债', investment: '投资' };
@@ -139,8 +139,9 @@ Page({
   adjustBalance: function (newBalance) {
     var that = this;
     var id = this.data.accountId;
-    api.put('/accounts/' + id, {
-      balance: newBalance
+    api.post('/accounts/' + id + '/adjust-balance', {
+      newBalance: newBalance,
+      reason: '手动调整'
     }, { showLoading: true, loadingText: '调整中...' }).then(function () {
       wx.showToast({ title: '余额已调整', icon: 'success' });
       that.loadAccount();

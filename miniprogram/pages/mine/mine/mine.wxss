@@ -5,7 +5,6 @@
   min-height: 100vh;
 }
 
-/* 头像区域 */
 .header-card {
   display: flex;
   align-items: center;
@@ -18,7 +17,7 @@
   height: 64px;
   border-radius: 50%;
   overflow: hidden;
-  background: #E8F8EF;
+  background: #E0E0E0;
 }
 
 .avatar {
@@ -36,7 +35,6 @@
   color: #333;
 }
 
-/* 统计卡片 */
 .stats-card {
   display: flex;
   align-items: center;
@@ -79,7 +77,6 @@
   background: #f0f0f0;
 }
 
-/* 菜单区域 */
 .menu-section {
   margin-bottom: 12px;
 }
@@ -132,7 +129,6 @@
   color: #ccc;
 }
 
-/* 底部 */
 .bottom-space {
   height: 40px;
 }

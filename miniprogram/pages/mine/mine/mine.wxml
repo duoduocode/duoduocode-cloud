@@ -1,16 +1,14 @@
 <!-- pages/mine/mine/mine.wxml -->
 <view class="container">
-  <!-- 头像昵称区域 -->
   <view class="header-card">
     <view class="avatar-wrap">
-      <image class="avatar" src="{{avatarUrl || '/assets/default-avatar.png'}}" mode="aspectFill"/>
+      <image wx:if="{{avatarUrl}}" class="avatar" src="{{avatarUrl}}" mode="aspectFill"/>
     </view>
     <view class="user-info">
-      <text class="nickname">{{nickname || '点击登录'}}</text>
+      <text class="nickname">{{nickname || '微信用户'}}</text>
     </view>
   </view>
 
-  <!-- 统计卡片 -->
   <view class="stats-card card">
     <view class="stat-item">
       <text class="stat-num">{{totalDays}}</text>
@@ -28,7 +26,6 @@
     </view>
   </view>
 
-  <!-- 功能入口列表 -->
   <view class="menu-section">
     <view class="menu-title">功能服务</view>
     <view class="menu-list card">
@@ -76,6 +73,5 @@
     </view>
   </view>
 
-  <!-- 底部占位 -->
   <view class="bottom-space"></view>
 </view>

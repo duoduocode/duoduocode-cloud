@@ -153,18 +153,26 @@
   <view class="bottom-sheet" catchtap="">
     <view class="sheet-header">
       <view class="sheet-title">选择账户</view>
+      <view class="sheet-hint">余额为0的账户请先设置余额</view>
       <view class="sheet-close" bindtap="closeAccountPicker">关闭</view>
     </view>
     <scroll-view scroll-y="true" class="sheet-body">
       <block wx:for="{{accounts}}" wx:key="id">
-        <view class="sheet-item {{selectedAccount.id === item.id ? 'sheet-item-active' : ''}}"
+        <view wx:if="{{item.initialBalance > 0}}" class="sheet-item {{selectedAccount.id === item.id ? 'sheet-item-active' : ''}}"
           data-id="{{item.id}}" bindtap="onSelectAccount">
           <text class="sheet-item-icon">{{item.icon || '💳'}}</text>
           <view class="sheet-item-info">
             <text class="sheet-item-name">{{item.name}}</text>
-            <text class="sheet-item-sub">余额: ¥{{item.balance || 0}}</text>
+            <text class="sheet-item-sub">余额: ¥{{item.initialBalance}}</text>
           </view>
           <view wx:if="{{selectedAccount.id === item.id}}" class="sheet-item-check">✓</view>
+        </view>
+        <view wx:else class="sheet-item sheet-item-disabled">
+          <text class="sheet-item-icon">{{item.icon || '💳'}}</text>
+          <view class="sheet-item-info">
+            <text class="sheet-item-name">{{item.name}}</text>
+            <text class="sheet-item-sub">余额: ¥0</text>
+          </view>
         </view>
       </block>
       <view wx:if="{{accounts.length === 0}}" class="sheet-empty">暂无账户</view>
@@ -174,27 +182,27 @@
 
 <!-- ========== 分类选择弹窗 ========== -->
 <view wx:if="{{showCategoryPicker}}" class="modal-overlay" bindtap="closeCategoryPicker">
-  <view class="bottom-sheet" catchtap="">
+  <view class="category-sheet" catchtap="">
     <view class="sheet-header">
       <view class="sheet-title">选择消费项目</view>
       <view class="sheet-close" bindtap="closeCategoryPicker">关闭</view>
     </view>
     <view class="category-picker-body">
       <!-- 父分类 -->
-      <scroll-view scroll-y="true" class="category-parent-list">
+      <scroll-view scroll-y="true" class="category-parent-list" show-scrollbar="{{false}}">
         <block wx:for="{{parentCategories}}" wx:key="id" wx:for-index="idx">
           <view class="category-parent-item {{activeParentIndex === idx ? 'category-parent-active' : ''}}"
-            data-index="{{idx}}" bindtap="onSelectParentCategory">
-            <text>{{item.icon || '📋'}} {{item.name}}</text>
+            data-index="{{idx}}" catchtap="onSelectParentCategory">
+            <text class="category-parent-text">{{item.icon || '📋'}} {{item.name}}</text>
           </view>
         </block>
       </scroll-view>
       <!-- 子分类 -->
-      <scroll-view scroll-y="true" class="category-child-list">
+      <scroll-view scroll-y="true" class="category-child-list" show-scrollbar="{{false}}">
         <block wx:for="{{currentSubCategories}}" wx:key="id">
           <view class="category-child-item {{selectedCategory.id === item.id ? 'category-child-active' : ''}}"
             data-id="{{item.id}}" data-name="{{item.name}}" data-icon="{{item.icon}}"
-            bindtap="onSelectSubCategory">
+            catchtap="onSelectSubCategory">
             <text>{{item.icon || '📋'}} {{item.name}}</text>
           </view>
         </block>

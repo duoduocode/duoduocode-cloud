@@ -1,6 +1,4 @@
 <!-- pages/category/category/category.wxml -->
-<wxs module="filter" src="./category.wxs"></wxs>
-
 <view class="container">
   <!-- 搜索栏 -->
   <view class="search-bar">

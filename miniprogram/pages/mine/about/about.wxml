@@ -5,7 +5,7 @@
     <view class="logo-wrap">
       <text class="logo-text">记</text>
     </view>
-    <text class="app-name">借贷记</text>
+    <text class="app-name">多多记账</text>
     <text class="app-version">v{{version}}</text>
   </view>
 
@@ -49,7 +49,7 @@
   </view>
 
   <view class="copyright">
-    <text>Copyright 2024 借贷记</text>
+    <text>Copyright 2024 多多记账</text>
   </view>
 </view>
 
@@ -57,8 +57,8 @@
 <view class="content-page" wx:if="{{type === 'agreement'}}">
   <view class="content-title">用户协议</view>
   <view class="content-body">
-    <text>欢迎使用借贷记！在使用本小程序前，请仔细阅读以下条款。使用本服务即表示您同意本协议的全部内容。</text>
-    <text>\n\n1. 服务说明\n借贷记是一款个人财务管理工具，帮助用户记录和管理日常收支、预算和报表。</text>
+    <text>欢迎使用多多记账！在使用本小程序前，请仔细阅读以下条款。使用本服务即表示您同意本协议的全部内容。</text>
+    <text>\n\n1. 服务说明\n多多记账是一款个人财务管理工具，帮助用户记录和管理日常收支、预算和报表。</text>
     <text>\n\n2. 用户责任\n用户应确保所记录数据的真实性和准确性。用户对自己的账户信息和数据安全负责。</text>
     <text>\n\n3. 数据安全\n我们采用业界标准的安全措施保护您的数据，但不对因不可抗力导致的数据丢失承担责任。</text>
     <text>\n\n4. 服务变更\n我们保留随时修改或终止服务的权利，但会尽可能提前通知用户。</text>

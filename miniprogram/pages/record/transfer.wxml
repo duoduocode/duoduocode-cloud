@@ -121,18 +121,26 @@
   <view class="bottom-sheet" catchtap="">
     <view class="sheet-header">
       <view class="sheet-title">{{pickerTitle}}</view>
+      <view class="sheet-hint">余额为0的账户请先设置余额</view>
       <view class="sheet-close" bindtap="closeAccountPicker">关闭</view>
     </view>
     <scroll-view scroll-y="true" class="sheet-body">
       <block wx:for="{{pickerAccounts}}" wx:key="id">
-        <view class="sheet-item {{pickerSelectedId === item.id ? 'sheet-item-active' : ''}}"
+        <view wx:if="{{item.initialBalance > 0}}" class="sheet-item {{pickerSelectedId === item.id ? 'sheet-item-active' : ''}}"
           data-id="{{item.id}}" bindtap="onSelectAccount">
           <text class="sheet-item-icon">{{item.icon || '💳'}}</text>
           <view class="sheet-item-info">
             <text class="sheet-item-name">{{item.name}}</text>
-            <text class="sheet-item-sub">余额: ¥{{item.balance || 0}}</text>
+            <text class="sheet-item-sub">余额: ¥{{item.initialBalance}}</text>
           </view>
           <view wx:if="{{pickerSelectedId === item.id}}" class="sheet-item-check">√</view>
+        </view>
+        <view wx:else class="sheet-item sheet-item-disabled">
+          <text class="sheet-item-icon">{{item.icon || '💳'}}</text>
+          <view class="sheet-item-info">
+            <text class="sheet-item-name">{{item.name}}</text>
+            <text class="sheet-item-sub">余额: ¥0</text>
+          </view>
         </view>
       </block>
       <view wx:if="{{pickerAccounts.length === 0}}" class="sheet-empty">暂无可用账户</view>
