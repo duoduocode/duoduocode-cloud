@@ -11,28 +11,13 @@ page {
 .account-header {
   background: #ffffff;
   border-radius: 12px;
-  padding: 24px 16px;
+  padding: 16px 16px 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 16px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-.account-icon-large {
-  width: 56px;
-  height: 56px;
-  border-radius: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  margin-bottom: 12px;
-}
-.account-name-large {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333333;
-  margin-bottom: 6px;
+  position: relative;
 }
 .account-type-tag {
   font-size: 12px;
@@ -40,14 +25,46 @@ page {
   background: #F5F5F5;
   padding: 2px 10px;
   border-radius: 10px;
-  margin-bottom: 12px;
+  align-self: flex-start;
+  margin-bottom: 4px;
 }
 .account-balance-large {
-  font-size: 36px;
-  font-weight: bold;
+  font-size: 40px;
+  font-weight: 900;
   color: #333333;
+  line-height: 1.2;
 }
 .account-balance-large.negative {
+  color: #FA5151;
+}
+.account-name {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 4px;
+}
+.account-initial-balance {
+  font-size: 13px;
+  color: #B0B0B0;
+  margin-top: 4px;
+}
+.account-header-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #F0F0F0;
+}
+.header-action-btn {
+  font-size: 13px;
+  color: #666666;
+  padding: 4px 0;
+}
+.header-action-btn.left {
+  color: #07C160;
+}
+.header-action-btn.right {
   color: #FA5151;
 }
 
@@ -84,28 +101,6 @@ page {
   color: #FA5151;
 }
 
-/* 操作按钮区 */
-.action-row {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-.action-btn {
-  flex: 1;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  border-radius: 8px;
-  font-size: 14px;
-  background: #ffffff;
-  color: #333333;
-  border: 1px solid #E5E5E5;
-}
-.action-btn.danger {
-  color: #FA5151;
-  border-color: #FA5151;
-}
-
 /* 交易列表 */
 .transaction-section {
   background: #ffffff;
@@ -140,10 +135,17 @@ page {
 }
 .transaction-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .transaction-desc {
   font-size: 14px;
   color: #333333;
+  margin-bottom: 2px;
+}
+.transaction-category {
+  font-size: 13px;
+  color: #666666;
   margin-bottom: 2px;
 }
 .transaction-date {

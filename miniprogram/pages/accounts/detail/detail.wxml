@@ -2,12 +2,14 @@
 <view class="container">
   <!-- 账户信息头部 -->
   <view class="account-header">
-    <view class="account-icon-large" style="background-color: {{account.color || '#07C160'}}">
-      <text>{{account.icon || '💰'}}</text>
-    </view>
-    <text class="account-name-large">{{account.name}}</text>
     <text class="account-type-tag">{{accountTypeText}}</text>
+    <text class="account-name">{{account.name}}</text>
     <text class="account-balance-large {{account.balance < 0 ? 'negative' : ''}}">{{account.balanceText}}</text>
+    <text class="account-initial-balance">初始余额 {{account.initialBalanceText}}</text>
+    <view class="account-header-actions">
+      <text class="header-action-btn left" bindtap="goEdit">编辑账户</text>
+      <text class="header-action-btn right" bindtap="showDeleteConfirm">删除账户</text>
+    </view>
   </view>
 
   <!-- 本月收支统计 -->
@@ -20,17 +22,6 @@
       <text class="stat-label">本月支出</text>
       <text class="stat-value expense-color">{{monthExpenseText}}</text>
     </view>
-    <view class="stat-card">
-      <text class="stat-label">初始余额</text>
-      <text class="stat-value">{{account.initialBalanceText}}</text>
-    </view>
-  </view>
-
-  <!-- 操作按钮 -->
-  <view class="action-row">
-    <view class="action-btn" bindtap="goEdit">编辑账户</view>
-    <view class="action-btn" bindtap="showAdjustModal">调整余额</view>
-    <view class="action-btn danger" bindtap="showDeleteConfirm">删除账户</view>
   </view>
 
   <!-- 交易流水列表 -->
@@ -38,14 +29,15 @@
     <text class="section-title">交易记录</text>
     <block wx:if="{{transactions.length > 0}}">
       <view class="transaction-item" wx:for="{{transactions}}" wx:key="id">
-        <view class="transaction-icon" style="background-color: {{item.amount >= 0 ? '#E8F8EF' : '#FDEDED'}}">
-          <text>{{item.amount >= 0 ? '+' : '-'}}</text>
+        <view class="transaction-icon" style="background-color: {{item.transactionType === 'expense' ? '#FDEDED' : item.transactionType === 'income' ? '#E8F8EF' : '#EDF0FF'}}">
+          <text>{{item.categoryIcon || item.relatedAccountIcon || '💰'}}</text>
         </view>
         <view class="transaction-info">
-          <text class="transaction-desc">{{item.description || item.type || '交易'}}</text>
+          <text wx:if="{{item.parentCategoryName || item.categoryName}}" class="transaction-category">{{item.parentCategoryName ? item.parentCategoryName + ' / ' : ''}}{{item.categoryName}}</text>
+          <text wx:elif="{{item.relatedAccountName}}" class="transaction-category">{{item.relatedAccountName}}</text>
           <text class="transaction-date">{{item.dateText}}</text>
         </view>
-        <text class="transaction-amount {{item.amount >= 0 ? 'income-color' : 'expense-color'}}">{{item.amountText}}</text>
+        <text class="transaction-amount {{item.transactionType === 'expense' ? 'expense-color' : 'income-color'}}">{{item.amountText}}</text>
       </view>
       <!-- 加载更多 -->
       <view class="load-more" wx:if="{{hasMore}}" bindtap="loadMoreTransactions">加载更多</view>

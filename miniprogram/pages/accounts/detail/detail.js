@@ -53,8 +53,11 @@ Page({
         accountTypeText: accountTypeText
       });
 
-      // 加载交易记录
+      wx.setNavigationBarTitle({ title: account.name });
+
+      // 加载交易记录与月度收支统计
       that.loadTransactions(true);
+      that.loadMonthStats();
     });
   },
 
@@ -67,7 +70,8 @@ Page({
     api.get('/accounts/' + id + '/transactions', params, { silent: true }).then(function (data) {
       var list = (data.list || []).map(function (item) {
         item.dateText = util.formatDate(item.date);
-        item.amountText = util.formatMoney(item.amount, true);
+        var displayAmount = item.transactionType === 'expense' ? -Math.abs(item.amount) : Math.abs(item.amount);
+        item.amountText = util.formatMoney(displayAmount, true);
         return item;
       });
 
@@ -87,27 +91,20 @@ Page({
     this.loadTransactions(false);
   },
 
-  // 计算本月收支 (从交易记录中)
-  computeMonthStats: function () {
-    var transactions = this.data.transactions;
-    var now = new Date();
-    var monthStart = util.getMonthStart();
+  loadMonthStats: function () {
+    var that = this;
+    var id = this.data.accountId;
+    var startDate = util.getMonthStart();
+    var endDate = util.getMonthEnd();
 
-    var income = 0;
-    var expense = 0;
-    transactions.forEach(function (t) {
-      if (t.date >= monthStart) {
-        if (t.amount > 0) {
-          income += Number(t.amount);
-        } else {
-          expense += Math.abs(Number(t.amount));
-        }
-      }
-    });
-
-    this.setData({
-      monthIncomeText: util.formatMoney(income),
-      monthExpenseText: util.formatMoney(expense)
+    api.get('/accounts/' + id + '/statistics', {
+      startDate: startDate,
+      endDate: endDate
+    }, { silent: true }).then(function (data) {
+      that.setData({
+        monthIncomeText: util.formatMoney(data.income || 0),
+        monthExpenseText: util.formatMoney(data.expense || 0)
+      });
     });
   },
 
