@@ -45,21 +45,24 @@ Page({
       var investmentArr = grouped.investment || [];
 
       var assetAccounts = assetArr.map(function (item) {
-        item.balanceText = util.formatMoney(item.initialBalance);
+        item.balanceText = util.formatMoney(item.currentBalance);
+        item.initialBalanceText = util.formatMoney(item.initialBalance != null ? item.initialBalance : 0);
         return item;
       });
       var liabilityAccounts = liabilityArr.map(function (item) {
-        item.balanceText = util.formatMoney(item.initialBalance);
+        item.balanceText = util.formatMoney(item.currentBalance);
+        item.initialBalanceText = util.formatMoney(item.initialBalance != null ? item.initialBalance : 0);
         return item;
       });
       var investmentAccounts = investmentArr.map(function (item) {
-        item.balanceText = util.formatMoney(item.initialBalance);
+        item.balanceText = util.formatMoney(item.currentBalance);
+        item.initialBalanceText = util.formatMoney(item.initialBalance != null ? item.initialBalance : 0);
         return item;
       });
 
-      var assetTotal = assetAccounts.reduce(function (sum, item) { return sum + Number(item.initialBalance); }, 0);
-      var liabilityTotal = liabilityAccounts.reduce(function (sum, item) { return sum + Number(item.initialBalance); }, 0);
-      var investmentTotal = investmentAccounts.reduce(function (sum, item) { return sum + Number(item.initialBalance); }, 0);
+      var assetTotal = assetAccounts.reduce(function (sum, item) { return sum + Number(item.currentBalance || 0); }, 0);
+      var liabilityTotal = liabilityAccounts.reduce(function (sum, item) { return sum + Number(item.currentBalance || 0); }, 0);
+      var investmentTotal = investmentAccounts.reduce(function (sum, item) { return sum + Number(item.currentBalance || 0); }, 0);
 
       var totalSum = summary.netWorth || 0;
 

@@ -42,7 +42,7 @@ Page({
 
     api.get('/accounts/' + id, {}, { silent: true }).then(function (data) {
       var account = data;
-      account.balanceText = util.formatMoney(account.initialBalance);
+      account.balanceText = util.formatMoney(account.currentBalance);
       account.initialBalanceText = util.formatMoney(account.initialBalance);
 
       var typeMap = { asset: '资产', liability: '负债', investment: '投资' };

@@ -33,17 +33,25 @@
       <text class="section-title">资产账户</text>
       <text class="section-total">{{assetTotalText}}</text>
     </view>
-    <view class="account-card" wx:for="{{assetAccounts}}" wx:key="id">
-      <view class="account-icon" style="background-color: {{item.color || '#07C160'}}">
-        <text>{{item.icon || '💰'}}</text>
+    <view class="account-card" wx:for="{{assetAccounts}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="account-card-top">
+        <view class="account-icon" style="background-color: {{item.color || '#07C160'}}">
+          <text>{{item.icon || '💰'}}</text>
+        </view>
+        <text class="account-name">{{item.name}}</text>
+        <view class="account-balance-area">
+          <view class="balance-line balance-line-init">
+            <text class="bal-init-text">初始金额:</text>
+            <text class="bal-init-num">{{item.initialBalanceText}}</text>
+          </view>
+          <view class="balance-line balance-line-cur">
+            <text class="bal-cur-text">当前余额:</text>
+            <text class="bal-cur-num">{{item.balanceText}}</text>
+          </view>
+        </view>
       </view>
-      <view class="account-info">
-        <view class="account-name">{{item.name}}</view>
-        <view class="account-balance">{{item.balanceText}}</view>
-      </view>
-      <view class="account-actions">
-        <view class="action-btn action-edit" catchtap="onEdit" data-id="{{item.id}}" data-type="{{item.type}}">编辑</view>
-        <view class="action-btn action-delete" catchtap="onDelete" data-id="{{item.id}}" data-name="{{item.name}}">删除</view>
+      <view class="account-card-bottom">
+        <text class="account-detail-link">详情</text>
       </view>
     </view>
   </view>
@@ -54,17 +62,25 @@
       <text class="section-title">负债账户</text>
       <text class="section-total liability-color">{{liabilityTotalText}}</text>
     </view>
-    <view class="account-card" wx:for="{{liabilityAccounts}}" wx:key="id">
-      <view class="account-icon" style="background-color: {{item.color || '#FA5151'}}">
-        <text>{{item.icon || '💳'}}</text>
+    <view class="account-card" wx:for="{{liabilityAccounts}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="account-card-top">
+        <view class="account-icon" style="background-color: {{item.color || '#FA5151'}}">
+          <text>{{item.icon || '💳'}}</text>
+        </view>
+        <text class="account-name">{{item.name}}</text>
+        <view class="account-balance-area">
+          <view class="balance-line balance-line-init">
+            <text class="bal-init-text">初始金额:</text>
+            <text class="bal-init-num">{{item.initialBalanceText}}</text>
+          </view>
+          <view class="balance-line balance-line-cur">
+            <text class="bal-cur-text">当前余额:</text>
+            <text class="bal-cur-num">{{item.balanceText}}</text>
+          </view>
+        </view>
       </view>
-      <view class="account-info">
-        <view class="account-name">{{item.name}}</view>
-        <view class="account-balance liability-color">{{item.balanceText}}</view>
-      </view>
-      <view class="account-actions">
-        <view class="action-btn action-edit" catchtap="onEdit" data-id="{{item.id}}" data-type="{{item.type}}">编辑</view>
-        <view class="action-btn action-delete" catchtap="onDelete" data-id="{{item.id}}" data-name="{{item.name}}">删除</view>
+      <view class="account-card-bottom">
+        <text class="account-detail-link">详情</text>
       </view>
     </view>
   </view>
@@ -75,17 +91,25 @@
       <text class="section-title">投资账户</text>
       <text class="section-total">{{investmentTotalText}}</text>
     </view>
-    <view class="account-card" wx:for="{{investmentAccounts}}" wx:key="id">
-      <view class="account-icon" style="background-color: {{item.color || '#FF9800'}}">
-        <text>{{item.icon || '📈'}}</text>
+    <view class="account-card" wx:for="{{investmentAccounts}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="account-card-top">
+        <view class="account-icon" style="background-color: {{item.color || '#FF9800'}}">
+          <text>{{item.icon || '📈'}}</text>
+        </view>
+        <text class="account-name">{{item.name}}</text>
+        <view class="account-balance-area">
+          <view class="balance-line balance-line-init">
+            <text class="bal-init-text">初始金额:</text>
+            <text class="bal-init-num">{{item.initialBalanceText}}</text>
+          </view>
+          <view class="balance-line balance-line-cur">
+            <text class="bal-cur-text">当前余额:</text>
+            <text class="bal-cur-num">{{item.balanceText}}</text>
+          </view>
+        </view>
       </view>
-      <view class="account-info">
-        <view class="account-name">{{item.name}}</view>
-        <view class="account-balance">{{item.balanceText}}</view>
-      </view>
-      <view class="account-actions">
-        <view class="action-btn action-edit" catchtap="onEdit" data-id="{{item.id}}" data-type="{{item.type}}">编辑</view>
-        <view class="action-btn action-delete" catchtap="onDelete" data-id="{{item.id}}" data-name="{{item.name}}">删除</view>
+      <view class="account-card-bottom">
+        <text class="account-detail-link">详情</text>
       </view>
     </view>
   </view>

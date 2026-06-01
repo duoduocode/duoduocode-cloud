@@ -158,12 +158,12 @@
     </view>
     <scroll-view scroll-y="true" class="sheet-body">
       <block wx:for="{{accounts}}" wx:key="id">
-        <view wx:if="{{item.initialBalance > 0}}" class="sheet-item {{selectedAccount.id === item.id ? 'sheet-item-active' : ''}}"
+        <view wx:if="{{item.currentBalance > 0}}" class="sheet-item {{selectedAccount.id === item.id ? 'sheet-item-active' : ''}}"
           data-id="{{item.id}}" bindtap="onSelectAccount">
           <text class="sheet-item-icon">{{item.icon || '💳'}}</text>
           <view class="sheet-item-info">
             <text class="sheet-item-name">{{item.name}}</text>
-            <text class="sheet-item-sub">余额: ¥{{item.initialBalance}}</text>
+            <text class="sheet-item-sub">余额: ¥{{item.currentBalance}}</text>
           </view>
           <view wx:if="{{selectedAccount.id === item.id}}" class="sheet-item-check">✓</view>
         </view>
