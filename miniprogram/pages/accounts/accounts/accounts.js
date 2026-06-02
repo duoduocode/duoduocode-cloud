@@ -50,8 +50,12 @@ Page({
         return item;
       });
       var liabilityAccounts = liabilityArr.map(function (item) {
-        item.balanceText = util.formatMoney(item.currentBalance);
-        item.initialBalanceText = util.formatMoney(item.initialBalance != null ? item.initialBalance : 0);
+        var bal = Number(item.currentBalance || 0);
+        var debt = Math.max(0, -bal);
+        item.debtAmount = debt;
+        item.debtText = util.formatMoney(debt);
+        item.creditLimitText = util.formatMoney(item.effectiveCreditLimit || item.creditLimit || 0);
+        item.balanceText = util.formatMoney(Math.abs(bal));
         return item;
       });
       var investmentAccounts = investmentArr.map(function (item) {
@@ -61,7 +65,7 @@ Page({
       });
 
       var assetTotal = assetAccounts.reduce(function (sum, item) { return sum + Number(item.currentBalance || 0); }, 0);
-      var liabilityTotal = liabilityAccounts.reduce(function (sum, item) { return sum + Number(item.currentBalance || 0); }, 0);
+      var liabilityTotal = liabilityAccounts.reduce(function (sum, item) { return sum + (item.debtAmount || 0); }, 0);
       var investmentTotal = investmentAccounts.reduce(function (sum, item) { return sum + Number(item.currentBalance || 0); }, 0);
 
       var totalSum = summary.netWorth || 0;

@@ -42,6 +42,23 @@ page {
   font-weight: bold;
   color: #333333;
   margin-bottom: 4px;
+  word-break: break-all;
+  white-space: normal;
+  display: block;
+  text-align: center;
+  padding: 0 16px;
+  line-height: 1.3;
+}
+.debt-label {
+  font-size: 14px;
+  color: #999999;
+  margin-top: 8px;
+  margin-bottom: 2px;
+}
+.account-credit-limit {
+  font-size: 13px;
+  color: #B0B0B0;
+  margin-top: 6px;
 }
 .account-initial-balance {
   font-size: 13px;
@@ -68,62 +85,242 @@ page {
   color: #FA5151;
 }
 
-/* 统计区 */
-.stats-row {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-.stat-card {
-  flex: 1;
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-.stat-label {
-  font-size: 12px;
-  color: #999999;
-  margin-bottom: 6px;
-}
-.stat-value {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333333;
-}
-.stat-value.income-color {
-  color: #07C160;
-}
-.stat-value.expense-color {
-  color: #FA5151;
-}
-
-/* 交易列表 */
-.transaction-section {
+/* 交易记录搜索区 */
+.tx-section {
   background: #ffffff;
   border-radius: 12px;
   padding: 16px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
-.section-title {
+.tx-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.tx-section-title {
   font-size: 16px;
   font-weight: bold;
   color: #333333;
-  margin-bottom: 12px;
 }
-.transaction-item {
+
+/* 类型Tab */
+.tx-type-tabs {
+  display: flex;
+  white-space: nowrap;
+  margin-bottom: 10px;
+}
+.tx-type-item {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 14px;
+  margin-right: 8px;
+  border-radius: 14px;
+  background: #F5F5F5;
+  font-size: 12px;
+  color: #666;
+  flex-shrink: 0;
+}
+.tx-type-item.active {
+  background: #07C160;
+  color: #fff;
+  font-weight: 500;
+}
+
+/* 快捷Chip行 */
+.tx-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.tx-chip {
   display: flex;
   align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #F0F0F0;
+  height: 26px;
+  padding: 0 10px;
+  margin-right: 6px;
+  margin-bottom: 4px;
+  border-radius: 13px;
+  background: #F5F5F5;
+  font-size: 11px;
+  color: #888;
 }
-.transaction-item:last-child {
+.tx-chip.active {
+  background: #E8F8EF;
+  color: #07C160;
+  font-weight: 500;
+}
+.tx-chip-icon {
+  margin-right: 2px;
+}
+
+/* 自定义日期 */
+.tx-date-custom {
+  display: flex;
+  align-items: center;
+  padding: 6px 0 8px;
+}
+.date-pick {
+  padding: 5px 10px;
+  background: #F5F5F5;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #333;
+}
+.date-sep {
+  margin: 0 6px;
+  color: #999;
+  font-size: 12px;
+}
+.date-actions {
+  display: flex;
+  margin-left: 8px;
+}
+.date-btn {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+.date-btn.cancel {
+  color: #999;
+  margin-right: 6px;
+}
+.date-btn.confirm {
+  color: #fff;
+  background: #07C160;
+}
+
+/* 高级筛选 */
+.tx-advanced-toggle {
+  display: flex;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 12px;
+  color: #999;
+}
+.tx-advanced-arrow {
+  margin-right: 4px;
+  font-size: 11px;
+}
+.tx-advanced-panel {
+  padding: 8px 0 0;
+  margin-bottom: 6px;
+}
+.tx-advanced-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #F5F5F5;
+}
+.tx-advanced-label {
+  font-size: 13px;
+  color: #666;
+  width: 36px;
+}
+.tx-picker-val {
+  font-size: 13px;
+  color: #333;
+  padding: 4px 10px;
+  background: #F5F5F5;
+  border-radius: 6px;
+}
+.tx-advanced-actions {
+  display: flex;
+  margin-top: 10px;
+}
+.filter-reset {
+  flex: 1;
+  text-align: center;
+  padding: 8px;
+  background: #F5F5F5;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #666;
+  margin-right: 10px;
+}
+.filter-apply {
+  flex: 2;
+  text-align: center;
+  padding: 8px;
+  background: #07C160;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #fff;
+}
+
+/* 搜索栏 */
+.tx-search-bar {
+  margin: 8px 0;
+}
+.tx-search-input-wrap {
+  display: flex;
+  align-items: center;
+  background: #F5F5F5;
+  border-radius: 20px;
+  padding: 0 12px;
+  height: 34px;
+}
+.tx-search-icon {
+  font-size: 14px;
+  margin-right: 6px;
+}
+.tx-search-input {
+  flex: 1;
+  font-size: 13px;
+  height: 100%;
+}
+.tx-search-clear {
+  font-size: 14px;
+  color: #999;
+  padding: 0 2px;
+}
+
+/* 排序 + 统计 */
+.tx-sort-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #F0F0F0;
+  margin-bottom: 4px;
+}
+.tx-sort-left {
+  display: flex;
+}
+.tx-sort-item {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #999;
+  padding: 4px 0;
+  margin-right: 18px;
+}
+.tx-sort-item.active {
+  color: #07C160;
+  font-weight: 500;
+}
+.tx-sort-arrow {
+  font-size: 11px;
+  margin-left: 2px;
+}
+.tx-sort-summary {
+  font-size: 12px;
+  color: #999;
+}
+
+/* 交易列表项 */
+.tx-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid #F5F5F5;
+}
+.tx-item:last-child {
   border-bottom: none;
 }
-.transaction-icon {
+.tx-item-icon {
   width: 36px;
   height: 36px;
   border-radius: 18px;
@@ -131,54 +328,58 @@ page {
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  margin-right: 12px;
+  margin-right: 10px;
+  flex-shrink: 0;
 }
-.transaction-info {
+.tx-item-info {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
-.transaction-desc {
+.tx-item-category {
   font-size: 14px;
   color: #333333;
-  margin-bottom: 2px;
 }
-.transaction-category {
-  font-size: 13px;
-  color: #666666;
-  margin-bottom: 2px;
-}
-.transaction-date {
+.tx-item-desc {
   font-size: 12px;
   color: #999999;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.transaction-amount {
+.tx-item-date {
+  font-size: 12px;
+  color: #BBBBBB;
+  margin-top: 2px;
+  text-align: right;
+  display: block;
+}
+.tx-item-right {
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+.tx-item-amount {
   font-size: 15px;
   font-weight: bold;
 }
-.transaction-amount.income-color {
+.tx-item-amount.income-color {
   color: #07C160;
 }
-.transaction-amount.expense-color {
+.tx-item-amount.expense-color {
   color: #FA5151;
 }
 
-/* 空状态 */
-.empty-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 0;
-}
-.empty-list-text {
-  font-size: 14px;
-  color: #999999;
-}
-
-/* 底部加载提示 */
-.load-more {
+.tx-load-more {
   text-align: center;
   padding: 16px;
   font-size: 13px;
   color: #999999;
+}
+.tx-empty {
+  text-align: center;
+  padding: 60px 0;
+  color: #999999;
+  font-size: 14px;
 }

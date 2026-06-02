@@ -45,16 +45,33 @@
     </view>
   </view>
 
-  <!-- 初始余额（负债类显示当前负债） -->
+  <!-- 初始金额（负债类显示初始负债） -->
   <view class="form-section">
-    <text class="form-label">{{formData.type === 'liability' ? '当前负债' : '当前余额'}}</text>
-    <input class="form-input" type="digit" placeholder="0.00" value="{{formData.initialBalance}}" bindinput="onBalanceInput" />
+    <text class="form-label">{{formData.type === 'liability' ? '初始负债' : '初始金额'}}</text>
+    <block wx:if="{{!initialBalanceEditable}}">
+      <view class="readonly-field">
+        <text class="readonly-value">{{formData.initialBalance || '0.00'}}</text>
+        <text class="adjust-btn" bindtap="showAdjustModal">调整</text>
+      </view>
+    </block>
+    <block wx:else>
+      <input class="form-input" type="digit" placeholder="0.00" value="{{formData.initialBalance}}" bindinput="onBalanceInput" focus="{{true}}" />
+    </block>
   </view>
 
-  <!-- 信用额度 (负债类显示) -->
+  <!-- 固定额度 (负债类显示) -->
   <view class="form-section" wx:if="{{formData.type === 'liability'}}">
-    <text class="form-label">信用额度</text>
-    <input class="form-input" type="digit" placeholder="0.00" value="{{formData.creditLimit}}" bindinput="onCreditLimitInput" />
+    <text class="form-label">固定额度</text>
+    <block wx:if="{{!creditLimitEditable}}">
+      <view class="readonly-field">
+        <text class="readonly-value">{{formData.creditLimit || '0.00'}}</text>
+        <text class="adjust-btn" bindtap="showCreditLimitModal">调整</text>
+      </view>
+    </block>
+    <block wx:else>
+      <input class="form-input" type="digit" placeholder="0.00" value="{{formData.creditLimit}}" bindinput="onCreditLimitInput" focus="{{true}}" />
+    </block>
+    <text class="available-credit-hint" wx:if="{{formData.effectiveCreditLimitText}}">当前可用额度 ¥{{formData.effectiveCreditLimitText}}</text>
   </view>
 
   <!-- 账户备注 -->
@@ -79,5 +96,29 @@
   <!-- 保存按钮 -->
   <view class="submit-section">
     <button class="submit-btn" bindtap="submit">保存修改</button>
+  </view>
+
+  <!-- 调整初始金额确认弹窗 -->
+  <view class="modal-overlay" wx:if="{{showAdjustModal}}" catchtap="cancelAdjustModal">
+    <view class="adjust-modal" catchtap="">
+      <text class="adjust-modal-title">调整初始金额</text>
+      <text class="adjust-modal-body">调整初始金额将重新计算账户余额，不影响已有交易记录。确定要调整吗？</text>
+      <view class="adjust-modal-actions">
+        <text class="adjust-modal-cancel" bindtap="cancelAdjustModal">取消</text>
+        <text class="adjust-modal-confirm" bindtap="confirmAdjust">确定</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 调整固定额度确认弹窗 -->
+  <view class="modal-overlay" wx:if="{{showCreditLimitModal}}" catchtap="cancelCreditLimitModal">
+    <view class="adjust-modal" catchtap="">
+      <text class="adjust-modal-title">调整固定额度</text>
+      <text class="adjust-modal-body">调整固定额度将影响当前可用额度，不影响已有还款记录。确定要调整吗？</text>
+      <view class="adjust-modal-actions">
+        <text class="adjust-modal-cancel" bindtap="cancelCreditLimitModal">取消</text>
+        <text class="adjust-modal-confirm" bindtap="confirmCreditLimit">确定</text>
+      </view>
+    </view>
   </view>
 </view>

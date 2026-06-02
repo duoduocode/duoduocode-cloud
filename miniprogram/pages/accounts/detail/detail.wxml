@@ -3,49 +3,154 @@
   <!-- 账户信息头部 -->
   <view class="account-header">
     <text class="account-type-tag">{{accountTypeText}}</text>
-    <text class="account-name">{{account.name}}</text>
-    <text class="account-balance-large {{account.balance < 0 ? 'negative' : ''}}">{{account.balanceText}}</text>
-    <text class="account-initial-balance">初始余额 {{account.initialBalanceText}}</text>
+    <view class="account-name">{{account.name}}</view>
+    <block wx:if="{{account.type === 'liability'}}">
+      <text class="debt-label">当前负债</text>
+      <text class="account-balance-large">{{account.debtText}}</text>
+      <text class="account-credit-limit" wx:if="{{account.effectiveCreditLimit > 0}}">可用额度 ¥{{account.creditLimitText}}</text>
+    </block>
+    <block wx:else>
+      <text class="account-balance-large {{account.balance < 0 ? 'negative' : ''}}">{{account.balanceText}}</text>
+      <text class="account-initial-balance">初始金额 {{account.initialBalanceText}}</text>
+    </block>
     <view class="account-header-actions">
       <text class="header-action-btn left" bindtap="goEdit">编辑账户</text>
       <text class="header-action-btn right" bindtap="showDeleteConfirm">删除账户</text>
     </view>
   </view>
 
-  <!-- 本月收支统计 -->
-  <view class="stats-row">
-    <view class="stat-card">
-      <text class="stat-label">本月收入</text>
-      <text class="stat-value income-color">{{monthIncomeText}}</text>
+  <!-- 交易记录搜索区 -->
+  <view class="tx-section">
+    <view class="tx-section-header">
+      <text class="tx-section-title">交易记录</text>
     </view>
-    <view class="stat-card">
-      <text class="stat-label">本月支出</text>
-      <text class="stat-value expense-color">{{monthExpenseText}}</text>
-    </view>
-  </view>
 
-  <!-- 交易流水列表 -->
-  <view class="transaction-section">
-    <text class="section-title">交易记录</text>
+    <!-- 类型快捷Tab -->
+    <scroll-view class="tx-type-tabs" scroll-x="true" enhanced="true" show-scrollbar="{{false}}">
+      <view class="tx-type-item {{activeType === item.value ? 'active' : ''}}"
+        wx:for="{{typeTabs}}" wx:key="value"
+        bindtap="selectType" data-value="{{item.value}}">
+        <text>{{item.label}}</text>
+      </view>
+    </scroll-view>
+
+    <!-- 快捷时间筛选 -->
+    <view class="tx-chip-row">
+      <view class="tx-chip {{quickTime === 'month' ? 'active' : ''}}" bindtap="selectQuickTime" data-type="month">
+        <text class="tx-chip-icon">📅</text>
+        <text>本月</text>
+      </view>
+      <view class="tx-chip {{quickTime === 'week' ? 'active' : ''}}" bindtap="selectQuickTime" data-type="week">
+        <text>近7天</text>
+      </view>
+      <view class="tx-chip {{quickTime === 'month30' ? 'active' : ''}}" bindtap="selectQuickTime" data-type="month30">
+        <text>近30天</text>
+      </view>
+      <view class="tx-chip {{quickTime === 'custom' ? 'active' : ''}}" bindtap="selectQuickTime" data-type="custom">
+        <text>自定义</text>
+      </view>
+    </view>
+
+    <!-- 自定义日期选择 -->
+    <view class="tx-date-custom" wx:if="{{showDatePicker}}">
+      <picker mode="date" value="{{dateStart}}" bindchange="onDateStartChange">
+        <view class="date-pick">{{dateStart || '开始日期'}}</view>
+      </picker>
+      <text class="date-sep">~</text>
+      <picker mode="date" value="{{dateEnd}}" bindchange="onDateEndChange">
+        <view class="date-pick">{{dateEnd || '结束日期'}}</view>
+      </picker>
+      <view class="date-actions">
+        <text class="date-btn cancel" bindtap="cancelCustomDate">取消</text>
+        <text class="date-btn confirm" bindtap="applyCustomDate">确定</text>
+      </view>
+    </view>
+
+    <!-- 快捷金额筛选 -->
+    <view class="tx-chip-row">
+      <view class="tx-chip {{quickAmount === '0-100' ? 'active' : ''}}" bindtap="selectQuickAmount" data-type="0-100">
+        <text>¥0-100</text>
+      </view>
+      <view class="tx-chip {{quickAmount === '100-500' ? 'active' : ''}}" bindtap="selectQuickAmount" data-type="100-500">
+        <text>¥100-500</text>
+      </view>
+      <view class="tx-chip {{quickAmount === '500-2000' ? 'active' : ''}}" bindtap="selectQuickAmount" data-type="500-2000">
+        <text>¥500-2000</text>
+      </view>
+      <view class="tx-chip {{quickAmount === '2000+' ? 'active' : ''}}" bindtap="selectQuickAmount" data-type="2000+">
+        <text>¥2000+</text>
+      </view>
+    </view>
+
+    <!-- 更多筛选 -->
+    <view class="tx-advanced-toggle" bindtap="toggleAdvanced">
+      <text class="tx-advanced-arrow">{{showAdvanced ? '▾' : '▸'}}</text>
+      <text>更多筛选（分类、标签）</text>
+    </view>
+    <view class="tx-advanced-panel" wx:if="{{showAdvanced}}">
+      <view class="tx-advanced-row">
+        <text class="tx-advanced-label">分类</text>
+        <picker mode="selector" range="{{categories}}" range-key="name" value="{{categoryIndex}}" bindchange="onCategoryChange">
+          <view class="tx-picker-val">{{selectedCategoryName}}</view>
+        </picker>
+      </view>
+      <view class="tx-advanced-row">
+        <text class="tx-advanced-label">标签</text>
+        <picker mode="selector" range="{{tags}}" range-key="name" value="{{tagIndex}}" bindchange="onTagChange">
+          <view class="tx-picker-val">{{selectedTagName}}</view>
+        </picker>
+      </view>
+      <view class="tx-advanced-actions">
+        <view class="filter-reset" bindtap="resetFilter">重置</view>
+        <view class="filter-apply" bindtap="applyAdvanced">应用</view>
+      </view>
+    </view>
+
+    <!-- 搜索栏 -->
+    <view class="tx-search-bar">
+      <view class="tx-search-input-wrap">
+        <text class="tx-search-icon">🔍</text>
+        <input class="tx-search-input" placeholder="搜索备注..." value="{{keyword}}" bindinput="onKeywordInput" bindconfirm="doSearch" confirm-type="search"/>
+        <text class="tx-search-clear" wx:if="{{keyword}}" bindtap="clearKeyword">✕</text>
+      </view>
+    </view>
+
+    <!-- 排序栏 + 统计摘要 -->
+    <view class="tx-sort-bar">
+      <view class="tx-sort-left">
+        <view class="tx-sort-item {{sortBy === 'date' ? 'active' : ''}}" bindtap="setSort" data-sort="date">
+          <text>日期</text>
+          <text class="tx-sort-arrow">{{sortBy === 'date' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}}</text>
+        </view>
+        <view class="tx-sort-item {{sortBy === 'amount' ? 'active' : ''}}" bindtap="setSort" data-sort="amount">
+          <text>金额</text>
+          <text class="tx-sort-arrow">{{sortBy === 'amount' ? (sortOrder === 'desc' ? '↓' : '↑') : ''}}</text>
+        </view>
+      </view>
+      <text class="tx-sort-summary" wx:if="{{totalTransactions > 0}}">共{{totalTransactions}}笔</text>
+    </view>
+
+    <!-- 结果列表 -->
     <block wx:if="{{transactions.length > 0}}">
-      <view class="transaction-item" wx:for="{{transactions}}" wx:key="id">
-        <view class="transaction-icon" style="background-color: {{item.transactionType === 'expense' ? '#FDEDED' : item.transactionType === 'income' ? '#E8F8EF' : '#EDF0FF'}}">
-          <text>{{item.categoryIcon || item.relatedAccountIcon || '💰'}}</text>
+      <view class="tx-item" wx:for="{{transactions}}" wx:key="id" bindtap="goTransactionDetail" data-id="{{item.id}}">
+        <view class="tx-item-icon" style="background-color: {{item.displayColor}}">
+          <text>{{item.displayIcon}}</text>
         </view>
-        <view class="transaction-info">
-          <text wx:if="{{item.parentCategoryName || item.categoryName}}" class="transaction-category">{{item.parentCategoryName ? item.parentCategoryName + ' / ' : ''}}{{item.categoryName}}</text>
-          <text wx:elif="{{item.relatedAccountName}}" class="transaction-category">{{item.relatedAccountName}}</text>
-          <text class="transaction-date">{{item.dateText}}</text>
+        <view class="tx-item-info">
+          <text class="tx-item-category">{{item.displayPrimary}}</text>
+          <text class="tx-item-desc" wx:if="{{item.displaySecondary}}">{{item.displaySecondary}}</text>
         </view>
-        <text class="transaction-amount {{item.transactionType === 'expense' ? 'expense-color' : 'income-color'}}">{{item.amountText}}</text>
+        <view class="tx-item-right">
+          <text class="tx-item-amount {{item.transactionType === 'expense' || item.isOut ? 'expense-color' : 'income-color'}}">{{item.amountText}}</text>
+          <text class="tx-item-date">{{item.dateText}}</text>
+        </view>
       </view>
-      <!-- 加载更多 -->
-      <view class="load-more" wx:if="{{hasMore}}" bindtap="loadMoreTransactions">加载更多</view>
+      <view class="tx-load-more" wx:if="{{loading}}">加载中...</view>
+      <view class="tx-load-more" wx:elif="{{!hasMore}}">没有更多了</view>
+      <view class="tx-load-more" wx:elif="{{hasMore}}" bindtap="loadMore">加载更多</view>
     </block>
-    <block wx:else>
-      <view class="empty-list">
-        <text class="empty-list-text">暂无交易记录</text>
-      </view>
+    <block wx:elif="{{!loading}}">
+      <view class="tx-empty">暂无交易记录</view>
     </block>
   </view>
 </view>

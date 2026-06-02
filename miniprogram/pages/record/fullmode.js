@@ -7,6 +7,8 @@ Page({
     amount: '',
     date: '',
     time: '',
+    dateTimeRange: [],
+    dateTimeValue: [0, 0, 0, 0, 0],
     description: '',
 
     // 分录行: [{id, type:debit/credit, targetId, targetName, targetIcon, debitAmount, creditAmount}]
@@ -33,20 +35,61 @@ Page({
   },
 
   onLoad() {
-    const now = new Date();
+    var now = new Date();
     this.setData({
       date: this.formatDateStr(now),
       time: this.formatTimeStr(now)
     });
+    this.buildDateTimeRange(now);
     this.loadData();
     this.addEntry();
   },
 
-  formatDateStr(date) {
-    const y = date.getFullYear();
-    const m = (date.getMonth() + 1).toString().padStart(2, '0');
-    const d = date.getDate().toString().padStart(2, '0');
+  buildDateTimeRange: function (now) {
+    var y = now.getFullYear();
+    var years = [];
+    for (var i = y - 2; i <= y + 2; i++) years.push('' + i);
+    var months = [];
+    for (var i = 1; i <= 12; i++) months.push(('0' + i).slice(-2));
+    var days = [];
+    for (var i = 1; i <= 31; i++) days.push(('0' + i).slice(-2));
+    var hours = [];
+    for (var i = 0; i <= 23; i++) hours.push(('0' + i).slice(-2));
+    var mins = [];
+    for (var i = 0; i <= 59; i++) mins.push(('0' + i).slice(-2));
+    this.setData({
+      dateTimeRange: [years, months, days, hours, mins],
+      dateTimeValue: [2, now.getMonth(), now.getDate() - 1, now.getHours(), now.getMinutes()]
+    });
+  },
+
+  onDateTimeColumnChange: function (e) {
+    var col = e.detail.column;
+    var val = e.detail.value;
+    var v = this.data.dateTimeValue;
+    v[col] = val;
+    this.setData({ dateTimeValue: v });
+  },
+
+  onDateTimeChange: function (e) {
+    var vals = e.detail.value;
+    var range = this.data.dateTimeRange;
+    var date = range[0][vals[0]] + '-' + range[1][vals[1]] + '-' + range[2][vals[2]];
+    var time = range[3][vals[3]] + ':' + range[4][vals[4]];
+    this.setData({ date: date, time: time });
+  },
+
+  formatDateStr: function (date) {
+    var y = date.getFullYear();
+    var m = (date.getMonth() + 1).toString().padStart(2, '0');
+    var d = date.getDate().toString().padStart(2, '0');
     return y + '-' + m + '-' + d;
+  },
+
+  formatTimeStr: function (date) {
+    var h = date.getHours().toString().padStart(2, '0');
+    var m = date.getMinutes().toString().padStart(2, '0');
+    return h + ':' + m;
   },
 
   async loadData() {
@@ -79,17 +122,6 @@ Page({
     this.setData({ amount: e.detail.value });
   },
 
-  // 日期
-  onDateChange(e) {
-    this.setData({ date: e.detail.value });
-  },
-
-  // 时间
-  onTimeChange(e) {
-    this.setData({ time: e.detail.value });
-  },
-
-  // 备注
   onDescInput(e) {
     this.setData({ description: e.detail.value });
   },

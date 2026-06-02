@@ -22,15 +22,10 @@
     </view>
     <view class="fullmode-meta-row">
       <view class="fullmode-meta-item">
-        <text class="fullmode-meta-label">日期</text>
-        <picker class="fullmode-meta-picker" mode="date" value="{{date}}" bindchange="onDateChange">
-          <text>{{date}}</text>
-        </picker>
-      </view>
-      <view class="fullmode-meta-item">
-        <text class="fullmode-meta-label">时间</text>
-        <picker class="fullmode-meta-picker" mode="time" value="{{time}}" bindchange="onTimeChange">
-          <text>{{time}}</text>
+        <text class="fullmode-meta-label">日期时间</text>
+        <picker class="fullmode-meta-picker" mode="multiSelector" range="{{dateTimeRange}}" value="{{dateTimeValue}}"
+          bindchange="onDateTimeChange" bindcolumnchange="onDateTimeColumnChange">
+          <text>{{date}} {{time}}</text>
         </picker>
       </view>
     </view>
@@ -117,10 +112,9 @@
 
   <!-- 备注 -->
   <view class="fullmode-notes">
-    <view class="notes-row">
-      <text class="notes-label">备注</text>
-      <input class="notes-input" placeholder="添加备注..." value="{{description}}" bindinput="onDescInput" />
-    </view>
+    <textarea class="notes-textarea" placeholder="添加备注..." value="{{description}}" bindinput="onDescInput"
+      auto-height maxlength="-1" />
+    <view wx:if="{{description}}" class="notes-counter">{{description.length}} 字</view>
   </view>
 
   <!-- 操作按钮 -->

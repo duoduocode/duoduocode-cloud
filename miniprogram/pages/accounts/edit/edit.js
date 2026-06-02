@@ -12,12 +12,17 @@ Page({
       color: '#07C160',
       initialBalance: '',
       creditLimit: '',
+      effectiveCreditLimitText: '',
       includeInNetWorth: true,
       allowTransfer: true,
       desc: ''
     },
     emojiList: ['💰','💳','🏦','💵','💎','📈','🏠','🚗','✈️','🎓','💊','🎵','🍔','👕','💻','📱','🎁','🐷','✨','⭐'],
-    colorList: ['#07C160','#FA5151','#FF9800','#2196F3','#9C27B0','#00BCD4','#FF5722','#795548','#607D8B','#4CAF50','#FFEB3B','#E91E63']
+    colorList: ['#07C160','#FA5151','#FF9800','#2196F3','#9C27B0','#00BCD4','#FF5722','#795548','#607D8B','#4CAF50','#FFEB3B','#E91E63'],
+    initialBalanceEditable: false,
+    showAdjustModal: false,
+    creditLimitEditable: false,
+    showCreditLimitModal: false
   },
 
   onLoad: function (options) {
@@ -31,14 +36,21 @@ Page({
   loadAccountDetail: function (id) {
     var that = this;
     api.get('/accounts/' + id, {}, { showLoading: true, loadingText: '加载中...' }).then(function (data) {
+      var ib = data.initialBalance != null ? data.initialBalance : 0;
+      if (data.type === 'liability' && ib < 0) {
+        ib = Math.abs(ib);
+      }
+      var effCredit = data.effectiveCreditLimit || data.creditLimit || 0;
+      var accessible = Number(effCredit).toFixed(2);
       that.setData({
         formData: {
           type: data.type || 'asset',
           name: data.name || '',
           icon: data.icon || '💰',
           color: data.color || '#07C160',
-          initialBalance: data.initialBalance != null ? String(data.initialBalance) : '',
+          initialBalance: String(ib),
           creditLimit: data.creditLimit != null ? String(data.creditLimit) : '',
+          effectiveCreditLimitText: accessible,
           includeInNetWorth: data.includeInNetWorth !== false,
           allowTransfer: data.allowTransfer !== false,
           desc: data.desc || ''
@@ -79,6 +91,30 @@ Page({
 
   onDescInput: function (e) {
     this.setData({ 'formData.desc': e.detail.value });
+  },
+
+  showAdjustModal: function () {
+    this.setData({ showAdjustModal: true });
+  },
+
+  confirmAdjust: function () {
+    this.setData({ showAdjustModal: false, initialBalanceEditable: true });
+  },
+
+  cancelAdjustModal: function () {
+    this.setData({ showAdjustModal: false });
+  },
+
+  showCreditLimitModal: function () {
+    this.setData({ showCreditLimitModal: true });
+  },
+
+  confirmCreditLimit: function () {
+    this.setData({ showCreditLimitModal: false, creditLimitEditable: true });
+  },
+
+  cancelCreditLimitModal: function () {
+    this.setData({ showCreditLimitModal: false });
   },
 
   // 数字正则：允许负数、小数点

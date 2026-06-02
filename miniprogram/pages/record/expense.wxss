@@ -207,15 +207,31 @@
   flex-shrink: 0;
 }
 
-.form-item-notes .form-item-right {
-  flex: 1;
+.notes-block {
+  margin: 0 16px;
+  padding: 0;
 }
 
-.desc-input {
-  text-align: right;
-  font-size: 15px;
-  color: #333333;
+.notes-textarea {
   width: 100%;
+  min-height: 72px;
+  max-height: 140px;
+  padding: 14px 16px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #333333;
+  line-height: 1.6;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.notes-counter {
+  text-align: right;
+  font-size: 12px;
+  color: #BBBBBB;
+  margin-top: 6px;
+  padding-right: 4px;
 }
 
 /* 操作按钮 */
@@ -307,18 +323,6 @@
   background: #F0FFF5;
   margin: 0 -16px;
   padding: 14px 16px;
-}
-
-.sheet-item-disabled {
-  opacity: 0.45;
-  pointer-events: none;
-}
-
-.sheet-hint {
-  font-size: 11px;
-  color: #B0B0B0;
-  flex: 1;
-  margin-left: 10px;
 }
 
 .sheet-item-icon {

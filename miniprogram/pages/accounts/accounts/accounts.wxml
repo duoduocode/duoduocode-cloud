@@ -38,7 +38,7 @@
         <view class="account-icon" style="background-color: {{item.color || '#07C160'}}">
           <text>{{item.icon || '💰'}}</text>
         </view>
-        <text class="account-name">{{item.name}}</text>
+        <view class="account-name">{{item.name}}</view>
         <view class="account-balance-area">
           <view class="balance-line balance-line-init">
             <text class="bal-init-text">初始金额:</text>
@@ -67,15 +67,15 @@
         <view class="account-icon" style="background-color: {{item.color || '#FA5151'}}">
           <text>{{item.icon || '💳'}}</text>
         </view>
-        <text class="account-name">{{item.name}}</text>
+        <view class="account-name">{{item.name}}</view>
         <view class="account-balance-area">
           <view class="balance-line balance-line-init">
-            <text class="bal-init-text">初始金额:</text>
-            <text class="bal-init-num">{{item.initialBalanceText}}</text>
+            <text class="bal-init-text">当前负债:</text>
+            <text class="bal-init-num {{item.debtAmount > 0 ? 'debt-color' : ''}}">{{item.debtText}}</text>
           </view>
           <view class="balance-line balance-line-cur">
-            <text class="bal-cur-text">当前余额:</text>
-            <text class="bal-cur-num">{{item.balanceText}}</text>
+            <text class="bal-cur-text">可用额度:</text>
+            <text class="bal-cur-num">{{item.creditLimitText}}</text>
           </view>
         </view>
       </view>
@@ -96,7 +96,7 @@
         <view class="account-icon" style="background-color: {{item.color || '#FF9800'}}">
           <text>{{item.icon || '📈'}}</text>
         </view>
-        <text class="account-name">{{item.name}}</text>
+        <view class="account-name">{{item.name}}</view>
         <view class="account-balance-area">
           <view class="balance-line balance-line-init">
             <text class="bal-init-text">初始金额:</text>

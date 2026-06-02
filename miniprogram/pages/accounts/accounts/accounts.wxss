@@ -132,6 +132,10 @@ page {
   font-size: 15px;
   color: #333333;
   font-weight: 500;
+  word-break: break-all;
+  white-space: normal;
+  display: block;
+  line-height: 1.4;
 }
 .account-balance-area {
   flex-shrink: 0;

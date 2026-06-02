@@ -275,27 +275,26 @@
 .fullmode-notes {
   background: #FFFFFF;
   margin: 0 16px 12px;
-  padding: 14px 16px;
+  padding: 14px 16px 12px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
-.notes-row {
-  display: flex;
-  align-items: center;
-}
-
-.notes-label {
-  font-size: 14px;
-  color: #999999;
-  margin-right: 12px;
-  flex-shrink: 0;
-}
-
-.notes-input {
-  flex: 1;
+.fullmode-notes .notes-textarea {
+  width: 100%;
+  min-height: 72px;
+  max-height: 140px;
   font-size: 14px;
   color: #333333;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.fullmode-notes .notes-counter {
+  text-align: right;
+  font-size: 12px;
+  color: #BBBBBB;
+  margin-top: 6px;
 }
 
 /* 底部按钮 */

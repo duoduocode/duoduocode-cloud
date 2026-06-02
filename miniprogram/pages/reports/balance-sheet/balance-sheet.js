@@ -29,7 +29,7 @@ Page({
         return item;
       });
       var liabilityAccounts = (data.liabilityAccounts || []).map(function (item) {
-        item.balanceText = util.formatMoney(item.balance);
+        item.balanceText = util.formatMoney(Math.abs(item.balance));
         return item;
       });
       var investmentAccounts = (data.investmentAccounts || []).map(function (item) {

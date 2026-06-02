@@ -48,9 +48,9 @@
     </view>
   </view>
 
-  <!-- 初始余额（负债类显示当前负债） -->
+  <!-- 初始余额（负债类显示初始负债） -->
   <view class="form-section">
-    <text class="form-label">{{formData.type === 'liability' ? '当前负债' : '初始余额'}}</text>
+    <text class="form-label">{{formData.type === 'liability' ? '初始负债' : '初始余额'}}</text>
     <input class="form-input" type="digit" placeholder="0.00" value="{{formData.initialBalance}}" bindinput="onBalanceInput" />
   </view>
 

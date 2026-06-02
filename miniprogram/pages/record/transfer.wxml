@@ -82,29 +82,22 @@
     </view>
 
     <view class="form-item">
-      <view class="form-item-left"><view class="form-item-label">日期</view></view>
+      <view class="form-item-left"><view class="form-item-label">日期时间</view></view>
       <view class="form-item-right">
-        <picker mode="date" value="{{date}}" bindchange="onDateChange">
-          <text class="form-item-value">{{date}}</text>
+        <picker mode="multiSelector" range="{{dateTimeRange}}" value="{{dateTimeValue}}"
+          bindchange="onDateTimeChange" bindcolumnchange="onDateTimeColumnChange">
+          <text class="form-item-value">{{date}} {{time}}</text>
         </picker>
       </view>
     </view>
 
-    <view class="form-item">
-      <view class="form-item-left"><view class="form-item-label">时间</view></view>
-      <view class="form-item-right">
-        <picker mode="time" value="{{time}}" bindchange="onTimeChange">
-          <text class="form-item-value">{{time}}</text>
-        </picker>
-      </view>
-    </view>
+  </view>
 
-    <view class="form-item form-item-notes">
-      <view class="form-item-left"><view class="form-item-label">备注</view></view>
-      <view class="form-item-right">
-        <input class="desc-input" placeholder="添加备注..." value="{{description}}" bindinput="onDescInput" />
-      </view>
-    </view>
+  <!-- 备注 -->
+  <view class="notes-block">
+    <textarea class="notes-textarea" placeholder="添加备注..." value="{{description}}" bindinput="onDescInput"
+      auto-height maxlength="-1" />
+    <view wx:if="{{description}}" class="notes-counter">{{description.length}} 字</view>
   </view>
 
   <view class="btn-group">
@@ -121,26 +114,19 @@
   <view class="bottom-sheet" catchtap="">
     <view class="sheet-header">
       <view class="sheet-title">{{pickerTitle}}</view>
-      <view class="sheet-hint">余额为0的账户请先设置余额</view>
       <view class="sheet-close" bindtap="closeAccountPicker">关闭</view>
     </view>
     <scroll-view scroll-y="true" class="sheet-body">
       <block wx:for="{{pickerAccounts}}" wx:key="id">
-        <view wx:if="{{item.currentBalance > 0}}" class="sheet-item {{pickerSelectedId === item.id ? 'sheet-item-active' : ''}}"
+        <view class="sheet-item {{pickerSelectedId === item.id ? 'sheet-item-active' : ''}}"
           data-id="{{item.id}}" bindtap="onSelectAccount">
           <text class="sheet-item-icon">{{item.icon || '💳'}}</text>
           <view class="sheet-item-info">
             <text class="sheet-item-name">{{item.name}}</text>
-            <text class="sheet-item-sub">余额: ¥{{item.currentBalance}}</text>
+            <text wx:if="{{item.type === 'liability' && item.creditLimit > 0}}" class="sheet-item-sub">额度 ¥{{item.creditLimit}}</text>
+            <text wx:else class="sheet-item-sub">余额: ¥{{item.currentBalance}}</text>
           </view>
           <view wx:if="{{pickerSelectedId === item.id}}" class="sheet-item-check">√</view>
-        </view>
-        <view wx:else class="sheet-item sheet-item-disabled">
-          <text class="sheet-item-icon">{{item.icon || '💳'}}</text>
-          <view class="sheet-item-info">
-            <text class="sheet-item-name">{{item.name}}</text>
-            <text class="sheet-item-sub">余额: ¥0</text>
-          </view>
         </view>
       </block>
       <view wx:if="{{pickerAccounts.length === 0}}" class="sheet-empty">暂无可用账户</view>

@@ -8,6 +8,8 @@ Page({
     toLiabilityDebt: '0.00',
     date: '',
     time: '',
+    dateTimeRange: [],
+    dateTimeValue: [0, 0, 0, 0, 0],
     description: '',
 
     accounts: [],
@@ -23,15 +25,50 @@ Page({
   },
 
   onLoad() {
-    const now = new Date();
+    var now = new Date();
     this.setData({
       date: this.formatDateStr(now),
       time: this.formatTimeStr(now)
     });
+    this.buildDateTimeRange(now);
     this.loadAccounts();
   },
 
-  formatDateStr(date) {
+  buildDateTimeRange: function (now) {
+    var y = now.getFullYear();
+    var years = [];
+    for (var i = y - 2; i <= y + 2; i++) years.push('' + i);
+    var months = [];
+    for (var i = 1; i <= 12; i++) months.push(('0' + i).slice(-2));
+    var days = [];
+    for (var i = 1; i <= 31; i++) days.push(('0' + i).slice(-2));
+    var hours = [];
+    for (var i = 0; i <= 23; i++) hours.push(('0' + i).slice(-2));
+    var mins = [];
+    for (var i = 0; i <= 59; i++) mins.push(('0' + i).slice(-2));
+    this.setData({
+      dateTimeRange: [years, months, days, hours, mins],
+      dateTimeValue: [2, now.getMonth(), now.getDate() - 1, now.getHours(), now.getMinutes()]
+    });
+  },
+
+  onDateTimeColumnChange: function (e) {
+    var col = e.detail.column;
+    var val = e.detail.value;
+    var v = this.data.dateTimeValue;
+    v[col] = val;
+    this.setData({ dateTimeValue: v });
+  },
+
+  onDateTimeChange: function (e) {
+    var vals = e.detail.value;
+    var range = this.data.dateTimeRange;
+    var date = range[0][vals[0]] + '-' + range[1][vals[1]] + '-' + range[2][vals[2]];
+    var time = range[3][vals[3]] + ':' + range[4][vals[4]];
+    this.setData({ date: date, time: time });
+  },
+
+  formatDateStr: function (date) {
     const y = date.getFullYear();
     const m = (date.getMonth() + 1).toString().padStart(2, '0');
     const d = date.getDate().toString().padStart(2, '0');
@@ -48,17 +85,12 @@ Page({
     try {
       const data = await api.get('/accounts');
       const grouped = (data && data.accounts) || {};
-      const all = (grouped.asset || []).concat(grouped.liability || []).concat(grouped.investment || []);
-      const assetAccounts = all.filter(function(a) {
-        return a.type === 'asset' || a.type === 'checking' ||
-          a.type === 'savings' || a.type === 'cash' || a.type === 'investment';
-      });
-      const liabilities = all.filter(function(a) {
-        return a.type === 'liability' || a.type === 'credit_card' || a.type === 'loan';
-      });
+      var assetArr = grouped.asset || [];
+      var liabilityArr = grouped.liability || [];
+
       this.setData({
-        accounts: assetAccounts,
-        liabilityAccounts: liabilities
+        accounts: assetArr,
+        liabilityAccounts: liabilityArr
       });
     } catch (err) {
       console.error('加载账户失败:', err);
@@ -66,9 +98,9 @@ Page({
   },
 
   onAmountInput(e) {
-    let val = e.detail.value;
+    var val = e.detail.value;
     val = val.replace(/[^\d.]/g, '');
-    const parts = val.split('.');
+    var parts = val.split('.');
     if (parts.length > 2) val = parts[0] + '.' + parts.slice(1).join('');
     if (parts.length === 2 && parts[1].length > 2) {
       val = parts[0] + '.' + parts[1].substring(0, 2);
@@ -76,36 +108,14 @@ Page({
     this.setData({ amount: val });
   },
 
-  onPayAll() {
-    const liability = this.data.toLiability;
-    if (!liability) {
-      wx.showToast({ title: '请先选择负债账户', icon: 'none' });
-      return;
-    }
-    const debtAmount = Math.abs(liability.balance || 0);
-    this.setData({ amount: debtAmount.toFixed(2) });
-  },
-
-  onDateChange(e) { this.setData({ date: e.detail.value }); },
-  onTimeChange(e) { this.setData({ time: e.detail.value }); },
   onDescInput(e) { this.setData({ description: e.detail.value }); },
 
-  // === 账户选择器 ===
   openFromAccountPicker() {
-    const accounts = this.data.accounts;
-    const list = accounts.map(function(a) {
-      return {
-        id: a.id,
-        name: a.name,
-        icon: a.icon,
-        balance: a.balance || 0,
-        balanceAbs: Math.abs(a.balance || 0).toFixed(2)
-      };
-    });
+    var accounts = this.data.accounts;
     this.setData({
       pickerMode: 'from',
       pickerTitle: '选择还款来源',
-      pickerAccounts: list,
+      pickerAccounts: accounts,
       pickerSelectedId: this.data.fromAccount ? this.data.fromAccount.id : '',
       pickerLabelPrefix: '余额',
       showAccountPicker: true
@@ -113,20 +123,11 @@ Page({
   },
 
   openToAccountPicker() {
-    const liabilities = this.data.liabilityAccounts;
-    const list = liabilities.map(function(a) {
-      return {
-        id: a.id,
-        name: a.name,
-        icon: a.icon,
-        balance: a.balance || 0,
-        balanceAbs: Math.abs(a.balance || 0).toFixed(2)
-      };
-    });
+    var liabilities = this.data.liabilityAccounts;
     this.setData({
       pickerMode: 'to',
       pickerTitle: '选择还款目标',
-      pickerAccounts: list,
+      pickerAccounts: liabilities,
       pickerSelectedId: this.data.toLiability ? this.data.toLiability.id : '',
       pickerLabelPrefix: '欠款',
       showAccountPicker: true
@@ -138,20 +139,20 @@ Page({
   },
 
   onSelectAccount(e) {
-    const id = e.currentTarget.dataset.id;
+    var id = e.currentTarget.dataset.id;
 
     if (this.data.pickerMode === 'from') {
-      const account = this.data.accounts.find(function(a) { return a.id == id; });
+      var account = this.data.accounts.find(function(a) { return a.id == id; });
       if (account) {
         this.setData({ fromAccount: account, showAccountPicker: false });
       }
     } else {
-      const liability = this.data.liabilityAccounts.find(function(a) { return a.id == id; });
+      var liability = this.data.liabilityAccounts.find(function(a) { return a.id == id; });
       if (liability) {
-        const debt = Math.abs(liability.balance || 0);
+        var debt = liability.debtAmount || Math.abs(liability.currentBalance || 0);
         this.setData({
           toLiability: liability,
-          toLiabilityDebt: debt.toFixed(2),
+          toLiabilityDebt: Number(debt).toFixed(2),
           showAccountPicker: false
         });
       }
@@ -160,8 +161,8 @@ Page({
 
   // === 保存 ===
   onSave() {
-    const form = this.data;
-    const amount = parseFloat(form.amount);
+    var form = this.data;
+    var amount = parseFloat(form.amount);
 
     if (!amount || amount <= 0) {
       wx.showToast({ title: '请输入还款金额', icon: 'none' });
@@ -176,7 +177,50 @@ Page({
       return;
     }
 
+    if (this._checkOutflowAvailable(form.fromAccount, amount)) return;
+
     this.saveTransaction();
+  },
+
+  _checkOutflowAvailable: function (account, amount) {
+    var available = this._getAvailable(account);
+    if (amount <= available) return false;
+
+    var isCredit = account.type === 'liability' && Number(account.creditLimit || 0) > 0;
+    var title = isCredit ? '额度不足' : '余额不足';
+
+    var content = '账户：' + (account.icon || '') + ' ' + account.name + '\n';
+    if (isCredit) {
+      var limit = Number(account.creditLimit || 0);
+      content += '总额度：¥' + limit.toFixed(2) + '\n';
+      content += '可用额度：¥' + available.toFixed(2) + '\n';
+    } else {
+      content += '当前余额：¥' + available.toFixed(2) + '\n';
+    }
+    content += '本次金额：¥' + amount.toFixed(2);
+
+    var self = this;
+    wx.showModal({
+      title: title,
+      content: content,
+      confirmText: '仍然还款',
+      cancelText: '返回修改',
+      success: function (res) {
+        if (res.confirm) {
+          self.saveTransaction();
+        }
+      }
+    });
+    return true;
+  },
+
+  _getAvailable: function (account) {
+    var bal = Number(account.currentBalance || 0);
+    var limit = Number(account.creditLimit || 0);
+    if (account.type === 'liability' && limit > 0) {
+      return Math.max(0, limit + bal);
+    }
+    return Math.max(0, bal);
   },
 
   async saveTransaction() {

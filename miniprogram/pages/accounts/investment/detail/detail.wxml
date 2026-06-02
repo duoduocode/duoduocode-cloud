@@ -5,7 +5,7 @@
     <view class="account-icon-large" style="background-color: {{account.color || '#FF9800'}}">
       <text>{{account.icon || '📈'}}</text>
     </view>
-    <text class="account-name-large">{{account.name}}</text>
+    <view class="account-name-large">{{account.name}}</view>
     <text class="account-balance-large">{{account.balanceText}}</text>
   </view>
 
